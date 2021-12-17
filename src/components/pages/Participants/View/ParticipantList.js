@@ -1,12 +1,11 @@
 import { Link as RouterLink } from "react-router-dom";
 // material components
-import { Stack, Button, Container, Typography } from "@mui/material";
+import { Stack, Container, Typography, Grid } from "@mui/material";
 
-// material icons
-import AddIcon from "@mui/icons-material/Add";
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
 import DataTable from "../../../utils/DataTable";
+import SelectInput from "../../../utils/Inputs/SelectInput";
 
 // table header cell config
 const TABLE_HEAD = [
@@ -61,6 +60,15 @@ export default function SheduleList() {
           <Typography variant="h4" gutterBottom>
             Participant List
           </Typography>
+          <Grid
+          flex-direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          >
+            <SelectInput label="Year" name="year" />
+
+            <SelectInput label="department" name="department" />
+          </Grid>
         </Stack>
         <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD} />
       </Container>

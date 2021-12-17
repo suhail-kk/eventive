@@ -9,7 +9,6 @@ import {
   Card,
   TextField,
   Tooltip,
-  Autocomplete,
 } from "@mui/material";
 
 // material icons
@@ -22,6 +21,8 @@ import DataTable from "../../../utils/DataTable";
 //importing the user service
 import userService from "../../../../services/userService";
 import DatePickerInput from "../../../utils/Inputs/DatePickerInput";
+import TimePickerInput from "../../../utils/Inputs/TimePickerInput";
+import SelectInput from "../../../utils/Inputs/SelectInput";
 
 // table header cell config
 const TABLE_HEAD = [
@@ -58,51 +59,49 @@ const TABLE_DATA = [
 ];
 
 const top100Films = [
-    { label: "The Shawshank Redemption", year: 1994 },
-    { label: "The Godfather", year: 1972 },
-    { label: "The Godfather: Part II", year: 1974 },
-    { label: "The Dark Knight", year: 2008 },
-    { label: "12 Angry Men", year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: "Pulp Fiction", year: 1994 },
-  ];
-
+  { label: "The Shawshank Redemption", year: 1994 },
+  { label: "The Godfather", year: 1972 },
+  { label: "The Godfather: Part II", year: 1974 },
+  { label: "The Dark Knight", year: 2008 },
+  { label: "12 Angry Men", year: 1957 },
+  { label: "Schindler's List", year: 1993 },
+  { label: "Pulp Fiction", year: 1994 },
+];
 
 export default function AddShedule() {
   const [event, setEvent] = useState();
-  const [duration, setDuration] = useState();
-  const [gender, setGender] = useState();
+  const [time, setTime] = useState();
+  const [place, setPlace] = useState();
   const [errorMsg, setErrorMsg] = useState("");
   const [users, setUsers] = useState();
-  const [date,setDate] = useState();
+  const [date, setDate] = useState();
 
   console.log(event);
 
-  
   const handleEventChange = (event) => setEvent(event.target.value);
-  const handleDurationChange = (event) => setDuration(event.target.value);
-  const handleGenderChange = (event) => setGender(event.target.value);
+  const handleTimeChange = (event) => setTime(event.target.value);
+  const handlePlaceChange = (event) => setPlace(event.target.value);
   const clearError = () => setErrorMsg("");
-//   useEffect(() => {
-//     const getUsers = async () => {
-//       try {
-//         const users = await userService.getUsers();
-//         console.log(users);
-//         setUsers(users);
-//       } catch (err) {
-//         console.error(err?.response?.data?.message);
-//       }
-//     };
-//     getUsers();
-//   }, []);
+  //   useEffect(() => {
+  //     const getUsers = async () => {
+  //       try {
+  //         const users = await userService.getUsers();
+  //         console.log(users);
+  //         setUsers(users);
+  //       } catch (err) {
+  //         console.error(err?.response?.data?.message);
+  //       }
+  //     };
+  //     getUsers();
+  //   }, []);
 
   const handleAddStudent = async () => {
     try {
       clearError();
       const userData = {
         event,
-        duration,
-        gender,
+        time,
+        place,
         userType: "student",
       };
       // adding user to db
@@ -117,8 +116,8 @@ export default function AddShedule() {
   // clearing the form
   const clearUserCredentials = () => {
     setEvent("");
-    setDuration("");
-    setGender("");
+    setTime("");
+    setPlace("");
   };
   return (
     <Page title="AddStudent">
@@ -135,46 +134,34 @@ export default function AddShedule() {
         </Stack>
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
-          <Grid item xs={6} sm={4} md={3}>
-            <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                name="item"
-                onChange={(event, value) => console.log(value)}
-                // onChange={handleItemChange}
-                error={errorMsg}
-                renderInput={(params) => <TextField {...params} label="Item" />}
-              />
-              </Grid>
-              <Grid item xs={6} sm={4} md={3}>
+            <Grid item xs={6} sm={4} md={3}>
+              <SelectInput label="Event" name="addmarkevent" />
+            </Grid>
+            <Grid item xs={6} sm={4} md={3}>
               <DatePickerInput
-                  label="Date"
-                  date={date}
-                  setDate={setDate}
+                label="Date"
+                date={date}
+                name="date"
+                setDate={setDate}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} md={3}>
+              <TimePickerInput
+                lable="TimePicker"
+                time={time}
+                name="time"
+                setTime={setTime}
               />
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
               <TextField
                 varient="contained"
-                name="duration"
-                label="Duration"
+                name="place"
+                label="Place"
                 color="info"
                 fullWidth
-                value={duration}
-                onChange={handleDurationChange}
-                error={errorMsg}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4} md={3}>
-              <TextField
-                varient="contained"
-                name="gender"
-                label="Gender"
-                color="info"
-                fullWidth
-                value={gender}
-                onChange={handleGenderChange}
+                value={place}
+                onChange={handlePlaceChange}
                 error={errorMsg}
               />
             </Grid>
@@ -192,9 +179,7 @@ export default function AddShedule() {
           >
             <Tooltip
               title={
-                 !event || !duration || !gender
-                  ? "fill the fields"
-                  : "sumbit fields"
+                !event || !time || !place ? "fill the fields" : "sumbit fields"
               }
             >
               <span>
@@ -203,7 +188,7 @@ export default function AddShedule() {
                   color="info"
                   //   component={RouterLink}
                   onClick={handleAddStudent}
-                  disabled={ !event || !duration || !gender}
+                  // disabled={!event || !setDate || !setPlace || !place}
                   //   to="#"
                   startIcon={<PublishIcon />}
                 >

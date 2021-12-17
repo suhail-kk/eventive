@@ -1,7 +1,11 @@
 import PieChartIcon from "@mui/icons-material/PieChart";
 import FaceIcon from "@mui/icons-material/Face";
 import PersonIcon from '@mui/icons-material/Person';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import ViewListIcon from '@mui/icons-material/ViewList';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import PeopleIcon from '@mui/icons-material/People';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 //nav bar options
 const NavConfig = [
@@ -13,27 +17,27 @@ const NavConfig = [
   {
     title: "participants",
     path: "/app/participants",
-    icon: AccountBalanceIcon,
+    icon: PeopleIcon,
   },
   {
     title: "events list",
     path: "/app/events",
-    icon: AccountBalanceIcon,
+    icon: ViewListIcon,
   },
   {
     title: "shedule",
     path: "/app/shedule",
-    icon: AccountBalanceIcon,
+    icon: DateRangeIcon,
   },
   {
     title: "markentry",
     path: "/app/markentry",
-    icon: AccountBalanceIcon,
+    icon: AddCircleIcon,
   },
   {
     title: "departments point",
     path: "/app/department",
-    icon: AccountBalanceIcon,
+    icon: EqualizerIcon,
   },
   {
     title: "teacher",
