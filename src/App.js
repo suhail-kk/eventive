@@ -3,11 +3,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "./components/utils/DashboardLayout";
 import ThemeConfig from "./theme";
 import GlobalStyles from "./theme/globalStyles";
-import TeachersList from "./components/pages/Teachers/View/TeachersList";
-import AddTeacher from "./components/pages/Teachers/Add/AddTeacher";
-import TeachersView from "./components/pages/Teachers/View/TeachersView";
-import StudentsList from "./components/pages/Students/view/StudentsList";
-import AddStudent from "./components/pages/Students/Add/AddStudents";
+// import TeachersList from "./components/pages/Teachers/View/TeachersList";
+// import AddTeacher from "./components/pages/Teachers/Add/AddTeacher";
+// import TeachersView from "./components/pages/Teachers/View/TeachersView";
+// import StudentsList from "./components/pages/Students/view/StudentsList";
+// import AddStudent from "./components/pages/Students/Add/AddStudents";
 import PersonalDetails from "./components/pages/Students/Add/PersonalDetails";
 import EducationalDetails from "./components/pages/Students/Add/EducationalDetails";
 import FamilyDetails from "./components/pages/Students/Add/FamilyDetails";
@@ -16,7 +16,6 @@ import Login from "./components/pages/Users/Login";
 import AuthLayout from "./components/utils/UserLayout/AuthLayout";
 import ForgotPassword from "./components/pages/Users/ForgotPassword";
 import RecoverPassword from "./components/pages/Users/RecoverPassword";
-import AddDetails from "./components/pages/Teachers/Add/AddDetails";
 import Details from "./components/pages/Students/view/Details";
 import ProfileProvider from "./context/profileContext";
 import StudentProvider from "./context/studentContext";
@@ -29,8 +28,16 @@ import SheduleList from "./components/pages/Shedule/View/SheduleList";
 import AddShedule from "./components/pages/Shedule/Add/AddShedule";
 import MarkView from "./components/pages/MarkEntry/View/MarkView";
 import AddMark from "./components/pages/MarkEntry/Add/AddMark";
+import ToDoFinalize from "./components/pages/MarkEntry/Add/ToDoFinalize"
 import EventsAdd from "./components/pages/Events/Add/EventsAdd";
-import EventsList from "./components/pages/Events/View/EventsList"
+import EventsList from "./components/pages/Events/View/EventsList";
+import AddDetails from "./components/pages/SetDetails/Add/AddDetails";
+import ViewDetails from "./components/pages/SetDetails/View/ViewDetails";
+import UserHome from "./components/pages/Users/UserHome/UserHome"
+import UserShedule from "./components/pages/Users/UserShedule/UserShedule";
+import ResultList from "./components/pages/Users/ResultList/ResultList";
+import UserRegister from "./components/pages/Users/UserRegister/UserRegister";
+
 
 function App() {
   return (
@@ -47,27 +54,7 @@ function App() {
               <Route path="/app" element={<Navigate to="/app/home" />} />
               <Route path="home" element={<Home />} />
 
-              {/* Teachers routes (Dashboard)*/}
-              <Route path="teacher">
-                <Route
-                  path="/app/teacher"
-                  element={<Navigate to="/app/teacher/list" />}
-                />
-                <Route path="view/:id" element={<TeachersView />} />
-                <Route path="list" element={<TeachersList />} />
-                <Route path="add" element={<AddTeacher />} />
-              </Route>
 
-              {/* students routes (Dashboard)*/}
-              <Route path="student">
-                <Route
-                  path="/app/student"
-                  element={<Navigate to="/app/student/list" />}
-                />
-                <Route path="list" element={<StudentsList />} />
-                <Route path="add" element={<AddStudent />} />
-                <Route path="view/:id" element={<Details />} />
-              </Route>
               <Route path="department">
                 <Route
                   path="/app/department"
@@ -88,6 +75,12 @@ function App() {
                 <Route path="add" element={<AddShedule />}/>
                 <Route/>
               </Route>
+
+              {/*Set Detail */}
+              <Route path="details">
+                <Route path="/app/details" element={<ViewDetails />}/>
+                <Route path="add" element={<AddDetails />}/>
+              </Route>
               
               {/*events list */}
               <Route path="events" >
@@ -100,7 +93,8 @@ function App() {
               <Route path="markentry" >
                 <Route path="/app/markentry" element={<MarkView />}/>
                 <Route path="add" element={<AddMark />}/>
-                <Route/>
+                <Route path="finalize" element={<ToDoFinalize/>}/>
+                
               </Route>
 
 
@@ -112,6 +106,11 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="forgot" element={<ForgotPassword />} />
               <Route path="recover" element={<RecoverPassword />} />
+
+              <Route path="shedule" element={<UserShedule/>}/>
+              <Route path="home" element={<UserHome/>}/>
+              <Route path="result" element={<ResultList/>} />
+              <Route path="register" element={<UserRegister />}/>
             </Route>
 
             {/* teacher details forms routes */}

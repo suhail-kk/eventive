@@ -49,7 +49,7 @@ const TABLE_DATA = [
 
 export default function SheduleList() {
   return (
-    <Page title="StudentsList">
+    <Page title="ParticipantsList">
       <Container>
         <Stack
           direction="row"

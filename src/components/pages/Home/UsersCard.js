@@ -17,7 +17,7 @@ export default function UsersCard({type}) {
   const RootStyle = styled(Card)(({ theme }) => ({
     boxShadow: "none",
     textAlign: "center",
-    padding: theme.spacing(5, 0),
+    padding: theme.spacing(2, 0),
     color: theme.palette[colorType].darker,
     backgroundColor: theme.palette[colorType].lighter,
   }));
@@ -42,7 +42,7 @@ export default function UsersCard({type}) {
         {/* <Icon icon={appleFilled} width={24} height={24} /> */}
         <Icon/>
       </IconWrapperStyle>
-      <Typography variant="h3">{TOTAL}</Typography>
+      <Typography variant="h4">{TOTAL}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>

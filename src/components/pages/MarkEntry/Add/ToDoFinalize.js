@@ -11,46 +11,46 @@ import DataTable from "../../../utils/DataTable";
 // table header cell config
 const TABLE_HEAD = [
   {
-    id: "item",
-    label: "Event",
+    id: "name",
+    label: "Name",
     alignRight: false,
     type: "stack",
-    baseUrl: "/app/student/view",
+    baseUrl: "/app/department/student",
   },
-  { id: "time", label: "Time", alignRight: false, type: "text" },
-  { id: "gender", label: "Gender", alignRight: false, type: "text" },
+  { id: "company", label: "Company", alignRight: false, type: "text" },
+  { id: "role", label: "Role", alignRight: false, type: "text" },
 ];
 
 const TABLE_DATA = [
   {
-    id: "134",
-    item: "mappilapatu",
-    time: "45",
-    gender: "Boys",
+    id: "134doojon",
+    name: "Aseel",
+    company: "microsoft",
+    role: "Pentester",
   },
   {
-    id: "34",
-    item: "story",
-    time: "45",
-    gender: "Girls",
+    id: "ounr34343",
+    name: "Noof",
+    company: "google",
+    role: "Front-end",
   },
   {
     id: "343433ojnn",
-    item: "story",
-    time: "30",
-    gender: "Girls",
+    name: "Nahyan",
+    company: "facebook",
+    role: "Back-end ",
   },
   {
     id: "eonkn2434",
-    item: "poem making",
-    time: "60",
-    gender: "Boys",
+    name: "Dilshad",
+    company: "amazon",
+    role: "Full-stack",
   },
 ];
 
-export default function SheduleList() {
+export default function ToDoFinalize() {
   return (
-    <Page title="EventsList">
+    <Page title="FinalizeResult">
       <Container>
         <Stack
           direction="row"
@@ -59,16 +59,8 @@ export default function SheduleList() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Events List
+            Finalize Result
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="/app/events/add"
-            startIcon={<AddIcon />}
-          >
-            Add Event
-          </Button>
         </Stack>
         <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD} />
       </Container>

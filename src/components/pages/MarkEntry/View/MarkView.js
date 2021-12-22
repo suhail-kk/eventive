@@ -1,6 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 // material components
-import { Stack, Button, Container, Typography } from "@mui/material";
+import { Stack, Button, Container, Typography, Grid } from "@mui/material";
 
 // material icons
 import AddIcon from "@mui/icons-material/Add";
@@ -19,7 +19,7 @@ const TABLE_HEAD = [
   },
   { id: "first", label: "First", alignRight: false, type: "text" },
   { id: "second", label: "Second", alignRight: false, type: "text" },
-  { id: "third", label: "Third", alignRight: false, type: "text" }
+  { id: "third", label: "Third", alignRight: false, type: "text" },
 ];
 
 const TABLE_DATA = [
@@ -55,7 +55,7 @@ const TABLE_DATA = [
 
 export default function MarkView() {
   return (
-    <Page title="StudentsList">
+    <Page title="Marks">
       <Container>
         <Stack
           direction="row"
@@ -64,16 +64,35 @@ export default function MarkView() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Participant List
+            Finalized Results
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="/app/markentry/add"
-            startIcon={<AddIcon />}
+          <Grid
+           item container direction="row"
+          alignItems="right"
+          justifyContent="space-between"
           >
-            Add Mark
-          </Button>
+         
+            <Grid >
+              <Button
+                variant="contained"
+                component={RouterLink}
+                to="/app/markentry/finalize"
+              >
+                Finalize
+              </Button>
+            </Grid>
+            <Grid>
+              <Button
+                variant="contained"
+                component={RouterLink}
+                to="/app/markentry/add"
+                startIcon={<AddIcon />}
+              >
+                Add Mark
+              </Button>
+            </Grid>
+            
+          </Grid>
         </Stack>
         <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD} />
       </Container>

@@ -119,7 +119,7 @@ export default function AddMark() {
     setFirst("");
   };
   return (
-    <Page title="AddStudent">
+    <Page title="AddMark">
       <Container>
         <Stack
           direction="row"
@@ -207,7 +207,7 @@ export default function AddMark() {
                   color="info"
                   //   component={RouterLink}
                   onClick={handleAddStudent}
-                  disabled={!item || !first || !second || !third}
+                  // disabled={!item || !first || !second || !third}
                   //   to="#"
                   startIcon={<PublishIcon />}
                 >

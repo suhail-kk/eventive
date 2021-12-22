@@ -1,24 +1,25 @@
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import GroupIcon from '@mui/icons-material/Group';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 const UserTypeConfig =[
     {
-        title:'Students',
+        title:'Participants',
         Icon:SupervisorAccountIcon,
         colorType:"primary"
     },
     {
-        title:'Alumni',
-        Icon:GroupIcon,
+        title:'Events',
+        Icon:EventNoteIcon,
         colorType:"error"
     },
     {
-        title:'Teachers',
-        Icon:GroupIcon,
+        title:'Departments',
+        Icon:AccountBalanceIcon,
         colorType:"info"
     },{
-        title:"Department",
-        Icon:AccountBalanceIcon,
+        title:"Days",
+        Icon:DateRangeIcon,
         colorType:"warning"
     }
 ]

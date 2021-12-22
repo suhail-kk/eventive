@@ -120,7 +120,7 @@ export default function AddShedule() {
     setPlace("");
   };
   return (
-    <Page title="AddStudent">
+    <Page title="AddShedule">
       <Container>
         <Stack
           direction="row"

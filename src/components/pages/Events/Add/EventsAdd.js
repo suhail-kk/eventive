@@ -109,7 +109,7 @@ export default function EventsAdd() {
     setGender("");
   };
   return (
-    <Page title="AddStudent">
+    <Page title="EventsAdd">
       <Container>
         <Stack
           direction="row"

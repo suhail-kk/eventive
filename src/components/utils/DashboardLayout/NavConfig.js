@@ -1,6 +1,6 @@
 import PieChartIcon from "@mui/icons-material/PieChart";
 import FaceIcon from "@mui/icons-material/Face";
-import PersonIcon from '@mui/icons-material/Person';
+import InfoIcon from '@mui/icons-material/Info';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -40,15 +40,10 @@ const NavConfig = [
     icon: EqualizerIcon,
   },
   {
-    title: "teacher",
-    path: "/app/teacher",
-    icon: FaceIcon,
-  },
-  {
-    title: "student",
-    path: "/app/student",
-    icon: PersonIcon,
-  },  
+    title: "details",
+    path: "/app/details",
+    icon: InfoIcon,
+  }, 
 ];
 
 export default NavConfig;
