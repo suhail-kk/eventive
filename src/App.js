@@ -37,7 +37,8 @@ import UserHome from "./components/pages/Users/UserHome/UserHome"
 import UserShedule from "./components/pages/Users/UserShedule/UserShedule";
 import ResultList from "./components/pages/Users/ResultList/ResultList";
 import UserRegister from "./components/pages/Users/UserRegister/UserRegister";
-
+import AssignEventList from "./components/pages/Users/AssignEvent/Add/AssignEventList";
+import IndividualEventList from "./components/pages/Users/AssignEvent/View/IndividualEventList";
 
 function App() {
   return (
@@ -102,12 +103,14 @@ function App() {
 
             {/* user routes */}
             <Route path="/user" element={<AuthLayout />}>
-              <Route path="register" element={<Register />} />
+              <Route path="signup" element={<Register />} />
               <Route path="login" element={<Login />} />
               <Route path="forgot" element={<ForgotPassword />} />
               <Route path="recover" element={<RecoverPassword />} />
 
               <Route path="shedule" element={<UserShedule/>}/>
+              <Route path="assignprogram" element={<AssignEventList/>}/>
+              <Route path="eventlist" element={<IndividualEventList/>}/>
               <Route path="home" element={<UserHome/>}/>
               <Route path="result" element={<ResultList/>} />
               <Route path="register" element={<UserRegister />}/>

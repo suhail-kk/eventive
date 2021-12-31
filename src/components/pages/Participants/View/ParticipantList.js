@@ -61,13 +61,17 @@ export default function SheduleList() {
             Participant List
           </Typography>
           <Grid
-          flex-direction="row"
-          alignItems="center"
-          justifyContent="space-between"
+          item container direction="row"
+          alignItems="right"
+          justifyContent="flex-end"
+          spacing={2}
           >
+          <Grid item>
             <SelectInput label="Year" name="year" />
-
-            <SelectInput label="department" name="department" />
+            </Grid>
+            <Grid item>
+            <SelectInput label="department" name="department" fullWidth />
+            </Grid>
           </Grid>
         </Stack>
         <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD} />

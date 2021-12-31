@@ -63,7 +63,7 @@ export default function Register() {
         <Card sx={{ p: 3 }}>
           <Box sx={{ mb: 3 }}>
             <Typography variant="h3" gutterBottom textAlign="center">
-              Register
+              Create an Account
             </Typography>
           </Box>
           <Stack spacing={2}>
@@ -102,7 +102,7 @@ export default function Register() {
               </Link>
             </Stack>
             <SubmitButton
-              name="Register"
+              name="Create an Account"
               disabled={
                 !userName || !email || !password || !confirmPassword
                   ? true

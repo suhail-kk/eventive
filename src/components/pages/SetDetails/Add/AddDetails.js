@@ -28,6 +28,7 @@ export default function AddDetails() {
   const [totalgroups, setTotalgroups] = useState();
   const [days,setDays] = useState();
   const [dptname,setDptName] = useState();
+  const [maxevent,setMaxEvent] = useState();
 
   const handlePgmnameChange = (pgmname) => setName(pgmname.target.value);
   // const handleDate = (pgmname) => setName(pgmname.target.value);
@@ -43,6 +44,8 @@ export default function AddDetails() {
     setDays(days.targent.value);
   const handleDptNameChange = (dptname) =>
     setDptName(dptname.target.value);
+    const handleMaxEventChange = (maxevent) =>
+    setMaxEvent(maxevent.target.value);
 
   //clearing the form
   const clearFormCredentials = () => {
@@ -54,6 +57,7 @@ export default function AddDetails() {
     setTotalevent("");
     setTotalgroups("");
     setDays("");
+    setMaxEvent("");
   };
 
   return (
@@ -138,6 +142,18 @@ export default function AddDetails() {
                 fullWidth
                 value={days}
                 onChange={handleDaysChange}
+                // error={errorMsg}
+              />
+            </Grid>
+            <Grid item xs={6} sm={6} md={6}>
+              <TextField
+                varient="contained"
+                name="maxevent"
+                label="Maxium Number of Event that can be participated by a participant"
+                color="info"
+                fullWidth
+                value={maxevent}
+                onChange={handleMaxEventChange}
                 // error={errorMsg}
               />
             </Grid>

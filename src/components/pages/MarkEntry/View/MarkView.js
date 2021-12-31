@@ -69,10 +69,11 @@ export default function MarkView() {
           <Grid
            item container direction="row"
           alignItems="right"
-          justifyContent="space-between"
+          justifyContent="flex-end"
+          spacing={2}
           >
          
-            <Grid >
+            <Grid item>
               <Button
                 variant="contained"
                 component={RouterLink}
@@ -81,7 +82,7 @@ export default function MarkView() {
                 Finalize
               </Button>
             </Grid>
-            <Grid>
+            <Grid item>
               <Button
                 variant="contained"
                 component={RouterLink}

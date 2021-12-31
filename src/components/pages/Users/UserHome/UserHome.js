@@ -1,9 +1,10 @@
 import { useState } from "react";
 // To create special styled components
 import { styled } from "@mui/material/styles";
-import DashboardNavbar from "../../../utils/DashboardLayout/DashboardNavbar";
-import { Outlet } from "react-router";
-
+import DeptPointList from "./DeptPointList";
+import DetailsView from "./DetailsView";
+import Grid from '@mui/material/Grid';
+import UserNavbar from "../utils/UserNavbar/UserNavbar";
 // padding count in pc and lap
 // const APP_BAR_MOBILE = 64;
 // const APP_BAR_DESKTOP = 92;
@@ -13,34 +14,22 @@ const RootStyle = styled("div")({
   display: "flex",
   minHeight: "100%",
   overflow: "hidden",
+  marginTop:"0dp",
+  padding:"5dp",
 });
-
-// // main container wrapper
-// const MainStyle = styled("div")(({ theme }) => ({
-//   flexGrow: 1,
-//   overflow: "auto",
-//   minHeight: "100%",
-//   paddingTop: APP_BAR_MOBILE + 24,
-//   paddingBottom: theme.spacing(10),
-//   [theme.breakpoints.up("lg")]: {
-//     paddingTop: APP_BAR_DESKTOP + 24,
-//     paddingLeft: theme.spacing(2),
-//     paddingRight: theme.spacing(2),
-//   },
-// }));
 
 
 
 export default function UserHome() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   return (
-    <RootStyle>
-      <DashboardNavbar onOpenSidebar={() => setOpen(false)} />
-     
-      {/* <MainStyle>
-        <Outlet/>
-      </MainStyle> */}
-    </RootStyle>
+    <div>
+     <UserNavbar/>
+      <Grid container spacing={2} direction="row">
+      {/* <Grid Item sx={6} md={6}><DetailsView/></Grid> */}
+      <Grid item sx={6} md={6} justifyContent="flex-end"><DeptPointList/></Grid>
+      </Grid>
+      </div>
   );
 }
 

@@ -1,5 +1,4 @@
 import PieChartIcon from "@mui/icons-material/PieChart";
-import FaceIcon from "@mui/icons-material/Face";
 import InfoIcon from '@mui/icons-material/Info';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import EqualizerIcon from '@mui/icons-material/Equalizer';

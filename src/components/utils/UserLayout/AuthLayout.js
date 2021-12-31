@@ -23,9 +23,9 @@ const ImageContainer = styled("img")(({ theme }) => ({
 export default function AuthLayout() {
   return (
     <RootStyle>
-      <HeaderStyle>
-        <ImageContainer src={Logo} alt="" />
-      </HeaderStyle>
+      
+       {/* <UserNavbar/> */}
+      
       <Outlet />
     </RootStyle>
   );
