@@ -171,6 +171,15 @@ export default function AddDetails() {
               />
             </Grid>
 
+            <Grid item xs={6} sm={6} md={6}  alignItems="center">
+            <Button
+                  variant="contained" 
+                  color="info"
+                  startIcon={<AddCircleIcon />}
+                >
+                  Generate Fields
+                </Button>
+            </Grid>
             <Grid item xs={6} sm={6} md={6}>
               <TextField
                 varient="contained"
@@ -183,11 +192,6 @@ export default function AddDetails() {
                 // error={errorMsg}
               />
             </Grid>
-            <AddCircleIcon
-                ms={2}
-                alignItems="center"
-            />
-            
          </Grid>
           <Stack
             direction="row"

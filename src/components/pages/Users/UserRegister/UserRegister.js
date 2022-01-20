@@ -31,6 +31,8 @@ export default function UserRegister() {
   const [department, setDepartment] = useState();
   const [admnNumber, setAdmnNumber] = useState();
   const [gender, setGender] = useState();
+  const [male, setMale] = useState();
+  const [female, setFemale] = useState();
 
 
 
@@ -77,7 +79,10 @@ export default function UserRegister() {
               value={admnNumber}
               setValue={setAdmnNumber}
             />
-              <SelectInput label="Gender" name="gender" value={gender} setValue={setGender}/>
+              <SelectInput label="Gender" name="gender" value={gender} setValue={setGender}>
+                <option>Male</option>
+                <option>Female</option>
+              </SelectInput>
             
             <SubmitButton
               name="Register"
