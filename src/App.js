@@ -11,7 +11,7 @@ import GlobalStyles from "./theme/globalStyles";
 import PersonalDetails from "./components/pages/Students/Add/PersonalDetails";
 import EducationalDetails from "./components/pages/Students/Add/EducationalDetails";
 import FamilyDetails from "./components/pages/Students/Add/FamilyDetails";
-import Register from "./components/pages/Users/Register";
+import SignUp from "./components/pages/Users/SignUp";
 import Login from "./components/pages/Users/Login";
 import AuthLayout from "./components/utils/UserLayout/AuthLayout";
 import ForgotPassword from "./components/pages/Users/ForgotPassword";
@@ -39,6 +39,7 @@ import ResultList from "./components/pages/Users/ResultList/ResultList";
 import UserRegister from "./components/pages/Users/UserRegister/UserRegister";
 import AssignEventList from "./components/pages/Users/AssignEvent/Add/AssignEventList";
 import IndividualEventList from "./components/pages/Users/AssignEvent/View/IndividualEventList";
+import Landing from "./components/pages/Users/Landing"
 
 function App() {
   return (
@@ -102,8 +103,8 @@ function App() {
             </Route>
 
             {/* user routes */}
-            <Route path="/user" element={<AuthLayout />}>
-              <Route path="signup" element={<Register />} />
+            <Route path="/home" element={<Landing />}>
+              <Route path="signup" element={<SignUp />} />
               <Route path="login" element={<Login />} />
               <Route path="forgot" element={<ForgotPassword />} />
               <Route path="recover" element={<RecoverPassword />} />

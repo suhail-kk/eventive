@@ -4,12 +4,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
-
+//Redux
+import {Provider} from "react-redux";
+import store from "./store"
 
 ReactDOM.render(
   <HelmetProvider>
     <Router>
+      <Provider store={store}>
       <App />
+      </Provider>
     </Router>
   </HelmetProvider>,
   document.getElementById("root")

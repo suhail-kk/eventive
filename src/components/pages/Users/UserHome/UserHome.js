@@ -24,11 +24,9 @@ export default function UserHome() {
   const [open, setOpen] = useState(true);
   return (
     <div>
-     {/* <UserNavbar/> */}
-      <Grid container spacing={2} direction="row">
-      {/* <Grid Item sx={6} md={6}><DetailsView/></Grid> */}
+    
       <Grid item sx={6} md={6} justifyContent="flex-end"><DeptPointList/></Grid>
-      </Grid>
+     
       </div>
   );
 }

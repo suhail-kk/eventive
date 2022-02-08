@@ -14,7 +14,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
   alignContent: "center",
 }));
 
-export default function Register() {
+export default function SignUp() {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [passwordError, setPasswordError] = useState();

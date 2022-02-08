@@ -62,9 +62,9 @@ export default function Login() {
               <Link
                 component={RouterLink}
                 variant="subtitle2"
-                to="/user/register"
+                to="/user/signup"
               >
-                Don’t have an account? Register
+                Don’t have an account? Sign Up
               </Link>
             </Stack>
             <SubmitButton
