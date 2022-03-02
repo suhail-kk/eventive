@@ -64,7 +64,7 @@ export default function MarkView() {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Finalized Results
+           Results
           </Typography>
           <Grid
            item container direction="row"
@@ -72,16 +72,6 @@ export default function MarkView() {
           justifyContent="flex-end"
           spacing={2}
           >
-         
-            <Grid item>
-              <Button
-                variant="contained"
-                component={RouterLink}
-                to="/app/markentry/finalize"
-              >
-                Finalize
-              </Button>
-            </Grid>
             <Grid item>
               <Button
                 variant="contained"

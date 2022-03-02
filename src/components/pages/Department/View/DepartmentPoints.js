@@ -8,7 +8,6 @@ import {
   Grid,
 } from '@mui/material';
 import Page from '../../../utils/Page';
-import AddIcon from '@mui/icons-material/Add';
 import Dptcard from "../../../utils/Department/Dptcard";
 import DptTypeConfig from "../../../utils/Department/DptTypeConfig";
 
@@ -18,7 +17,7 @@ const departmentData = {
   contact :"34554"
 }
 
-export default function DptDetails() {
+export default function DepartmentPoints() {
 
   return (
     <Page title="Departments">

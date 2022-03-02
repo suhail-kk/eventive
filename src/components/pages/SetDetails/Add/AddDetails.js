@@ -145,53 +145,6 @@ export default function AddDetails() {
                 // error={errorMsg}
               />
             </Grid>
-            <Grid item xs={6} sm={6} md={6}>
-              <TextField
-                varient="contained"
-                name="maxevent"
-                label="Maxium Number of Event that can be participated by a participant"
-                color="info"
-                fullWidth
-                value={maxevent}
-                onChange={handleMaxEventChange}
-                // error={errorMsg}
-              />
-            </Grid>
-            <Grid item xs={6} sm={6} md={6}>
-              <TextField
-                varient="contained"
-                name="totalgroups"
-                label="Total Groups/Department"
-                inputFormat="number"
-                color="info"
-                fullWidth
-                value={totalgroups}
-                onChange={handleTotalgroupsChange}
-                // error={errorMsg}
-              />
-            </Grid>
-
-            <Grid item xs={6} sm={6} md={6}  alignItems="center">
-            <Button
-                  variant="contained" 
-                  color="info"
-                  startIcon={<AddCircleIcon />}
-                >
-                  Generate Fields
-                </Button>
-            </Grid>
-            <Grid item xs={6} sm={6} md={6}>
-              <TextField
-                varient="contained"
-                name="dptname"
-                label="Departments Details"
-                color="info"
-                fullWidth
-                value={dptname}
-                onChange={handleDptNameChange}
-                // error={errorMsg}
-              />
-            </Grid>
          </Grid>
           <Stack
             direction="row"
@@ -206,8 +159,7 @@ export default function AddDetails() {
                 !place ||
                 !guest ||
                 !inuaguration ||
-                !totalevents ||
-                !totalgroups
+                !totalevents
                   ? "fill the fields"
                   : "sumbit fields"
               }

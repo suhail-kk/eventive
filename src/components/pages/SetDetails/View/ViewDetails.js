@@ -67,13 +67,11 @@ export default function ViewDetails() {
               <Field heading="Number of Days" subHeading="5" />
             </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Maxium Number of Event Participant can Participate" subHeading="4" />
-            </Grid>
-            <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Total Groups" subHeading="10" />
-            </Grid>
-            <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Departments Details" subHeading="computer science" />
+              <Field heading="Departments Details"/>
+              <Field  subHeading="computer science" />
+              <Field  subHeading="computer science" />
+              <Field  subHeading="computer science" />
+              <Field  subHeading="computer science" />
             </Grid>
           </Grid>
 
