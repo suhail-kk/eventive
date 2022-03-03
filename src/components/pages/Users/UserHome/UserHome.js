@@ -1,8 +1,6 @@
 import { useState } from "react";
-// To create special styled components
 import { styled } from "@mui/material/styles";
 import DeptPointList from "./DeptPointList";
-import DetailsView from "./DetailsView";
 import Grid from '@mui/material/Grid';
 import UserNavbar from "../utils/UserNavbar/UserNavbar";
 // padding count in pc and lap
@@ -16,6 +14,7 @@ const RootStyle = styled("div")({
   overflow: "hidden",
   marginTop:"0dp",
   padding:"5dp",
+  background:"#A0C9C3"
 });
 
 
@@ -23,11 +22,9 @@ const RootStyle = styled("div")({
 export default function UserHome() {
   const [open, setOpen] = useState(true);
   return (
-    <div>
-    
-      <Grid item sx={6} md={6} justifyContent="flex-end"><DeptPointList/></Grid>
-     
-      </div>
+    <RootStyle>
+      <Grid item sx={6} md={6} justifyContent="flex-end"><DeptPointList/></Grid>    
+      </RootStyle>
   );
 }
 

@@ -25,6 +25,10 @@ const ContentStyle = styled("div")(({ theme }) => ({
   alignContent: "center",
 }));
 
+const RootStyle = styled("div")({
+  background:"#A0C9C3"
+});
+
 export default function UserRegister() {
   const [candidateName, setCandidateName] = useState();
   const [year, setYear] = useState();
@@ -47,6 +51,7 @@ export default function UserRegister() {
 //   };
 
   return (
+    <RootStyle>
       <ContentStyle>
         <Card sx={{ p: 2 }} >
           <Box sx={{ mb: 2 }}>
@@ -96,5 +101,6 @@ export default function UserRegister() {
           </Stack>
         </Card>
       </ContentStyle>
+      </RootStyle>
   );
 }

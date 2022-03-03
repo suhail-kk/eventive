@@ -142,6 +142,7 @@ export default function AddMark() {
                 name="item"
                 onChange={(event, value) => console.log(value)}
                 // onChange={handleItemChange}
+                style={{overflow:"overflow"}}
                 error={errorMsg}
                 renderInput={(params) => <TextField {...params} label="Item" />}
               />

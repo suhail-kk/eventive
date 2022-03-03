@@ -15,11 +15,25 @@ import {
     paddingRight: `${theme.spacing(4)} !important`,
     paddingBottom: `${theme.spacing(4)} !important`,
   }));
+
+  const RootStyle = styled("div")({
+    background:"#A0C9C3"
+  });
+
+  const ContentStyle = styled("div")(({ theme }) => ({
+    maxWidth: 400,
+    margin: "auto",
+    display: "flex",
+    height: "90vh",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center",
+  }));
   
   export default function ResultList() {
     return (
-      <Page title="SheduleList">
-
+      <RootStyle>
+  <ContentStyle>
         {/* Father Details*/}
   
         <Container>
@@ -57,6 +71,7 @@ import {
             </Grid>
           </Grid>
         </Container> 
-    </Page>
+        </ContentStyle>
+    </RootStyle>
   );
 }

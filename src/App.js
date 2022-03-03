@@ -1,5 +1,5 @@
 import Home from "./components/pages/Home";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate} from "react-router-dom";
 import DashboardLayout from "./components/utils/DashboardLayout";
 import ThemeConfig from "./theme";
 import GlobalStyles from "./theme/globalStyles";
@@ -23,6 +23,7 @@ import ResultList from "./components/pages/Users/ResultList/ResultList";
 import UserRegister from "./components/pages/Users/UserRegister/UserRegister";
 import AssignEventList from "./components/pages/Users/AssignEvent/Add/AssignEventList";
 import IndividualEventList from "./components/pages/Users/AssignEvent/View/IndividualEventList";
+import UserNavbar from "./components/pages/Users/utils/UserNavbar/UserNavbar";
 
 function App() {
   return (
@@ -66,17 +67,19 @@ function App() {
         </Route>
 
         {/* user routes */}
-        <Route path="/" element={<Login />}>
+        <Route path="/user" element={<UserNavbar/>}>
           <Route path="signup" element={<SignUp />} />
           <Route path="forgot" element={<ForgotPassword />} />
           <Route path="recover" element={<RecoverPassword />} />
           <Route path="shedule" element={<UserShedule />} />
           <Route path="assignprogram" element={<AssignEventList />} />
           <Route path="eventlist" element={<IndividualEventList />} />
-          <Route path="home" element={<UserHome />} />
+          <Route path="landing" element={<UserHome />} />
           <Route path="result" element={<ResultList />} />
           <Route path="register" element={<UserRegister />} />
         </Route>
+
+        <Route path="/" element={<Login/>}/>
       </Routes>
     </ThemeConfig>
   );

@@ -15,17 +15,28 @@ import {
     paddingRight: `${theme.spacing(4)} !important`,
     paddingBottom: `${theme.spacing(4)} !important`,
   }));
+
+  const RootStyle = styled("div")({
+    background:"#A0C9C3"
+  });
+
+  const ContentStyle = styled("div")(({ theme }) => ({
+    maxWidth: 400,
+    margin: "auto",
+    display: "flex",
+    height: "90vh",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center",
+  }));
   
   export default function UserShedule() {
     return (
-      <Page title="SheduleList">
-
-        {/* Father Details*/}
-  
+      <RootStyle>
+      <ContentStyle>
         <Container>
           <Grid
             component={ProfileCard}
-            sx={{ mt: 2, p: 2 }}
             container
             spacing={2}
           >
@@ -48,6 +59,7 @@ import {
             </Grid>
           </Grid>
         </Container> 
-    </Page>
+    </ContentStyle>
+    </RootStyle>
   );
 }
