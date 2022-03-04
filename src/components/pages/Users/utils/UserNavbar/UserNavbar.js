@@ -21,6 +21,9 @@ export default function UserNavbar() {
           <NavLink to="/user/landing" activestyle>
             Home
           </NavLink>
+          <NavLink to="/user/assignevent" activestyle>
+            Assign Event
+          </NavLink>
           <NavLink to="/user/shedule" activestyle>
             Shedule
           </NavLink>

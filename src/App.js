@@ -25,6 +25,7 @@ import AssignEventList from "./components/pages/Users/AssignEvent/Add/AssignEven
 import IndividualEventList from "./components/pages/Users/AssignEvent/View/IndividualEventList";
 import UserNavbar from "./components/pages/Users/utils/UserNavbar/UserNavbar";
 
+
 function App() {
   return (
     <ThemeConfig>
@@ -72,7 +73,7 @@ function App() {
           <Route path="forgot" element={<ForgotPassword />} />
           <Route path="recover" element={<RecoverPassword />} />
           <Route path="shedule" element={<UserShedule />} />
-          <Route path="assignprogram" element={<AssignEventList />} />
+          <Route path="assignevent" element={<AssignEventList />} />
           <Route path="eventlist" element={<IndividualEventList />} />
           <Route path="landing" element={<UserHome />} />
           <Route path="result" element={<ResultList />} />

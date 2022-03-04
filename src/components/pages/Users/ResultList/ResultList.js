@@ -54,19 +54,19 @@ import {
                 subHeading="fayis k"
               />
               <Field
-                heading="bsc cs"
+                subHeading2="bsc cs"
               />
             </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
               <Field heading="Second" subHeading="Ramu" />
               <Field
-                heading="bsc cs"
+                subHeading2="bsc cs"
               />
             </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Third" subHeading="salman" />
+              <Field heading="Third" subHeading="salman"/>
               <Field
-                heading="bsc cs"
+                subHeading2="bsc cs"
               />
             </Grid>
           </Grid>

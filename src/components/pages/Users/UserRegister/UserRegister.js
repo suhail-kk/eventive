@@ -1,19 +1,11 @@
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
-import {
-  Box,
-  Container,
-  Typography,
-  Stack,
-  Link,
-  Card,
-} from "@mui/material";
+import { Box, Container, Typography, Stack, Link, Card } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 // import PasswordField from "./utils/PasswordField";
 import TextInput from "../utils/TextInput";
 import SubmitButton from "../utils/SubmitButton";
 import SelectInput from "../../../utils/Inputs/SelectInput";
-
 
 const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 400,
@@ -26,34 +18,25 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 const RootStyle = styled("div")({
-  background:"#A0C9C3"
+  background: "#A0C9C3",
 });
+
+const Gender = ["Male", "Female"];
+const Year = ["First", "Second","Third"];
+const Department = ["BSC","BA","BBA","BCOM","BVOC"]
 
 export default function UserRegister() {
   const [candidateName, setCandidateName] = useState();
-  const [year, setYear] = useState();
-  const [department, setDepartment] = useState();
   const [admnNumber, setAdmnNumber] = useState();
-  const [gender, setGender] = useState();
-  const [male, setMale] = useState();
-  const [female, setFemale] = useState();
+  const [gender, setGender] = useState(null);
+  const [department, setDepartment] = useState(null);
+  const [year, setYear] = useState(null);
 
-
-
-
-
-
-//   const handleClick = () => {
-//     const passwordLengthError = validatePasswordLength();
-//     const passwordMatchError = validatePasswordMatch();
-//     if (passwordLengthError || passwordMatchError) return;
-//     console.log(userName, email, password, confirmPassword);
-//   };
 
   return (
     <RootStyle>
       <ContentStyle>
-        <Card sx={{ p: 2 }} >
+        <Card sx={{ p: 2 }}>
           <Box sx={{ mb: 2 }}>
             <Typography variant="h3" gutterBottom textAlign="center">
               Register
@@ -66,17 +49,19 @@ export default function UserRegister() {
               value={candidateName}
               setValue={setCandidateName}
             />
-            <TextInput
+            <SelectInput
               label="Year"
               type="number"
-              value={year}
-              setValue={setYear}
+              menuItems={Year}
+              dropdownValue={year}
+              setDropdownValue={setYear}
             />
-            <TextInput
+            <SelectInput
               label="Department"
               type="text"
-              value={department}
-              setValue={setDepartment}
+              menuItems={Department}
+              dropdownValue={department}
+              setDropdownValue={setDepartment}
             />
             <TextInput
               label="Admission Number"
@@ -84,11 +69,13 @@ export default function UserRegister() {
               value={admnNumber}
               setValue={setAdmnNumber}
             />
-              <SelectInput label="Gender" name="gender" value={gender} setValue={setGender}>
-                <option>Male</option>
-                <option>Female</option>
-              </SelectInput>
-            
+            <SelectInput
+              label="Gender"
+              name="gender"
+              menuItems={Gender}
+              dropdownValue={gender}
+              setDropdownValue={setGender}
+            />      
             <SubmitButton
               name="Register"
               disabled={
@@ -96,11 +83,11 @@ export default function UserRegister() {
                   ? true
                   : false
               }
-            //   onClick={handleClick}
+              //   onClick={handleClick}
             />
           </Stack>
         </Card>
       </ContentStyle>
-      </RootStyle>
+    </RootStyle>
   );
 }
