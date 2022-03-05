@@ -69,7 +69,6 @@ function App() {
 
         {/* user routes */}
         <Route path="/user" element={<UserNavbar/>}>
-          <Route path="signup" element={<SignUp />} />
           <Route path="forgot" element={<ForgotPassword />} />
           <Route path="recover" element={<RecoverPassword />} />
           <Route path="shedule" element={<UserShedule />} />
@@ -81,6 +80,7 @@ function App() {
         </Route>
 
         <Route path="/" element={<Login/>}/>
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </ThemeConfig>
   );

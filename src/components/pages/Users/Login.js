@@ -62,7 +62,7 @@ export default function Login() {
               <Link
                 component={RouterLink}
                 variant="subtitle2"
-                to="/user/signup"
+                to="/signup"
               >
                 Don’t have an account? Sign Up
               </Link>

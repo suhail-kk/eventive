@@ -97,7 +97,7 @@ export default function Register() {
               justifyContent="flex-start"
               sx={{ my: 2 }}
             >
-              <Link component={RouterLink} variant="subtitle2" to="/user/login">
+              <Link component={RouterLink} variant="subtitle2" to="/">
                 Already have an account? Login
               </Link>
             </Stack>
