@@ -24,6 +24,7 @@ import UserRegister from "./components/pages/Users/UserRegister/UserRegister";
 import AssignEventList from "./components/pages/Users/AssignEvent/Add/AssignEventList";
 import IndividualEventList from "./components/pages/Users/AssignEvent/View/IndividualEventList";
 import UserNavbar from "./components/pages/Users/utils/UserNavbar/UserNavbar";
+import RegistrationList from "./components/pages/RegistrationList/RegistrationList"
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
 
           {/*participants list */}
           <Route path="/app/participants" element={<ParticipantList />} />
+          <Route path="/app/participantsdata" element={<RegistrationList />} />
 
           {/*shedule list */}
           <Route path="shedule">

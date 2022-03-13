@@ -5,6 +5,7 @@ import UserTypeConfig from "./UserTypeConfig";
 import Divider from '@mui/material/Divider';
 import DptPointTable from "./DptPointTable";
 
+
 const Home = () => {
   return (
     <Page title={"Home Page"}>

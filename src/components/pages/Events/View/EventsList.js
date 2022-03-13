@@ -15,10 +15,10 @@ const TABLE_HEAD = [
     label: "Event",
     alignRight: false,
     type: "stack",
-    baseUrl: "/app/student/view",
   },
   { id: "time", label: "Time", alignRight: false, type: "text" },
   { id: "gender", label: "Gender", alignRight: false, type: "text" },
+  { id: "action", label: "Action", alignRight: false,type:"icon" },
 ];
 
 const TABLE_DATA = [

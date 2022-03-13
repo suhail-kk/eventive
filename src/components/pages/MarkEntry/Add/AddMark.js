@@ -148,39 +148,42 @@ export default function AddMark() {
               />
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
-              <TextField
-                varient="contained"
+            <Autocomplete
+                disablePortal
+                options={top100Films}
+                sx={6}
                 name="first"
-                label="First Place"
-                color="info"
-                fullWidth
+                onChange={(first, value) => console.log(value)}
+                style={{overflow:"overflow"}}
                 value={first}
-                onChange={handleFirstChange}
                 error={errorMsg}
+                renderInput={(params) => <TextField {...params} label="First" />}
               />
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
-              <TextField
-                varient="contained"
+            <Autocomplete
+                disablePortal
+                options={top100Films}
+                sx={6}
                 name="second"
-                label="Second Place"
-                color="info"
-                fullWidth
+                onChange={(second, value) => console.log(value)}
+                style={{overflow:"overflow"}}
                 value={second}
-                onChange={handleSecondChange}
                 error={errorMsg}
+                renderInput={(params) => <TextField {...params} label="Second" />}
               />
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
-              <TextField
-                varient="contained"
+            <Autocomplete
+                disablePortal
+                options={top100Films}
+                sx={6}
                 name="third"
-                label="Third Place"
-                color="info"
-                fullWidth
+                onChange={(third, value) => console.log(value)}
+                style={{overflow:"overflow"}}
                 value={third}
-                onChange={handleThirdChange}
                 error={errorMsg}
+                renderInput={(params) => <TextField {...params} label="Third" />}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12}>

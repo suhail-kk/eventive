@@ -15,11 +15,11 @@ const TABLE_HEAD = [
     label: "Item",
     alignRight: false,
     type: "stack",
-    baseUrl: "/app/student/view",
   },
   { id: "first", label: "First", alignRight: false, type: "text" },
   { id: "second", label: "Second", alignRight: false, type: "text" },
   { id: "third", label: "Third", alignRight: false, type: "text" },
+  { id: "action", label: "Action", alignRight: false,type:"icon" },
 ];
 
 const TABLE_DATA = [
@@ -85,7 +85,8 @@ export default function MarkView() {
             
           </Grid>
         </Stack>
-        <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD} />
+        <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD}>
+        </DataTable>
       </Container>
     </Page>
   );

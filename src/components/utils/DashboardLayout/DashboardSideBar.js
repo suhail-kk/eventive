@@ -10,9 +10,8 @@ import Scrollbar from "../Scrollbar";
 import NavSection from "./NavSection";
 import { MHidden } from "../../@material-extent";
 import NavConfig from "./NavConfig";
-import Logo from "../../../images/Logo.png";
-import ProfileImg from '../../../images/avatar.jpg'
-// import account from '../../_mocks_/account';
+// import Logo from "../../../images/Logo.png";
+import ProfileImg from '../../../images/Admin.png'
 
 // drawer width for mobile devices
 const DRAWER_WIDTH = 280;
@@ -64,8 +63,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     >
       <Box sx={{ px: 2.5, py: 3 }}>
         <Box component={RouterLink} to="/" sx={{ display: "inline-flex" }}>
-          {/* <Logo /> */}
-          <Box component={"img"} src={Logo} sx={{ width: 40, height: 40 }} />
         </Box>
       </Box>
 
@@ -74,8 +71,8 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           <AccountStyle>
             <Avatar src={ProfileImg} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-               Suhail kk
+              <Typography variant="h5" sx={{ color: 'text.primary' }}>
+               Eventive
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 Admin
@@ -88,44 +85,6 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <NavSection navConfig={NavConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
-
-      {/* <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
-        <Stack
-          alignItems="center"
-          spacing={3}
-          sx={{
-            p: 2.5,
-            pt: 5,
-            borderRadius: 2,
-            position: 'relative',
-            bgcolor: 'grey.200'
-          }}
-        >
-          <Box
-            component="img"
-            src="/static/illustrations/illustration_avatar.png"
-            sx={{ width: 100, position: 'absolute', top: -50 }}
-          />
-
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography gutterBottom variant="h6">
-              Get more?
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              From only $69
-            </Typography>
-          </Box>
-
-          <Button
-            fullWidth
-            href="https://material-ui.com/store/items/minimal-dashboard/"
-            target="_blank"
-            variant="contained"
-          >
-            Upgrade to Pro
-          </Button>
-        </Stack>
-      </Box> */}
     </Scrollbar>
   );
 

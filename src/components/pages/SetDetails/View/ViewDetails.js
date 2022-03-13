@@ -4,6 +4,7 @@ import { Stack, Button, Container, Typography, Grid ,Card } from "@mui/material"
 
 // material icons
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from '@mui/icons-material/Edit';
 import { styled } from "@mui/material/styles";
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
@@ -44,7 +45,8 @@ export default function ViewDetails() {
             sx={{ mt: 2, p: 2 }}
             container
             spacing={2}
-      >
+      ><Grid item sm={12} xs={12} md={12} lg={12} justifyContent="flex-end" container
+      direction="row"><EditIcon/></Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
               <Field heading="Program Name"  subHeading="olam"/>
             </Grid>
@@ -66,15 +68,7 @@ export default function ViewDetails() {
             <Grid item sm={12} xs={12} md={4} lg={4}>
               <Field heading="Number of Days" subHeading="5" />
             </Grid>
-            <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Departments Details"/>
-              <Field  subHeading="computer science" />
-              <Field  subHeading="computer science" />
-              <Field  subHeading="computer science" />
-              <Field  subHeading="computer science" />
-            </Grid>
           </Grid>
-
       </Container>
     </Page>
   );

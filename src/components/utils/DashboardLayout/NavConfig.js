@@ -5,6 +5,7 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import PeopleIcon from '@mui/icons-material/People';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 
 //nav bar options
 const NavConfig = [
@@ -19,6 +20,11 @@ const NavConfig = [
     icon: PeopleIcon,
   },
   {
+    title: "Participants Data",
+    path: "/app/participantsdata",
+    icon: AppRegistrationIcon,
+  },
+  {
     title: "events list",
     path: "/app/events",
     icon: ViewListIcon,
@@ -29,7 +35,7 @@ const NavConfig = [
     icon: DateRangeIcon,
   },
   {
-    title: "markentry",
+    title: "mark entry",
     path: "/app/markentry",
     icon: AddCircleIcon,
   },

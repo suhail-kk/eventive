@@ -1,8 +1,5 @@
 import { useRef, useState } from "react";
 
-// material icons 
-// import HomeIcon from '@mui/icons-material/Home';
-// import PersonIcon from '@mui/icons-material/Person';
 // material component
 import { alpha } from "@mui/material/styles";
 import {
@@ -14,21 +11,7 @@ import {
   IconButton,
 } from "@mui/material";
 import MenuPopover from "./MenuPopover";
-import avatar from '../../../images/avatar.jpg'
-
-// popover menu options
-// const MENU_OPTIONS = [
-//   {
-//     label: "Home",
-//     icon: HomeIcon,
-//     linkTo: "/home",
-//   },
-//   {
-//     label: "Profile",
-//     icon: PersonIcon,
-//     linkTo: "#",
-//   },
-// ];
+import avatar from '../../../images/Admin.png'
 
 
 export default function AccountPopover() {
@@ -78,36 +61,14 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            aseel
+            admin
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            aseel@gmail.com
+            admin@gmail.com
           </Typography>
         </Box>
 
         <Divider sx={{ my: 1 }} />
-
-        {/* {MENU_OPTIONS.map((option) => (
-          <MenuItem
-            key={option.label}
-            to={option.linkTo}
-            component={RouterLink}
-            onClick={handleClose}
-            sx={{ typography: "body2", py: 1, px: 2.5 }}
-          >
-            <Box
-              // component={Icon}
-              icon={option.icon}
-              sx={{
-                mr: 2,
-                width: 24,
-                height: 24,
-              }}
-            />
-
-            {option.label}
-          </MenuItem>
-        ))} */}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined">

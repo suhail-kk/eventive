@@ -4,23 +4,29 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
 const DptTypeConfig =[
     {
-        title:'Computer Science',
-        shortForm:"cs",
+        dptName:'Bachelor Of Arts',
+        shortForm:"BA",
         colorType:"primary"
     },
     {
-        title:'Micro Biology',
-        shortForm:"mb",
+        dptName:'Bachelor Of Science',
+        shortForm:"BSC",
         colorType:"error"
     },
     {
-        title:'BBA',
-        shortForm:"bba",
+        dptName:'Bachelor Of Business Administration',
+        shortForm:"BBA",
         colorType:"info"
-    },{
-        title:"Commerce",
-        shortForm:"cm",
+    },
+    {
+        dptName:"Bachelor Of Commerce",
+        shortForm:"BCOM",
         colorType:"warning"
+    },
+    {
+        dptName:"Bachelor Of Vocation",
+        shortForm:"BVOC",
+        colorType:"primary"
     }
 ]
 

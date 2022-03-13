@@ -4,7 +4,7 @@ import { Stack, Button, Container, Typography, Grid } from "@mui/material";
 
 
 // page wrapper for dynamic meta tags
-import DataTable from "../../utils/DataTable";
+import DptDataTable from "./DptDataTable";
 
 // table header cell config
 const TABLE_HEAD = [
@@ -19,23 +19,28 @@ const TABLE_HEAD = [
 
 const TABLE_DATA = [
   {
-    id: "134doojon",
-    dptname: "Bs cs",
+    id: "ba",
+    dptname: "BA",
     point: "123",
   },
   {
-    id: "ounr34343",
-    dptname: "Ba english",
+    id: "bcom",
+    dptname: "BCOM",
     point: "424",
   },
   {
-    id: "343433ojnn",
-    dptname: "Bcom cop",
+    id: "bsc",
+    dptname: "BSC",
     point: "412",
   },
   {
-    id: "eonkn2434",
-    dptname: "Bsc microbiology",
+    id: "bba",
+    dptname: "BBA",
+    point: "523",
+  },
+  {
+    id: "bvoc",
+    dptname: "BVOC",
     point: "523",
   },
 ];
@@ -44,7 +49,7 @@ export default function DptPointTable() {
   return (
       <Container>
       <Grid>
-        <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD} />
+        <DptDataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD} />
         </Grid>
       </Container>
   );

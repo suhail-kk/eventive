@@ -20,6 +20,7 @@ const TABLE_HEAD = [
   { id: "date", label: "Date", alignRight: false, type: "text" },
   { id: "time", label: "Time", alignRight: false, type: "text" },
   { id: "place", label: "Place", alignRight: false, type: "text" },
+  { id: "action", label: "Action", alignRight: false,type:"icon" },
 ];
 
 const TABLE_DATA = [

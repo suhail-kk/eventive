@@ -7,12 +7,6 @@ import { Link } from "react-router-dom";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import DeleteOutlineSharpIcon from "@mui/icons-material/DeleteOutlineSharp";
 
-// utils
-// import { fShortenNumber } from '../../../utils/formatNumber';
-
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
 
 export default function Dptcard({ data, type }) {
   

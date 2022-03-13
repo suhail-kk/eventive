@@ -33,7 +33,6 @@ export default function DepartmentPoints() {
               <Dptcard
                 data={departmentData}
                 type={type}
-              // onClick={handleClick}
               />
             </Grid>
           ))}
