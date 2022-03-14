@@ -53,21 +53,22 @@ import {
                 heading="First"
                 subHeading="fayis k"
               />
-              <Field
-                subHeading2="bsc cs"
-              />
+              <Typography variant="caption">
+                [BVOC]
+              </Typography>
+              
             </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
               <Field heading="Second" subHeading="Ramu" />
-              <Field
-                subHeading2="bsc cs"
-              />
+              <Typography variant="caption">
+                [BVOC]
+              </Typography>
             </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
               <Field heading="Third" subHeading="salman"/>
-              <Field
-                subHeading2="bsc cs"
-              />
+              <Typography variant="caption">
+                [BVOC]
+              </Typography>
             </Grid>
           </Grid>
         </Container> 

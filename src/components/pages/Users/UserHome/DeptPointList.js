@@ -12,22 +12,17 @@ function createData(department, point) {
 }
 
 const rows = [
-  createData('computer science', 159),
-  createData('ba economics', 237),
-  createData('ba english', 262),
-  createData('bsc physics', 305),
-  createData('bsc biochemistry', 356),
-  createData('bsc microbiology', 356),
-  createData('bsc biotechnology', 356),
-  createData('bcom coperation', 356),
-  createData('bcom ca', 356),
-
+  createData('BSC', 159),
+  createData('BA', 237),
+  createData('BBA', 262),
+  createData('BCOM', 305),
+  createData('BVOC', 356),
 ];
 
 export default function DeptPointList() {
   return (
     <TableContainer component={Paper} sx={{width:500 ,m:5}}>
-      <Table sx={{ width:500 }} aria-label="simple table">
+      <Table sx={{ width:500,height:500 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Department</TableCell>

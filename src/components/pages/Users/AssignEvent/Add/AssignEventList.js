@@ -58,8 +58,8 @@ export default function AssignEventList() {
             container
             spacing={2}
           >
-            <Grid sx={{}} item sm={12} xs={12} md={12} lg={12}>
-              <Typography variant="h5" sx={{}}>
+            <Grid  item sm={12} xs={12} md={12} lg={12}>
+              <Typography variant="h5" >
                 Assign Event
               </Typography>
             </Grid>
@@ -83,12 +83,6 @@ export default function AssignEventList() {
                     disablePadding
                   >
                     <ListItemButton>
-                      <ListItemAvatar>
-                        <Avatar
-                          alt={`Avatar n°${value + 1}`}
-                          src={`/static/images/avatar/${value + 1}.jpg`}
-                        />
-                      </ListItemAvatar>
                       <ListItemText
                         id={labelId}
                         primary={`Line item ${value + 1}`}
@@ -98,27 +92,24 @@ export default function AssignEventList() {
                 );
               })}
             </List>
-            <Stack
+            <Grid
+            container
             direction="row"
-            alignItems="center"
             justifyContent="flex-end"
+            alignItems="flex-end"
             mt={2}
           >
             <span>
               <Button
                 variant="contained"
                 color="info"
-                //   component={RouterLink}
-                // onClick={handleAddStudent}
-                // disabled={!item || !first || !second || !third}
-                //   to="#"
                 startIcon={<PublishIcon />}
               >
                 
                 Submit
               </Button>
             </span>
-            </Stack>
+            </Grid>
           </Grid>
         </Container>
       </ContentStyle>
