@@ -9,6 +9,7 @@ import {
   Card,
   TextField,
   Tooltip,
+  Autocomplete,
 } from "@mui/material";
 
 // material icons
@@ -135,7 +136,18 @@ export default function AddShedule() {
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
             <Grid item xs={6} sm={4} md={3}>
-              <SelectInput label="Event" name="addmarkevent" />
+            <Autocomplete
+                disablePortal
+                id="combo-box-demo"
+                options={top100Films}
+                sx={{overFlowY:"visible"}}
+                name="event"
+                onChange={(event, value) => console.log(value)}
+                // onChange={handleItemChange}
+                // style={}
+                error={errorMsg}
+                renderInput={(params) => <TextField {...params} label="Event" />}
+              />
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
               <DatePickerInput

@@ -1,5 +1,5 @@
 const BACKEND_URL = {
-    BASE_URL: 'https://student-profile-api.herokuapp.com/',
+    BASE_URL: 'http://localhost:3001/',
 }
 
 export default BACKEND_URL;
