@@ -66,6 +66,15 @@ const top100Films = [
   { label: "Pulp Fiction", year: 1994 },
 ];
 
+
+const departmentList = [
+  {label: "BSC",value:"bsc"},
+  {label: "BA",value:"ba"},
+  {label: "BBA",value:"bba"},
+  {label: "BCOM",value:"bcom"},
+  {label: "BVOC",value:"bvoc"}
+]
+
 export default function AddMark() {
   const [item, setItem] = useState();
   const [first, setFirst] = useState();
@@ -133,7 +142,7 @@ export default function AddMark() {
         </Stack>
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
-            <Grid item xs={6} sm={4} md={3}>
+            <Grid item xs={12} sm={12} md={12}>
               <Autocomplete
                 disablePortal
                 id="combo-box-demo"
@@ -146,8 +155,9 @@ export default function AddMark() {
                 error={errorMsg}
                 renderInput={(params) => <TextField {...params} label="Item" />}
               />
+              
             </Grid>
-            <Grid item xs={6} sm={4} md={3}>
+            <Grid item xs={4} sm={4} md={4}>
             <Autocomplete
                 disablePortal
                 options={top100Films}
@@ -160,7 +170,7 @@ export default function AddMark() {
                 renderInput={(params) => <TextField {...params} label="First" />}
               />
             </Grid>
-            <Grid item xs={6} sm={4} md={3}>
+            <Grid item xs={4} sm={4} md={4}>
             <Autocomplete
                 disablePortal
                 options={top100Films}
@@ -173,7 +183,7 @@ export default function AddMark() {
                 renderInput={(params) => <TextField {...params} label="Second" />}
               />
             </Grid>
-            <Grid item xs={6} sm={4} md={3}>
+            <Grid item xs={4} sm={4} md={4}>
             <Autocomplete
                 disablePortal
                 options={top100Films}
@@ -184,6 +194,45 @@ export default function AddMark() {
                 value={third}
                 error={errorMsg}
                 renderInput={(params) => <TextField {...params} label="Third" />}
+              />
+            </Grid>
+            <Grid item xs={4} sm={4} md={4}>
+            <Autocomplete
+                disablePortal
+                options={departmentList}
+                sx={6}
+                name="firstDept"
+                onChange={(first, value) => console.log(value)}
+                style={{overflow:"overflow"}}
+                value={first}
+                error={errorMsg}
+                renderInput={(params) => <TextField {...params} label="Department" />}
+              />
+            </Grid>
+            <Grid item xs={4} sm={4} md={4}>
+            <Autocomplete
+                disablePortal
+                options={departmentList}
+                sx={6}
+                name="secondDepartment"
+                onChange={(second, value) => console.log(value)}
+                style={{overflow:"overflow"}}
+                value={second}
+                error={errorMsg}
+                renderInput={(params) => <TextField {...params} label="Department" />}
+              />
+            </Grid>
+            <Grid item xs={4} sm={4} md={4}>
+            <Autocomplete
+                disablePortal
+                options={departmentList}
+                sx={6}
+                name="thirdDepartment"
+                onChange={(third, value) => console.log(value)}
+                style={{overflow:"overflow"}}
+                value={third}
+                error={errorMsg}
+                renderInput={(params) => <TextField {...params} label="Department" />}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12}>

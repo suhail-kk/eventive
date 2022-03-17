@@ -32,31 +32,11 @@ const ProfileCard = styled(Card)(({ theme }) => ({
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 export default function ViewDetails() {
-  const [details, setDetails] = useState({
-    pgmName:'',
-    date:'',
-    place:'',
-    inuagration:'',
-    guest:'',
-    totalEvent:'',
-    noOfDays:'',
-  });
 
-  useEffect(() => {
-    const getDetails = async () => {
-      try {
-        // get details
-        const detailsData = await detailsService.getDetails();
-        setDetails(detailsData);
-      } catch (err) {
-        console.error(err?.response?.data?.message);      }
-    };
-    getDetails();
-  },[]);
-  console.log(details.data);
+
 
   return (
-    <Page title="Details"> 
+    <Page title="Details">
       <Container>
         <Stack
           direction="row"
@@ -76,48 +56,47 @@ export default function ViewDetails() {
             Set Details
           </Button>
         </Stack>
-        
-        <Grid
-          component={ProfileCard}
-          sx={{ mt: 2, p: 2 }}
-          container
-          spacing={2}
-        >
           <Grid
-            item
-            sm={12}
-            xs={12}
-            md={12}
-            lg={12}
-            justifyContent="flex-end"
+            component={ProfileCard}
+            sx={{ mt: 2, p: 2 }}
             container
-            direction="row"
+            spacing={2}
           >
-            <EditIcon />
+            <Grid
+              item
+              sm={12}
+              xs={12}
+              md={12}
+              lg={12}
+              justifyContent="flex-end"
+              container
+              direction="row"
+            >
+              <EditIcon />
+            </Grid>
+
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Program Name" subHeading="fdws" />
+            </Grid>
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Date" subHeading="12-12-2021" />
+            </Grid>
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Place" subHeading="avt hall" />
+            </Grid>
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Inuagration" subHeading="MLA" />
+            </Grid>
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Guest" subHeading="Mammootty" />
+            </Grid>
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Total Events" subHeading="100" />
+            </Grid>
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Number of Days" subHeading="5" />
+            </Grid>
           </Grid>
-           
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Program Name" subHeading="hgf"/>
-          </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Date" subHeading="12-12-2021" />
-          </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Place" subHeading="avt hall" />
-          </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Inuagration" subHeading="MLA" />
-          </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Guest" subHeading="Mammootty" />
-          </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Total Events" subHeading="100" />
-          </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Number of Days" subHeading="5" />
-          </Grid>
-        </Grid>
       </Container>
       <Grid
         container

@@ -73,7 +73,7 @@ export default function AssignEventList() {
                   <ListItem
                     key={value}
                     secondaryAction={
-                      <Checkbox
+                      <Checkbox                    
                         edge="end"
                         onChange={handleToggle(value)}
                         checked={checked.indexOf(value) !== -1}

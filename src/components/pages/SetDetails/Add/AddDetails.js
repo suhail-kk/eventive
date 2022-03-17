@@ -12,53 +12,47 @@ import {
 
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
 import DatePickerInput from "../../../utils/Inputs/DatePickerInput";
 
 export default function AddDetails() {
-  const [pgmname, setName] = useState();
+  const [pgmName, setPgmName] = useState();
   const [date, setDate] = useState();
   const [place, setPlace] = useState();
-  const [inuaguration, setInuaguration] = useState();
+  const [inuagration, setInuagration] = useState();
   const [guest, setGuest] = useState();
-  const [totalevents, setTotalevent] = useState();
-  const [totalgroups, setTotalgroups] = useState();
-  const [days,setDays] = useState();
-  const [dptname,setDptName] = useState();
-  const [maxevent,setMaxEvent] = useState();
+  const [totalEvents, setTotalEvent] = useState();
+  const [noOfDays, setNoOfDays] = useState();
 
-  const handlePgmnameChange = (pgmname) => setName(pgmname.target.value);
-  // const handleDate = (pgmname) => setName(pgmname.target.value);
-  const handlePlaceChange = (place) => setPlace(place.target.value);
-  const handleInuagurationChange = (inuaguration) =>
-    setInuaguration(inuaguration.target.value);
-  const handleGuestChange = (guest) => setGuest(guest.target.value);
-  const handleTotaleventChange = (totalevents) =>
-    setTotalevent(totalevents.target.value);
-  const handleTotalgroupsChange = (totalgroups) =>
-    setTotalgroups(totalgroups.target.value);
-  const handleDaysChange = (days) =>
-    setDays(days.targent.value);
-  const handleDptNameChange = (dptname) =>
-    setDptName(dptname.target.value);
-    const handleMaxEventChange = (maxevent) =>
-    setMaxEvent(maxevent.target.value);
+  const handlePgmNameChange = (event) => setPgmName(event.target.value);
+  const handleDateChange = (event) => setDate(event.target.value);
+  const handlePlaceChange = (event) => setPlace(event.target.value);
+  const handleInuagrationChange = (event) => setInuagration(event.target.value);
+  const handleGuestChange = (event) => setGuest(event.target.value);
+  const handleTotalEventChange = (event) => setTotalEvent(event.target.value);
+  const handlesetNoOfDaysChange = (event) => setNoOfDays(event.target.value);
 
-  //clearing the form
-  const clearFormCredentials = () => {
-    setName("");
-    setDate("");
-    setPlace("");
-    setInuaguration("");
-    setGuest("");
-    setTotalevent("");
-    setTotalgroups("");
-    setDays("");
-    setMaxEvent("");
-  };
+  // //clearing the form
+  // const clearFormCredentials = () => {
+  //   setPgmName("");
+  //   setDate("");
+  //   setPlace("");
+  //   setInuagration("");
+  //   setGuest("");
+  //   setTotalEvent("");
+  //   setNoOfDays("");
+  // };
+  console.log(pgmName);
+  console.log(date);
+  console.log(place);
+  console.log(inuagration);
+  console.log(guest);
+  console.log(totalEvents);
+  console.log(noOfDays);
+
 
   return (
     <Page title="AddDetails">
@@ -72,8 +66,7 @@ export default function AddDetails() {
                 label="Program name"
                 color="info"
                 fullWidth
-                value={pgmname}
-                onChange={handlePgmnameChange}
+                onChange={handlePgmNameChange}
                 // error={errorMsg}
               />
             </Grid>
@@ -83,6 +76,7 @@ export default function AddDetails() {
                 date={date}
                 name="date"
                 setDate={setDate}
+                onChange={handleDateChange}
               />
             </Grid>
             <Grid item xs={6} sm={6} md={6}>
@@ -104,8 +98,7 @@ export default function AddDetails() {
                 label="Inuaguration"
                 color="info"
                 fullWidth
-                value={inuaguration}
-                onChange={handleInuagurationChange}
+                onChange={handleInuagrationChange}
                 // error={errorMsg}
               />
             </Grid>
@@ -128,8 +121,7 @@ export default function AddDetails() {
                 label="Total Events"
                 color="info"
                 fullWidth
-                value={totalevents}
-                onChange={handleTotaleventChange}
+                onChange={handleTotalEventChange}
                 // error={errorMsg}
               />
             </Grid>
@@ -140,30 +132,17 @@ export default function AddDetails() {
                 label="Number of Days"
                 color="info"
                 fullWidth
-                value={days}
-                onChange={handleDaysChange}
+                onChange={handlesetNoOfDaysChange}
                 // error={errorMsg}
               />
             </Grid>
-         </Grid>
+          </Grid>
           <Stack
             direction="row"
             alignItems="center"
             justifyContent="flex-end"
             mt={2}
           >
-            <Tooltip
-              title={
-                !pgmname ||
-                !date ||
-                !place ||
-                !guest ||
-                !inuaguration ||
-                !totalevents
-                  ? "fill the fields"
-                  : "sumbit fields"
-              }
-            >
               <span>
                 <Button
                   variant="contained"
@@ -177,7 +156,6 @@ export default function AddDetails() {
                   Add
                 </Button>
               </span>
-            </Tooltip>
           </Stack>
         </Card>
       </Container>
