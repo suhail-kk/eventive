@@ -21,7 +21,7 @@ const post = async (path, data = {}, headers = {}, params = {}) => {
   //generating the request
   const response = await axios.post(url, data, _generateParams(headers, params));
 
-  return response.data;
+  return response;
 };
 
 //patch request
@@ -32,7 +32,7 @@ const patch = async (path, data = {}, headers = {}, params = {}) => {
     //generating the request
     const response = await axios.patch(url, data, _generateParams(headers, params));
     
-    return response.data;
+    return response;
 }
 
 //delete request
@@ -43,7 +43,7 @@ const destroy = async (path, headers = {}, params = {}) => {
     //generating the request
     const response = await axios.delete(url, _generateParams(headers, params));
     
-    return response.data;
+    return response;
 }
 
 //generate header parmas for request

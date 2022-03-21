@@ -5,20 +5,24 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 const UserTypeConfig =[
     {
         title:'Participants',
+        heading:localStorage.getItem('Totalevents'),
         Icon:SupervisorAccountIcon,
         colorType:"primary"
     },
     {
         title:'Events',
+        heading:"hh",
         Icon:EventNoteIcon,
         colorType:"error"
     },
     {
         title:'Departments',
+        heading:"5",
         Icon:AccountBalanceIcon,
         colorType:"info"
     },{
         title:"Days",
+        heading:"gg",
         Icon:DateRangeIcon,
         colorType:"warning"
     }

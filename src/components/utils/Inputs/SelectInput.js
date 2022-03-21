@@ -21,7 +21,7 @@ export default function SelectInput(props) {
       fullWidth
       onChange={handleTextInputChange}
     >
-      {menuItems.map((menuItem) => (
+      {menuItems && menuItems.map((menuItem) => (
         <MenuItem value={menuItem}>{menuItem}</MenuItem>
       ))}
     </TextField>

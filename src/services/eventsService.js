@@ -2,22 +2,22 @@ import BackendService from "./BackendService";
 
 // get all events
 const getAllEvents = async () => {
-  return BackendService.get(`events/`);
+  return BackendService.get(`eventslist/`);
 };
 
 // create an event
 const createEvent= async (data) => {
-  return BackendService.post("events/", data);
+  return BackendService.post("eventslist/", data);
 };
 
 // update event
-const updateEvent = async (data) => {
-    return BackendService.patch(`events/${id}`, data);
+const updateEvent = async (id,data) => {
+    return BackendService.patch(`eventslist/${id}`, data);
   };
 
   // delete event
-const deleteEvent = async (data) => {
-    return BackendService.destroy(`events/${id}`, data);
+const deleteEvent = async (id,data) => {
+    return BackendService.destroy(`eventslist/${id}`, data);
   };
 
 //exporting the events service

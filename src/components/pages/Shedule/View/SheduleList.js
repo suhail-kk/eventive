@@ -8,53 +8,50 @@ import AddIcon from "@mui/icons-material/Add";
 import Page from "../../../utils/Page";
 import DataTable from "../../../utils/DataTable";
 
+//Backend Service
+import sheduleService from "../../../../services/sheduleService";
+
+import { useState, useEffect,useContext } from "react";
+
+//context
+import { loadingContext } from "../../../../context/loadingContext";
+
+
 // table header cell config
 const TABLE_HEAD = [
   {
-    id: "event",
+    id: "eventName",
     label: "Event",
     alignRight: false,
     type: "stack",
-    baseUrl: "/app/student/view",
   },
-  { id: "date", label: "Date", alignRight: false, type: "text" },
-  { id: "time", label: "Time", alignRight: false, type: "text" },
-  { id: "place", label: "Place", alignRight: false, type: "text" },
-  { id: "action", label: "Action", alignRight: false,type:"icon" },
-];
-
-const TABLE_DATA = [
-  {
-    id: "134doojon",
-    event: "mappilapatu",
-    date:"15-oct-2019",
-    time: "12:00",
-    place: "avt",
-  },
-  {
-    id: "ounr34343",
-    event: "Noof",
-    date:"15-oct-2019",
-    time: "12:00",
-    place: "seminar hall",
-  },
-  {
-    id: "343433ojnn",
-    event: "story",
-    date:"15-oct-2019",
-    time: "2:00",
-    place: "bsc ",
-  },
-  {
-    id: "eonkn2434",
-    event: "poem making",
-    date:"15-oct-2019",
-    time: "1:00",
-    place: "bsc cs",
-  },
+  { id: "sheduleDate", label: "Date", alignRight: false, type: "text" },
+  { id: "sheduleTime", label: "Time", alignRight: false, type: "text" },
+  { id: "shedulePlace", label: "Place", alignRight: false, type: "text" },
+  { id: "edit", label: "Edit", alignRight: false,type:"edit" },
+  { id: "delete", label: "Delete", alignRight: false,type:"delete" },
 ];
 
 export default function SheduleList() {
+  const { loaderToggler } = useContext(loadingContext);
+  const [shedule, setShedule] = useState([]);
+  useEffect(() => {
+    const getAllShedules = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const shedule = await sheduleService.getAllShedules();
+        setShedule(shedule);  
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getAllShedules();
+  }, []);
+  
+  console.log(shedule.data);
   return (
     <Page title="SheduleList">
       <Container>
@@ -75,8 +72,11 @@ export default function SheduleList() {
           >
              Shedule
           </Button>
-        </Stack>
-        <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD} />
+        </Stack> {
+          shedule.data && (
+            <DataTable TABLE_DATA={shedule.data} TABLE_HEAD={TABLE_HEAD} />
+          )
+        }
       </Container>
     </Page>
   );

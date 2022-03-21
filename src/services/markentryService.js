@@ -2,22 +2,22 @@ import BackendService from "./BackendService";
 
 // get all results
 const getAllResults = async () => {
-  return BackendService.get(`markentry/`);
+  return BackendService.get(`results/`);
 };
 
 // mark entry
 const createResult = async (data) => {
-  return BackendService.post("markentry/", data);
+  return BackendService.post("results/", data);
 };
 
 // update mark
-const updateResult = async (data) => {
-    return BackendService.patch(`markentry/${id}`, data);
+const updateResult = async (id,data) => {
+    return BackendService.patch(`results/${id}`, data);
   };
 
   // delete entered mark
-const deleteResult = async (data) => {
-    return BackendService.destroy(`markentry/${id}`, data);
+const deleteResult = async (id,data) => {
+    return BackendService.destroy(`results/${id}`, data);
   };
 
 //exporting the events service

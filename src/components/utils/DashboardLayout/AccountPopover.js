@@ -61,10 +61,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            admin
+            eventiveadmin
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            admin@gmail.com
+            eventive@gmail.com
           </Typography>
         </Box>
 

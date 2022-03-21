@@ -32,28 +32,7 @@ const ProfileCard = styled(Card)(({ theme }) => ({
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 export default function ViewDetails() {
-  const [details, setDetails] = useState({
-    pgmName:'',
-    date:'',
-    place:'',
-    inuagration:'',
-    guest:'',
-    totalEvent:'',
-    noOfDays:'',
-  });
 
-  useEffect(() => {
-    const getDetails = async () => {
-      try {
-        // get details
-        const detailsData = await detailsService.getDetails();
-        setDetails(detailsData);
-      } catch (err) {
-        console.error(err?.response?.data?.message);      }
-    };
-    getDetails();
-  },[]);
-  console.log(details.data);
 
   return (
     <Page title="Details"> 
@@ -95,28 +74,55 @@ export default function ViewDetails() {
           >
             <EditIcon />
           </Grid>
-           
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Program Name" subHeading="hgf"/>
+         {
+           localStorage.getItem('pgmName') && (
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+            <Field heading="Program Name" subHeading={localStorage.getItem('pgmName')}/>
           </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Date" subHeading="12-12-2021" />
+           )
+         }        
+         {
+           localStorage.getItem('Date') && (
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+            <Field heading="Date" subHeading={localStorage.getItem('Date')} />
           </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Place" subHeading="avt hall" />
+           )
+         }
+          {
+            localStorage.getItem('Place') && (
+              <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Place" subHeading={localStorage.getItem('Place')} />
+            </Grid>
+            )
+          }
+          {
+            localStorage.getItem('Inuaguration') && (
+              <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Inuagration" subHeading={localStorage.getItem('Inuaguration')} />
+            </Grid>
+            )
+          }
+          {
+            localStorage.getItem('Guest') && (
+              <Grid item sm={12} xs={12} md={4} lg={4}>
+              <Field heading="Guest" subHeading={localStorage.getItem('Guest')} />
+            </Grid>
+            )
+          }
+         {
+           localStorage.getItem('Totalevents') && (
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+            <Field heading="Total Events" subHeading={localStorage.getItem('Totalevents')} />
           </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Inuagration" subHeading="MLA" />
+           )
+         }
+         {
+           localStorage.getItem('Days') && (
+            <Grid item sm={12} xs={12} md={4} lg={4}>
+            <Field heading="Number of Days" subHeading={localStorage.getItem('Days')} />
           </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Guest" subHeading="Mammootty" />
-          </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Total Events" subHeading="100" />
-          </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Number of Days" subHeading="5" />
-          </Grid>
+           )
+         }       
         </Grid>
       </Container>
       <Grid

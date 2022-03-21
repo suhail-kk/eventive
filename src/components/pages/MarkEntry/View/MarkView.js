@@ -7,11 +7,16 @@ import AddIcon from "@mui/icons-material/Add";
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
 import DataTable from "../../../utils/DataTable";
+import markentryService from "../../../../services/markentryService"
+import { useEffect, useState,useContext } from "react";
+
+//context
+import { loadingContext } from "../../../../context/loadingContext";
 
 // table header cell config
 const TABLE_HEAD = [
   {
-    id: "item",
+    id: "eventName",
     label: "Item",
     alignRight: false,
     type: "stack",
@@ -19,41 +24,29 @@ const TABLE_HEAD = [
   { id: "first", label: "First", alignRight: false, type: "text" },
   { id: "second", label: "Second", alignRight: false, type: "text" },
   { id: "third", label: "Third", alignRight: false, type: "text" },
-  { id: "action", label: "Action", alignRight: false,type:"icon" },
+  { id: "edit", label: "Edit", alignRight: false,type:"edit" },
+  { id: "delete", label: "Delete", alignRight: false,type:"delete" },
 ];
 
-const TABLE_DATA = [
-  {
-    id: "134doojon",
-    item: "story",
-    first: "123",
-    second: "332",
-    third: "313",
-  },
-  {
-    id: "ounr34343",
-    item: "poem making",
-    first: "424",
-    second: "524",
-    third: "234",
-  },
-  {
-    id: "343433ojnn",
-    item: "essay",
-    first: "412",
-    second: "533",
-    third: "244",
-  },
-  {
-    id: "eonkn2434",
-    item: "mappilapattu",
-    first: "523",
-    second: "423",
-    third: "532",
-  },
-];
 
 export default function MarkView() {
+  const { loaderToggler } = useContext(loadingContext);
+  const [results, setResult] = useState([]);
+  useEffect(() => {
+    const getAllResults = async () => {
+      try {
+        loaderToggler(true);
+        //get result
+        const result = await markentryService.getAllResults();
+        setResult(result);  
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getAllResults();
+  }, []);
   return (
     <Page title="Marks">
       <Container>
@@ -85,8 +78,11 @@ export default function MarkView() {
             
           </Grid>
         </Stack>
-        <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD}>
-        </DataTable>
+        {
+          results.data && (
+            <DataTable TABLE_DATA={results.data} TABLE_HEAD={TABLE_HEAD}/>
+          )
+        }
       </Container>
     </Page>
   );

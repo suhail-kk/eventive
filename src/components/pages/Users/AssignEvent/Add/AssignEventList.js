@@ -1,5 +1,13 @@
 // material components
-import { Typography, Grid, Card, Button, Container,Stack} from "@mui/material";
+import {
+  Typography,
+  Grid,
+  Card,
+  Button,
+  Container,
+  Stack,
+} from "@mui/material";
+import { useEffect, useState,useContext } from "react";
 import { styled } from "@mui/material/styles";
 import * as React from "react";
 import List from "@mui/material/List";
@@ -9,10 +17,15 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Checkbox from "@mui/material/Checkbox";
 import Avatar from "@mui/material/Avatar";
+import eventService from "../../../../../services/eventsService";
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
 //   custom component
 import Field from "../../../../utils/Student/View/Field";
+
+//context
+import { loadingContext } from "../../../../../context/loadingContext";
+
 // custom card
 const ProfileCard = styled(Card)(({ theme }) => ({
   paddingRight: `${theme.spacing(4)} !important`,
@@ -21,20 +34,40 @@ const ProfileCard = styled(Card)(({ theme }) => ({
 
 const RootStyle = styled("div")({
   background: "#A0C9C3",
+  height: "100%",
 });
 
 const ContentStyle = styled("div")(({ theme }) => ({
-  maxWidth: 400,
   margin: "auto",
   display: "flex",
-  height: "90vh",
+  height: "100%",
   flexDirection: "column",
   justifyContent: "center",
   alignContent: "center",
 }));
 
 export default function AssignEventList() {
-  const [checked, setChecked] = React.useState([1]);
+  const { loaderToggler } = useContext(loadingContext);
+  const [checked, setChecked] = React.useState([]);
+  const [events, setEvents] = useState();
+
+  useEffect(() => {
+    //get all events
+    const getAllEvents = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const event = await eventService.getAllEvents();
+        setEvents(event.data);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getAllEvents();
+  }, []);
+  
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -48,67 +81,64 @@ export default function AssignEventList() {
 
     setChecked(newChecked);
   };
+  console.log(checked)
+
   return (
     <RootStyle>
       <ContentStyle>
         <Container>
           <Grid
             component={ProfileCard}
-            sx={{ mt: 2, p: 2 }}
+            sx={{ mt: 2, p: 2, mb: 2 }}
             container
             spacing={2}
           >
-            <Grid  item sm={12} xs={12} md={12} lg={12}>
-              <Typography variant="h5" >
-                Assign Event
-              </Typography>
+            <Grid item sm={12} xs={12} md={12} lg={12}>
+              <Typography variant="h5">Assign Event</Typography>
             </Grid>
             <List
               dense
-              sx={{ width: "100%", maxWidth: 300, bgcolor: "background.paper" }}
+              sx={{ width: "100%", bgcolor: "background.paper" }}
             >
-              {[0, 1, 2, 3].map((value) => {
-                const labelId = `checkbox-list-secondary-label-${value}`;
-                return (
-                  <ListItem
-                    key={value}
-                    secondaryAction={
-                      <Checkbox
-                        edge="end"
-                        onChange={handleToggle(value)}
-                        checked={checked.indexOf(value) !== -1}
-                        inputProps={{ "aria-labelledby": labelId }}
-                      />
-                    }
-                    disablePadding
-                  >
-                    <ListItemButton>
-                      <ListItemText
-                        id={labelId}
-                        primary={`Line item ${value + 1}`}
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                );
-              })}
+              {events &&
+                events.map((value) => {
+                  const labelId = `checkbox-list-secondary-label-${value}`;
+                  return (
+                    <ListItem
+                      key={value._id}
+                      secondaryAction={
+                        <Checkbox
+                          edge="end"
+                          onChange={handleToggle(value.eventName)}
+                          checked={checked.indexOf(value.eventName) !== -1}
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      }
+                      disablePadding
+                    >
+                      <ListItemButton>
+                        <ListItemText id={labelId} primary={value.eventName} />
+                      </ListItemButton>
+                    </ListItem>
+                  );
+                })}
             </List>
             <Grid
-            container
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="flex-end"
-            mt={2}
-          >
-            <span>
-              <Button
-                variant="contained"
-                color="info"
-                startIcon={<PublishIcon />}
-              >
-                
-                Submit
-              </Button>
-            </span>
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="flex-end"
+              mt={2}
+            >
+              <span>
+                <Button
+                  variant="contained"
+                  color="info"
+                  startIcon={<PublishIcon />}
+                >
+                  Submit
+                </Button>
+              </span>
             </Grid>
           </Grid>
         </Container>

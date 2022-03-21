@@ -1,4 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
+import { useEffect, useState,useContext } from "react";
 // material components
 import {
   Stack,
@@ -11,14 +12,12 @@ import Page from '../../../utils/Page';
 import Dptcard from "../../../utils/Department/Dptcard";
 import DptTypeConfig from "../../../utils/Department/DptTypeConfig";
 
-const departmentData = {
-  dptName:"Computer Science",
-  hodName : "Riyadh",
-  contact :"34554"
-}
+//context
+import { loadingContext } from "../../../../context/loadingContext";
+
 
 export default function DepartmentPoints() {
-
+  const { loaderToggler } = useContext(loadingContext);
   return (
     <Page title="Departments">
       <Container>
@@ -31,7 +30,7 @@ export default function DepartmentPoints() {
           {DptTypeConfig.map((type) => (
             <Grid item xs={12} sm={6} md={3}>
               <Dptcard
-                data={departmentData}
+                data={DptTypeConfig}
                 type={type}
               />
             </Grid>

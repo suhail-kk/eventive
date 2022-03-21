@@ -17,8 +17,8 @@ import {
 } from "@mui/material";
 
 //mui Icons
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 // props type library
 import PropTypes from "prop-types";
@@ -119,24 +119,34 @@ export default function DataTable({ TABLE_HEAD, TABLE_DATA, SEARCH_ID }) {
     switch (type) {
       case "text":
         return value[col.id];
-        case "icon":
+      case "edit":
         return (
           <Stack
             direction="row"
             alignItems="center"
-            sx={{textDecoration:"none",color:"black"}}
+            sx={{ textDecoration: "none", color: "black" }}
             spacing={2}
           >
-            <EditIcon color="disabled"/>
-            <DeleteIcon color="disabled"/>
-            </Stack>
+            <EditIcon color="disabled" />
+          </Stack>
+        );
+      case "delete":
+        return (
+          <Stack
+            direction="row"
+            alignItems="center"
+            sx={{ textDecoration: "none", color: "black" }}
+            spacing={2}
+          >
+            <DeleteIcon color="disabled" />
+          </Stack>
         );
       case "stack":
         return (
           <Stack
             direction="row"
             alignItems="center"
-            sx={{textDecoration:"none",color:"black"}}
+            sx={{ textDecoration: "none", color: "black" }}
             spacing={2}
             // component={Link}
             // to={`${col.baseUrl}/${value._id}`}

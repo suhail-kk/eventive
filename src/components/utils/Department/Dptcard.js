@@ -10,7 +10,7 @@ import DeleteOutlineSharpIcon from "@mui/icons-material/DeleteOutlineSharp";
 
 export default function Dptcard({ data, type }) {
   
-  const { shortForm, colorType } = type;
+  const {shortForm, colorType } = type;
   const RootStyle = styled(Card)(({ theme }) => ({
     boxShadow: "none",
     textAlign: "center",
@@ -50,7 +50,6 @@ export default function Dptcard({ data, type }) {
         <IconWrapperStyle>
           <ShortFormStyle>{shortForm}</ShortFormStyle>
         </IconWrapperStyle>
-        <Typography variant="h5">{data.dptName}</Typography>
         <Typography variant="h3">150</Typography>
       </RootStyle>
     

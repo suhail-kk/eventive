@@ -6,6 +6,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Paper } from '@mui/material';
 //   custom component
 import Field from "../../../../utils/Student/View/Field";
+
+
 // custom card
 const ProfileCard = styled(Card)(({ theme }) => ({
   paddingRight: `${theme.spacing(2)} !important`,
@@ -20,6 +22,7 @@ const Item = styled(Paper)(({ theme }) => ({
   }));
 
 export default function AssignEventList() {
+
   return (
     <Page title="Assign Event">
       {/* Father Details*/}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 // material components
 import {
   Stack,
@@ -10,114 +10,113 @@ import {
   TextField,
   Tooltip,
   Autocomplete,
+  MenuItem,
 } from "@mui/material";
 
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
 
+//context
+import { loadingContext } from "../../../../context/loadingContext";
+
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
 import DataTable from "../../../utils/DataTable";
+import eventService from "../../../../services/eventsService";
+import markentryService from "../../../../services/markentryService";
+import registrationService from "../../../../services/registrationService";
 
-//importing the user service
-import userService from "../../../../services/userService";
 
-// table header cell config
-const TABLE_HEAD = [
-  { id: "item", label: "Name", type: "text" },
-  { id: "first", label: "Company", type: "text" },
-  { id: "status", label: "status", type: "userStatusChip" },
-];
-
-const TABLE_DATA = [
-  {
-    id: "134doojon",
-    item: "Aseel",
-    first: "aseelhacker@microsoft.com",
-    status: "registered",
-  },
-  {
-    id: "ounr34343",
-    item: "Noof",
-    first: "noof@google.com",
-    status: "created",
-  },
-  {
-    id: "343433ojnn",
-    item: "Nahyan",
-    first: "nahyan@facebook.com",
-    status: "filled",
-  },
-  {
-    id: "eonkn2434",
-    item: "Dilshad",
-    first: "dilshad@amazon.com",
-    status: "created",
-  },
-];
-
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-];
+const departments = ["BSC", "BA", "BBA", "BVOC", "BCOM"];
 
 export default function AddMark() {
-  const [item, setItem] = useState();
+  const { loaderToggler } = useContext(loadingContext);
+  const [eventName, setEventName] = useState();
   const [first, setFirst] = useState();
   const [second, setSecond] = useState();
   const [third, setThird] = useState();
+  const [firstDept, setFirstDept] = useState();
+  const [secondDept, setSecondDept] = useState();
+  const [thirdDept, setThirdDept] = useState();
   const [errorMsg, setErrorMsg] = useState("");
-  const [users, setUsers] = useState();
+  const [events, setEvents] = useState([]);
+  const [participants, setParticipants] = useState([]);
+  // clearing the form
+  const clearEventCredentials = () => {
+    setEventName();
+    setFirst();
+    setSecond();
+    setThird();
+    setFirstDept();
+    setSecondDept();
+    setThirdDept();
+  };
 
-  console.log(first);
-
-  const handleItemChange = (event) => setItem(event.target.value);
+  const handleEventChange = (event) => setEventName(event.target.value);
   const handleFirstChange = (event) => setFirst(event.target.value);
   const handleSecondChange = (event) => setSecond(event.target.value);
   const handleThirdChange = (event) => setThird(event.target.value);
+  const handleFirstDeptChange = (event) => setFirstDept(event.target.value);
+  const handleSecondDeptChange = (event) => setSecondDept(event.target.value);
+  const handleThirdDeptChange = (event) => setThirdDept(event.target.value);
   const clearError = () => setErrorMsg("");
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        const users = await userService.getUsers();
-        console.log(users);
-        setUsers(users);
-      } catch (err) {
-        console.error(err?.response?.data?.message);
-      }
-    };
-    getUsers();
-  }, []);
 
-  const handleAddStudent = async () => {
+  const handleAddMark = async () => {
     try {
-      clearError();
-      const userData = {
-        item,
+      loaderToggler(true);
+      const resultData = {
+        eventName,
         first,
         second,
         third,
-        userType: "student",
+        firstDept,
+        secondDept,
+        thirdDept,
       };
-      // adding user to db
-      await userService.createUser(userData);
+      // adding result to db
+      const res = await markentryService.createResult(resultData);
       // clearing the form
-      clearUserCredentials();
+      console.log(res);
+      clearEventCredentials();
+      loaderToggler(false);
     } catch (err) {
       setErrorMsg(err?.response?.data?.message);
+      loaderToggler(false);
     }
   };
 
-  // clearing the form
-  const clearUserCredentials = () => {
-    setItem("");
-    setFirst("");
-  };
+  useEffect(() => {
+    //get all events
+    const getAllEvents = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const event = await eventService.getAllEvents();
+        setEvents(event.data);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getAllEvents();
+
+    //get all participants
+    const getAllParticipants = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const participant = await registrationService.getAllParticipants();
+        setParticipants(participant.data);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getAllParticipants();
+  }, []);
+
   return (
     <Page title="AddMark">
       <Container>
@@ -133,58 +132,106 @@ export default function AddMark() {
         </Stack>
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
-            <Grid item xs={6} sm={4} md={3}>
-              <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={6}
-                name="item"
-                onChange={(event, value) => console.log(value)}
-                // onChange={handleItemChange}
-                style={{overflow:"overflow"}}
-                error={errorMsg}
-                renderInput={(params) => <TextField {...params} label="Item" />}
-              />
+            <Grid item xs={12} sm={12} md={12}>
+              <TextField
+                select
+                label="Event Name"
+                onChange={handleEventChange}
+                value={eventName}
+                fullWidth
+              >
+                {events &&
+                  events.map((menu) => (
+                    <MenuItem value={menu.eventName}>{menu.eventName}</MenuItem>
+                  ))}
+              </TextField>
             </Grid>
-            <Grid item xs={6} sm={4} md={3}>
-            <Autocomplete
-                disablePortal
-                options={top100Films}
-                sx={6}
-                name="first"
-                onChange={(first, value) => console.log(value)}
-                style={{overflow:"overflow"}}
+            <Grid item xs={6} sm={4} md={4}>
+              <TextField
+                select
+                label="First Price"
+                onChange={handleFirstChange}
                 value={first}
-                error={errorMsg}
-                renderInput={(params) => <TextField {...params} label="First" />}
-              />
+                fullWidth
+              >
+                {participants &&
+                  participants.map((menu) => (
+                    <MenuItem value={menu.candidateName}>
+                      {menu.candidateName}
+                    </MenuItem>
+                  ))}
+              </TextField>
             </Grid>
-            <Grid item xs={6} sm={4} md={3}>
-            <Autocomplete
-                disablePortal
-                options={top100Films}
-                sx={6}
-                name="second"
-                onChange={(second, value) => console.log(value)}
-                style={{overflow:"overflow"}}
+            <Grid item xs={6} sm={4} md={4}>
+              <TextField
+                select
+                label="Second Price"
+                onChange={handleSecondChange}
                 value={second}
-                error={errorMsg}
-                renderInput={(params) => <TextField {...params} label="Second" />}
-              />
+                fullWidth
+              >
+                {participants &&
+                  participants.map((menu) => (
+                    <MenuItem value={menu.candidateName}>
+                      {menu.candidateName}
+                    </MenuItem>
+                  ))}
+              </TextField>
             </Grid>
-            <Grid item xs={6} sm={4} md={3}>
-            <Autocomplete
-                disablePortal
-                options={top100Films}
-                sx={6}
-                name="third"
-                onChange={(third, value) => console.log(value)}
-                style={{overflow:"overflow"}}
+            <Grid item xs={6} sm={4} md={4}>
+              <TextField
+                select
+                label="Third Price"
+                onChange={handleThirdChange}
                 value={third}
-                error={errorMsg}
-                renderInput={(params) => <TextField {...params} label="Third" />}
-              />
+                fullWidth
+              >
+                {participants &&
+                  participants.map((menu) => (
+                    <MenuItem value={menu.candidateName}>
+                      {menu.candidateName}
+                    </MenuItem>
+                  ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={6} sm={4} md={4}>
+              <TextField
+                select
+                label="Department"
+                onChange={handleFirstDeptChange}
+                value={firstDept}
+                fullWidth
+              >
+                {departments.map((dept) => (
+                  <MenuItem value={dept}>{dept}</MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={6} sm={4} md={4}>
+              <TextField
+                select
+                label="Department"
+                onChange={handleSecondDeptChange}
+                value={secondDept}
+                fullWidth
+              >
+                {departments.map((dept) => (
+                  <MenuItem value={dept}>{dept}</MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={6} sm={4} md={4}>
+              <TextField
+                select
+                label="Department"
+                onChange={handleThirdDeptChange}
+                value={thirdDept}
+                fullWidth
+              >
+                {departments.map((dept) => (
+                  <MenuItem value={dept}>{dept}</MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
               <Typography variant="body1" gutterBottom color="error">
@@ -200,7 +247,7 @@ export default function AddMark() {
           >
             <Tooltip
               title={
-                !item || !first || !second || !third
+                !eventName || !first || !firstDept
                   ? "fill the fields"
                   : "sumbit fields"
               }
@@ -210,7 +257,7 @@ export default function AddMark() {
                   variant="contained"
                   color="info"
                   //   component={RouterLink}
-                  onClick={handleAddStudent}
+                  onClick={handleAddMark}
                   // disabled={!item || !first || !second || !third}
                   //   to="#"
                   startIcon={<PublishIcon />}
@@ -221,7 +268,6 @@ export default function AddMark() {
             </Tooltip>
           </Stack>
         </Card>
-        {users && <DataTable TABLE_DATA={users} TABLE_HEAD={TABLE_HEAD} />}
       </Container>
     </Page>
   );

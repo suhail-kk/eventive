@@ -6,14 +6,11 @@ import { Card, Typography } from "@mui/material";
 // utils
 // import { fShortenNumber } from '../../../utils/formatNumber';
 
-// ----------------------------------------------------------------------
-
-// ----------------------------------------------------------------------
 
 const TOTAL = 1352831;
 
 export default function UsersCard({type}) {
-  const {title,Icon,colorType} = type;
+  const {title,heading,Icon,colorType} = type;
   const RootStyle = styled(Card)(({ theme }) => ({
     boxShadow: "none",
     textAlign: "center",
@@ -39,10 +36,9 @@ export default function UsersCard({type}) {
   return (
     <RootStyle>
       <IconWrapperStyle>
-        {/* <Icon icon={appleFilled} width={24} height={24} /> */}
         <Icon/>
       </IconWrapperStyle>
-      <Typography variant="h4">{TOTAL}</Typography>
+      <Typography variant="h4">{heading}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {title}
       </Typography>

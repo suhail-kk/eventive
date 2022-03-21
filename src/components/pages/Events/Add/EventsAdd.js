@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 // material components
 import {
   Stack,
@@ -11,103 +11,62 @@ import {
   Tooltip,
   Autocomplete,
 } from "@mui/material";
-
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
 
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
-import DataTable from "../../../utils/DataTable";
 
-//importing the user service
-import userService from "../../../../services/userService";
+//importing the event service
+import eventsService from "../../../../services/eventsService";
+import SelectInput from "../../../utils/Inputs/SelectInput"
 
-// table header cell config
-const TABLE_HEAD = [
-  { id: "item", label: "Name", type: "text" },
-  { id: "event", label: "Company", type: "text" },
-  { id: "status", label: "status", type: "userStatusChip" },
-];
+//context
+import { loadingContext } from "../../../../context/loadingContext";
 
-const TABLE_DATA = [
-  {
-    id: "134doojon",
-    item: "Aseel",
-    event: "aseelhacker@microsoft.com",
-    status: "registered",
-  },
-  {
-    id: "ounr34343",
-    item: "Noof",
-    event: "noof@google.com",
-    status: "created",
-  },
-  {
-    id: "343433ojnn",
-    item: "Nahyan",
-    event: "nahyan@facebook.com",
-    status: "filled",
-  },
-  {
-    id: "eonkn2434",
-    item: "Dilshad",
-    event: "dilshad@amazon.com",
-    status: "created",
-  },
-];
+
+const Gender = ["Male", "Female"];
 
 
 export default function EventsAdd() {
-  const [event, setEvent] = useState();
-  const [duration, setDuration] = useState();
-  const [gender, setGender] = useState();
+  const { loaderToggler } = useContext(loadingContext);
+  const [eventName, setEvent] = useState();
+  const [gender, setGender] = useState("Male");
   const [errorMsg, setErrorMsg] = useState("");
-  const [users, setUsers] = useState();
 
-  console.log(event);
 
-  
   const handleEventChange = (event) => setEvent(event.target.value);
-  const handleDurationChange = (event) => setDuration(event.target.value);
-  const handleGenderChange = (event) => setGender(event.target.value);
   const clearError = () => setErrorMsg("");
-//   useEffect(() => {
-//     const getUsers = async () => {
-//       try {
-//         const users = await userService.getUsers();
-//         console.log(users);
-//         setUsers(users);
-//       } catch (err) {
-//         console.error(err?.response?.data?.message);
-//       }
-//     };
-//     getUsers();
-//   }, []);
+ 
+  // clearing the form
+  const clearEventCredentials = () => {
+    setEvent("");
+    setGender("Male");
+  };
 
-  const handleAddStudent = async () => {
+  const handleAddEvent = async () => {
     try {
+      loaderToggler(true);
       clearError();
-      const userData = {
-        event,
-        duration,
+      const eventData = {
+        eventName,
         gender,
-        userType: "student",
+        isMarkEntered: false,
+        isPublished: false,
+        isSheduled: false,
       };
-      // adding user to db
-      await userService.createUser(userData);
+      // adding event to db
+      const res = await eventsService.createEvent(eventData);
       // clearing the form
-      clearUserCredentials();
+      console.log(res)
+      clearEventCredentials();
+      loaderToggler(false);
     } catch (err) {
       setErrorMsg(err?.response?.data?.message);
+      loaderToggler(false);
     }
   };
 
-  // clearing the form
-  const clearUserCredentials = () => {
-    setEvent("");
-    setDuration("");
-    setGender("");
-  };
   return (
     <Page title="EventsAdd">
       <Container>
@@ -123,46 +82,31 @@ export default function EventsAdd() {
         </Stack>
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
-            <Grid item xs={6} sm={4} md={4}>
+            <Grid item xs={6} sm={6} md={6}>
               <TextField
                 varient="contained"
                 name="event"
                 label="Event"
                 color="info"
                 fullWidth
-                value={event}
+                value={eventName}
                 onChange={handleEventChange}
                 error={errorMsg}
               />
             </Grid>
-            <Grid item xs={6} sm={4} md={4}>
-              <TextField
-                varient="contained"
-                name="duration"
-                label="Duration"
-                color="info"
-                fullWidth
-                value={duration}
-                onChange={handleDurationChange}
-                error={errorMsg}
-              />
-            </Grid>
-            <Grid item xs={6} sm={4} md={4}>
-              <TextField
-                varient="contained"
-                name="gender"
-                label="Gender"
-                color="info"
-                fullWidth
-                value={gender}
-                onChange={handleGenderChange}
-                error={errorMsg}
-              />
+            <Grid item xs={6} sm={6} md={6}>
+            <SelectInput
+              label="Gender"
+              name="gender"
+              menuItems={Gender}
+              dropdownValue={gender}
+              setDropdownValue={setGender}
+            />    
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
-              <Typography variant="body1" gutterBottom color="error">
+              {/* <Typography variant="body1" gutterBottom color="error">
                 {errorMsg}
-              </Typography>
+              </Typography> */}
             </Grid>
           </Grid>
           <Stack
@@ -173,7 +117,7 @@ export default function EventsAdd() {
           >
             <Tooltip
               title={
-                 !event || !duration || !gender
+                 !eventName || !gender
                   ? "fill the fields"
                   : "sumbit fields"
               }
@@ -183,8 +127,8 @@ export default function EventsAdd() {
                   variant="contained"
                   color="info"
                   //   component={RouterLink}
-                  onClick={handleAddStudent}
-                  disabled={ !event || !duration || !gender}
+                  onClick={handleAddEvent}
+                  disabled={ !eventName  || !gender}
                   //   to="#"
                   startIcon={<PublishIcon />}
                 >
@@ -194,7 +138,6 @@ export default function EventsAdd() {
             </Tooltip>
           </Stack>
         </Card>
-        {users && <DataTable TABLE_DATA={users} TABLE_HEAD={TABLE_HEAD} />}
       </Container>
     </Page>
   );

@@ -26,12 +26,17 @@ import IndividualEventList from "./components/pages/Users/AssignEvent/View/Indiv
 import UserNavbar from "./components/pages/Users/utils/UserNavbar/UserNavbar";
 import RegistrationList from "./components/pages/RegistrationList/RegistrationList"
 
+//context provider
+import LoadingProvider from "./context/loadingContext";
+// import DetailsProvider from "./components/pages/SetDetails/Add/DetailsContext"
 
 function App() {
   return (
     <ThemeConfig>
       <GlobalStyles />
+      <LoadingProvider>
       <Routes>
+        {/* <DetailsProvider> */}
         {/* Home routes (Dashboard) */}
         <Route path="/app" element={<DashboardLayout />}>
           <Route path="/app" element={<Navigate to="/app/home" />} />
@@ -83,7 +88,9 @@ function App() {
 
         <Route path="/" element={<Login/>}/>
         <Route path="/signup" element={<SignUp />} />
+        {/* </DetailsProvider> */}
       </Routes>
+      </LoadingProvider>
     </ThemeConfig>
   );
 }

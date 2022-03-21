@@ -75,7 +75,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
                Eventive
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                Admin
+              eventiveadmin
               </Typography>
             </Box>
           </AccountStyle>

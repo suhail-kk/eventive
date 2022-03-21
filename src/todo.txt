@@ -1,0 +1,16 @@
+ToDo List
+
+
+1) Login , Sign Up,Logout & Forgot Password
+2) Assign Events
+3) Dept Points Calcualtion and Sort by Desc
+4) Program Details and Context , Details Update
+5) Individual Result Page
+6) Navigation from registration to assign eventslist
+7) Admin Dashboard (details,dept point table)
+8) Participant Data Page Filtering by event name
+9) EventsList Update and Delete
+10) Shedule Update and Delete
+11) MarkEntry Update and Delete
+12) DptCard Sortby Points
+13) Lock Registration and hide Assigneventlist and Register button in navbar

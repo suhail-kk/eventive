@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 // material components
 import {
   Stack,
@@ -10,6 +10,8 @@ import {
   TextField,
   Tooltip,
   Autocomplete,
+  MenuItem,
+  InputLabel
 } from "@mui/material";
 
 // material icons
@@ -17,109 +19,78 @@ import PublishIcon from "@mui/icons-material/Publish";
 
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
-import DataTable from "../../../utils/DataTable";
-
-//importing the user service
-import userService from "../../../../services/userService";
+import eventService from "../../../../services/eventsService"
 import DatePickerInput from "../../../utils/Inputs/DatePickerInput";
 import TimePickerInput from "../../../utils/Inputs/TimePickerInput";
-import SelectInput from "../../../utils/Inputs/SelectInput";
+import sheduleService from "../../../../services/sheduleService";
 
-// table header cell config
-const TABLE_HEAD = [
-  { id: "item", label: "Name", type: "text" },
-  { id: "event", label: "Company", type: "text" },
-  { id: "status", label: "status", type: "userStatusChip" },
-];
+//context
+import { loadingContext } from "../../../../context/loadingContext";
 
-const TABLE_DATA = [
-  {
-    id: "134doojon",
-    item: "Aseel",
-    event: "aseelhacker@microsoft.com",
-    status: "registered",
-  },
-  {
-    id: "ounr34343",
-    item: "Noof",
-    event: "noof@google.com",
-    status: "created",
-  },
-  {
-    id: "343433ojnn",
-    item: "Nahyan",
-    event: "nahyan@facebook.com",
-    status: "filled",
-  },
-  {
-    id: "eonkn2434",
-    item: "Dilshad",
-    event: "dilshad@amazon.com",
-    status: "created",
-  },
-];
-
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-];
 
 export default function AddShedule() {
-  const [event, setEvent] = useState();
-  const [time, setTime] = useState();
-  const [place, setPlace] = useState();
+  const { loaderToggler } = useContext(loadingContext);
+  const [eventName, setEventName] = useState();
+  const [sheduleTime, setTime] = useState();
+  const [shedulePlace, setPlace] = useState();
   const [errorMsg, setErrorMsg] = useState("");
-  const [users, setUsers] = useState();
-  const [date, setDate] = useState();
-
-  console.log(event);
-
-  const handleEventChange = (event) => setEvent(event.target.value);
-  const handleTimeChange = (event) => setTime(event.target.value);
+  const [sheduleDate, setDate] = useState();
+  const [events, setEvents] = useState([]);
+  
   const handlePlaceChange = (event) => setPlace(event.target.value);
   const clearError = () => setErrorMsg("");
-  //   useEffect(() => {
-  //     const getUsers = async () => {
-  //       try {
-  //         const users = await userService.getUsers();
-  //         console.log(users);
-  //         setUsers(users);
-  //       } catch (err) {
-  //         console.error(err?.response?.data?.message);
-  //       }
-  //     };
-  //     getUsers();
-  //   }, []);
 
-  const handleAddStudent = async () => {
+  const handleEventChange = (event) => setEventName(event.target.value);
+  
+
+  // clearing the form
+  const clearEventCredentials = () => {
+    setEventName("");
+    setPlace("");
+  };
+
+  const handleAddShedule = async () => {
     try {
+      loaderToggler(true);
       clearError();
-      const userData = {
-        event,
-        time,
-        place,
-        userType: "student",
+      const sheduleData = {
+        eventName,
+        sheduleTime,
+        sheduleDate,
+        shedulePlace,
+        isMarkEntered: false,
       };
-      // adding user to db
-      await userService.createUser(userData);
+      // adding shedule to db
+      const res = await sheduleService.createShedule(sheduleData);
       // clearing the form
-      clearUserCredentials();
+      console.log(res)
+      clearEventCredentials();
+      loaderToggler(false);
     } catch (err) {
       setErrorMsg(err?.response?.data?.message);
+      loaderToggler(false);
     }
   };
 
-  // clearing the form
-  const clearUserCredentials = () => {
-    setEvent("");
-    setTime("");
-    setPlace("");
-  };
+
+
+  useEffect(() => {
+    const getAllEvents = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const event = await eventService.getAllEvents();
+        setEvents(event.data);  
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getAllEvents();
+  }, []);
+
+
   return (
     <Page title="AddShedule">
       <Container>
@@ -136,31 +107,35 @@ export default function AddShedule() {
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
             <Grid item xs={6} sm={4} md={3}>
-            <Autocomplete
-                disablePortal
-                id="combo-box-demo"
-                options={top100Films}
-                sx={{overFlowY:"visible"}}
-                name="event"
-                onChange={(event, value) => console.log(value)}
-                // onChange={handleItemChange}
-                // style={}
-                error={errorMsg}
-                renderInput={(params) => <TextField {...params} label="Event" />}
-              />
+        <TextField
+        select
+          label="Event Name"
+          onChange={handleEventChange}
+          value={eventName}
+          fullWidth
+        >
+          {
+            events && events.map((menu)=>(
+              <MenuItem value={menu.eventName}>{menu.eventName}</MenuItem>
+            ))
+          }         
+        </TextField>
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
               <DatePickerInput
                 label="Date"
-                date={date}
+                views={["day", "month", "year"]}
+                format="DD-MM-YYYY"
+                date={sheduleDate}
                 name="date"
                 setDate={setDate}
+                showMonthYearPicker         
               />
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
               <TimePickerInput
                 lable="TimePicker"
-                time={time}
+                time={sheduleTime}
                 name="time"
                 setTime={setTime}
               />
@@ -172,7 +147,7 @@ export default function AddShedule() {
                 label="Place"
                 color="info"
                 fullWidth
-                value={place}
+                value={shedulePlace}
                 onChange={handlePlaceChange}
                 error={errorMsg}
               />
@@ -191,17 +166,15 @@ export default function AddShedule() {
           >
             <Tooltip
               title={
-                !event || !time || !place ? "fill the fields" : "sumbit fields"
+                !eventName || !sheduleTime || !shedulePlace || sheduleDate ? "fill the fields" : "sumbit fields"
               }
             >
               <span>
                 <Button
                   variant="contained"
                   color="info"
-                  //   component={RouterLink}
-                  onClick={handleAddStudent}
-                  // disabled={!event || !setDate || !setPlace || !place}
-                  //   to="#"
+                  onClick={handleAddShedule}
+                  disabled={!eventName || !sheduleDate || !sheduleTime || !shedulePlace}
                   startIcon={<PublishIcon />}
                 >
                   Add
@@ -210,7 +183,6 @@ export default function AddShedule() {
             </Tooltip>
           </Stack>
         </Card>
-        {users && <DataTable TABLE_DATA={users} TABLE_HEAD={TABLE_HEAD} />}
       </Container>
     </Page>
   );

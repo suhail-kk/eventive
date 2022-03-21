@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState,createContext  } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Stack,
   Button,
@@ -18,6 +20,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Page from "../../../utils/Page";
 import DatePickerInput from "../../../utils/Inputs/DatePickerInput";
 
+export const DetailsContext = createContext();
+
 export default function AddDetails() {
   const [pgmname, setName] = useState();
   const [date, setDate] = useState();
@@ -25,27 +29,20 @@ export default function AddDetails() {
   const [inuaguration, setInuaguration] = useState();
   const [guest, setGuest] = useState();
   const [totalevents, setTotalevent] = useState();
-  const [totalgroups, setTotalgroups] = useState();
   const [days,setDays] = useState();
-  const [dptname,setDptName] = useState();
-  const [maxevent,setMaxEvent] = useState();
+    const navigate = useNavigate();
+
 
   const handlePgmnameChange = (pgmname) => setName(pgmname.target.value);
-  // const handleDate = (pgmname) => setName(pgmname.target.value);
+  const handleDateChange = (place) => setDate(date.target.value);
   const handlePlaceChange = (place) => setPlace(place.target.value);
   const handleInuagurationChange = (inuaguration) =>
     setInuaguration(inuaguration.target.value);
   const handleGuestChange = (guest) => setGuest(guest.target.value);
   const handleTotaleventChange = (totalevents) =>
     setTotalevent(totalevents.target.value);
-  const handleTotalgroupsChange = (totalgroups) =>
-    setTotalgroups(totalgroups.target.value);
   const handleDaysChange = (days) =>
-    setDays(days.targent.value);
-  const handleDptNameChange = (dptname) =>
-    setDptName(dptname.target.value);
-    const handleMaxEventChange = (maxevent) =>
-    setMaxEvent(maxevent.target.value);
+    setDays(days.target.value);
 
   //clearing the form
   const clearFormCredentials = () => {
@@ -55,16 +52,41 @@ export default function AddDetails() {
     setInuaguration("");
     setGuest("");
     setTotalevent("");
-    setTotalgroups("");
     setDays("");
-    setMaxEvent("");
   };
+
+//   const handleAddDetails = () => {
+//     try{
+//     localStorage.setItem('pgmName', pgmname);
+//     localStorage.setItem('Date', date);
+//     localStorage.setItem('Place', place);
+//     localStorage.setItem('Inuaguration', inuaguration);
+//     localStorage.setItem('Guest', guest);
+//     localStorage.setItem('Totalevents', totalevents);
+//     localStorage.setItem('Days', days);
+//     console.log(localStorage.getItem('pgmName','Date'+'Place'+'Inuagration'+'Guest'+'Totalevents'+'Days'))
+//     console.log(localStorage.getItem('Date'))
+//     navigate("/app/details");
+//     }catch(err){
+//       console.log("Details Not Added")
+//     }
+    
+//  };
 
   return (
     <Page title="AddDetails">
       <Container>
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
+            <DetailsContext.Provider 
+              value={{pgmname:[pgmname,setName],
+              date:[date,setDate],
+              place:[place,setPlace],
+              inuaguration:[inuaguration,setInuaguration],
+              guest:[guest,setGuest],
+              totalevents:[totalevents,setTotalevent],
+              days:[days,setDays],
+            }}>
             <Grid item xs={6} sm={6} md={6}>
               <TextField
                 varient="contained"
@@ -78,11 +100,15 @@ export default function AddDetails() {
               />
             </Grid>
             <Grid item xs={6} sm={6} md={6}>
-              <DatePickerInput
-                label="Date"
-                date={date}
+            <TextField
+                varient="contained"
                 name="date"
-                setDate={setDate}
+                label="Date"
+                color="info"
+                fullWidth
+                value={date}
+                onChange={handleDateChange}
+                // error={errorMsg}
               />
             </Grid>
             <Grid item xs={6} sm={6} md={6}>
@@ -145,6 +171,7 @@ export default function AddDetails() {
                 // error={errorMsg}
               />
             </Grid>
+            </DetailsContext.Provider>
          </Grid>
           <Stack
             direction="row"
@@ -168,10 +195,8 @@ export default function AddDetails() {
                 <Button
                   variant="contained"
                   color="info"
-                  //   component={RouterLink}
-                  //   onClick={handleAddStudent}
-                  // disabled={!event || !setDate || !setPlace || !place}
-                  //   to="#"
+                  // onClick={handleAddDetails}
+                  // disabled={!pgmname || !date || !place || !inuaguration || !guest || !days}
                   startIcon={<PublishIcon />}
                 >
                   Add

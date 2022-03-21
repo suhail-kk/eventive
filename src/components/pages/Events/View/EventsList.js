@@ -1,4 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
+import { useEffect, useState,useContext } from "react";
 // material components
 import { Stack, Button, Container, Typography } from "@mui/material";
 
@@ -7,48 +8,44 @@ import AddIcon from "@mui/icons-material/Add";
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
 import DataTable from "../../../utils/DataTable";
+import eventService from "../../../../services/eventsService"
+
+//context
+import { loadingContext } from "../../../../context/loadingContext";
 
 // table header cell config
 const TABLE_HEAD = [
   {
-    id: "item",
+    id: "eventName",
     label: "Event",
     alignRight: false,
     type: "stack",
   },
-  { id: "time", label: "Time", alignRight: false, type: "text" },
   { id: "gender", label: "Gender", alignRight: false, type: "text" },
-  { id: "action", label: "Action", alignRight: false,type:"icon" },
+  { id: "edit", label: "Edit", alignRight: false,type:"edit" },
+  { id: "delete", label: "Delete", alignRight: false,type:"delete" },
 ];
 
-const TABLE_DATA = [
-  {
-    id: "134",
-    item: "mappilapatu",
-    time: "45",
-    gender: "Boys",
-  },
-  {
-    id: "34",
-    item: "story",
-    time: "45",
-    gender: "Girls",
-  },
-  {
-    id: "343433ojnn",
-    item: "story",
-    time: "30",
-    gender: "Girls",
-  },
-  {
-    id: "eonkn2434",
-    item: "poem making",
-    time: "60",
-    gender: "Boys",
-  },
-];
 
-export default function SheduleList() {
+export default function EventsList() {
+  const { loaderToggler } = useContext(loadingContext);
+  const [events, setEvents] = useState([]);
+  useEffect(() => {
+    const getAllEvents = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const event = await eventService.getAllEvents();
+        setEvents(event);  
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getAllEvents();
+  }, []);
+  console.log(events.data);
   return (
     <Page title="EventsList">
       <Container>
@@ -70,7 +67,12 @@ export default function SheduleList() {
             Add Event
           </Button>
         </Stack>
-        <DataTable TABLE_DATA={TABLE_DATA} TABLE_HEAD={TABLE_HEAD} />
+        {
+          events.data && (
+            <DataTable TABLE_DATA={events.data} TABLE_HEAD={TABLE_HEAD} />
+          )
+        }
+        
       </Container>
     </Page>
   );
