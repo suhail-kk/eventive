@@ -28,6 +28,7 @@ import DataTableHead from "./DataTableHead";
 import DataTableToolbar from "./DataTableToolbar";
 import Scrollbar from "../Scrollbar";
 import SearchNotFound from "./SearchNotFound";
+import { add } from "date-fns";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -66,7 +67,9 @@ DataTable.propTypes = {
   TABLE_HEAD: PropTypes.array,
   TABLE_DATA: PropTypes.array,
 };
-export default function DataTable({ TABLE_HEAD, TABLE_DATA, SEARCH_ID }) {
+export default function   DataTable({  TABLE_DATA,TABLE_HEAD, SEARCH_ID }) {
+
+  console.log(TABLE_DATA);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -126,8 +129,12 @@ export default function DataTable({ TABLE_HEAD, TABLE_DATA, SEARCH_ID }) {
             alignItems="center"
             sx={{ textDecoration: "none", color: "black" }}
             spacing={2}
+            //  component={Link}
+            // to={`../add/${TABLE_DATA._id}`}
           >
+          <Link to={`../edit/${value._id}`}>
             <EditIcon color="disabled" />
+            </Link>
           </Stack>
         );
       case "delete":

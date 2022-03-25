@@ -28,6 +28,7 @@ import RegistrationList from "./components/pages/RegistrationList/RegistrationLi
 
 //context provider
 import LoadingProvider from "./context/loadingContext";
+import Button from "./theme/overrides/Button";
 // import DetailsProvider from "./components/pages/SetDetails/Add/DetailsContext"
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
           <Route path="shedule">
             <Route path="/app/shedule" element={<SheduleList />} />
             <Route path="add" element={<AddShedule />} />
+            <Route path="edit/:id" element={<AddShedule />} />
             <Route />
           </Route>
 
@@ -59,18 +61,22 @@ function App() {
           <Route path="details">
             <Route path="/app/details" element={<ViewDetails />} />
             <Route path="add" element={<AddDetails />} />
+            <Route path="edit/:id" element={<AddDetails />} />
           </Route>
 
           {/*events list */}
           <Route path="events">
             <Route path="/app/events" element={<EventsList />} />
             <Route path="add" element={<EventsAdd />} />
+            <Route path="edit/:id" element={<EventsAdd />} />
+
             <Route />
           </Route>
 
           <Route path="markentry">
             <Route path="/app/markentry" element={<MarkView />} />
             <Route path="add" element={<AddMark />} />
+            <Route path="edit/:id" element={<AddMark />} />
           </Route>
         </Route>
 

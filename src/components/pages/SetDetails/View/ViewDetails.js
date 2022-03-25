@@ -1,6 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useState, useEffect } from "react";
-import detailsService from "../../../../services/detailsService";
 // material components
 import {
   Stack,
@@ -74,55 +73,29 @@ export default function ViewDetails() {
           >
             <EditIcon />
           </Grid>
-         {
-           localStorage.getItem('pgmName') && (
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Program Name" subHeading={localStorage.getItem('pgmName')}/>
+            <Field heading="Program Name" subHeading="kjw"/>
           </Grid>
-           )
-         }        
-         {
-           localStorage.getItem('Date') && (
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Date" subHeading={localStorage.getItem('Date')} />
+            <Field heading="Date" subHeading="kjw" />
           </Grid>
-           )
-         }
-          {
-            localStorage.getItem('Place') && (
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Place" subHeading={localStorage.getItem('Place')} />
+              <Field heading="Place" subHeading="kjw" />
             </Grid>
-            )
-          }
-          {
-            localStorage.getItem('Inuaguration') && (
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Inuagration" subHeading={localStorage.getItem('Inuaguration')} />
+              <Field heading="Inuagration" subHeading="kjw" />
             </Grid>
-            )
-          }
-          {
-            localStorage.getItem('Guest') && (
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Guest" subHeading={localStorage.getItem('Guest')} />
+              <Field heading="Guest" subHeading="kjw" />
             </Grid>
-            )
-          }
-         {
-           localStorage.getItem('Totalevents') && (
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Total Events" subHeading={localStorage.getItem('Totalevents')} />
+            <Field heading="Total Events" subHeading="kjw" />
           </Grid>
-           )
-         }
-         {
-           localStorage.getItem('Days') && (
+       
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Number of Days" subHeading={localStorage.getItem('Days')} />
+            <Field heading="Number of Days" subHeading="kjw"/>
           </Grid>
-           )
-         }       
+           
         </Grid>
       </Container>
       <Grid

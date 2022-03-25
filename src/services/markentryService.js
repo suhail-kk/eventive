@@ -5,6 +5,11 @@ const getAllResults = async () => {
   return BackendService.get(`results/`);
 };
 
+// get  result by id
+const getResultById = async (id) => {
+  return BackendService.get(`results/${id}`);
+};
+
 // mark entry
 const createResult = async (data) => {
   return BackendService.post("results/", data);
@@ -26,5 +31,6 @@ const markentryService = {
     createResult,
     updateResult,
     deleteResult,
+    getResultById
 };
 export default markentryService;

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { loadingContext } from "../../context/loading/loadingContext";
+import { loadingContext } from "../../context/loadingContext";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 

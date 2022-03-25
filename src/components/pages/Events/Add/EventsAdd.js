@@ -23,25 +23,52 @@ import SelectInput from "../../../utils/Inputs/SelectInput"
 
 //context
 import { loadingContext } from "../../../../context/loadingContext";
+import Loader from "../../../utils/Loader"
+import { useParams } from "react-router-dom";
 
 
 const Gender = ["Male", "Female"];
 
 
 export default function EventsAdd() {
+  const {id}=useParams();
   const { loaderToggler } = useContext(loadingContext);
-  const [eventName, setEvent] = useState();
+  const [eventName, setEventName] = useState();
   const [gender, setGender] = useState("Male");
   const [errorMsg, setErrorMsg] = useState("");
+  const [event,setEvent]=useState();
+
+  //setState function
+  function setState(data){
+    setEventName(data.eventName);
+    setGender(data.gender)
+  }
+
+  useEffect(() => {
+    const getEventsById = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const event = await eventsService.getEventsById(id);
+        setState(event.data);  
+        console.log(event.data);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getEventsById();
+  }, []);
 
 
-  const handleEventChange = (event) => setEvent(event.target.value);
+  const handleEventChange = (event) => setEventName(event.target.value);
   const clearError = () => setErrorMsg("");
  
   // clearing the form
   const clearEventCredentials = () => {
-    setEvent("");
-    setGender("Male");
+    setEventName();
+    setGender();
   };
 
   const handleAddEvent = async () => {
@@ -56,11 +83,20 @@ export default function EventsAdd() {
         isSheduled: false,
       };
       // adding event to db
+      if(!id){
       const res = await eventsService.createEvent(eventData);
-      // clearing the form
       console.log(res)
+       // clearing the form
+       clearEventCredentials();
+       loaderToggler(false);
+    }else{
+      //update event
+      const updatedData = await eventsService.updateEvent(id,eventData);
+      console.log(updatedData)
+      // clearing the form
       clearEventCredentials();
       loaderToggler(false);
+    }
     } catch (err) {
       setErrorMsg(err?.response?.data?.message);
       loaderToggler(false);
@@ -70,6 +106,7 @@ export default function EventsAdd() {
   return (
     <Page title="EventsAdd">
       <Container>
+      <Loader/>
         <Stack
           direction="row"
           alignItems="center"
@@ -128,11 +165,11 @@ export default function EventsAdd() {
                   color="info"
                   //   component={RouterLink}
                   onClick={handleAddEvent}
-                  disabled={ !eventName  || !gender}
+                  // disabled={ !eventName  || !gender}
                   //   to="#"
                   startIcon={<PublishIcon />}
                 >
-                  Add
+                  Submit
                 </Button>
               </span>
             </Tooltip>

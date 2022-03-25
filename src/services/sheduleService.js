@@ -5,6 +5,11 @@ const getAllShedules = async () => {
   return BackendService.get(`shedules/`);
 };
 
+// get all events
+const getSheduleById = async (id) => {
+  return BackendService.get(`shedules/${id}`);
+};
+
 // shedule an event
 const createShedule= async (data) => {
   return BackendService.post("shedules/", data);
@@ -26,5 +31,6 @@ const sheduleService = {
     createShedule,
     updateShedule,
     deleteShedule,
+    getSheduleById
 };
 export default sheduleService;

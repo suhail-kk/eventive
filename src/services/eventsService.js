@@ -5,6 +5,11 @@ const getAllEvents = async () => {
   return BackendService.get(`eventslist/`);
 };
 
+// get all events
+const getEventsById = async (id) => {
+  return BackendService.get(`eventslist/${id}`);
+};
+
 // create an event
 const createEvent= async (data) => {
   return BackendService.post("eventslist/", data);
@@ -26,5 +31,6 @@ const eventsService = {
     createEvent,
     updateEvent,
     deleteEvent,
+    getEventsById
 };
 export default eventsService;

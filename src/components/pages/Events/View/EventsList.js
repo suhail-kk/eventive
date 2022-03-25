@@ -69,7 +69,7 @@ export default function EventsList() {
         </Stack>
         {
           events.data && (
-            <DataTable TABLE_DATA={events.data} TABLE_HEAD={TABLE_HEAD} />
+            <DataTable TABLE_DATA={events.data} TABLE_HEAD={TABLE_HEAD} SEARCH_ID={events.data._id}/>
           )
         }
         

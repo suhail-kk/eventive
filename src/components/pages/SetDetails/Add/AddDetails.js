@@ -18,7 +18,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
-import DatePickerInput from "../../../utils/Inputs/DatePickerInput";
 
 export const DetailsContext = createContext();
 
@@ -54,24 +53,6 @@ export default function AddDetails() {
     setTotalevent("");
     setDays("");
   };
-
-//   const handleAddDetails = () => {
-//     try{
-//     localStorage.setItem('pgmName', pgmname);
-//     localStorage.setItem('Date', date);
-//     localStorage.setItem('Place', place);
-//     localStorage.setItem('Inuaguration', inuaguration);
-//     localStorage.setItem('Guest', guest);
-//     localStorage.setItem('Totalevents', totalevents);
-//     localStorage.setItem('Days', days);
-//     console.log(localStorage.getItem('pgmName','Date'+'Place'+'Inuagration'+'Guest'+'Totalevents'+'Days'))
-//     console.log(localStorage.getItem('Date'))
-//     navigate("/app/details");
-//     }catch(err){
-//       console.log("Details Not Added")
-//     }
-    
-//  };
 
   return (
     <Page title="AddDetails">

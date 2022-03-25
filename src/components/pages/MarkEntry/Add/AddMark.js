@@ -1,4 +1,4 @@
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 // material components
 import {
   Stack,
@@ -15,7 +15,7 @@ import {
 
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
-
+import { useParams } from "react-router-dom";
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
@@ -26,10 +26,10 @@ import eventService from "../../../../services/eventsService";
 import markentryService from "../../../../services/markentryService";
 import registrationService from "../../../../services/registrationService";
 
-
 const departments = ["BSC", "BA", "BBA", "BVOC", "BCOM"];
 
 export default function AddMark() {
+  const { id } = useParams();
   const { loaderToggler } = useContext(loadingContext);
   const [eventName, setEventName] = useState();
   const [first, setFirst] = useState();
@@ -39,8 +39,19 @@ export default function AddMark() {
   const [secondDept, setSecondDept] = useState();
   const [thirdDept, setThirdDept] = useState();
   const [errorMsg, setErrorMsg] = useState("");
-  const [events, setEvents] = useState([]);
+  const [results, setResults] = useState([]);
   const [participants, setParticipants] = useState([]);
+
+  //setState function
+  function setState(data) {
+    setFirst(data.first);
+    setSecond(data.second);
+    setThird(data.third);
+    setFirstDept(data.firstDept);
+    setSecondDept(data.secondDept);
+    setThirdDept(data.thirdDept);
+  }
+
   // clearing the form
   const clearEventCredentials = () => {
     setEventName();
@@ -73,12 +84,21 @@ export default function AddMark() {
         secondDept,
         thirdDept,
       };
-      // adding result to db
-      const res = await markentryService.createResult(resultData);
-      // clearing the form
-      console.log(res);
-      clearEventCredentials();
-      loaderToggler(false);
+      if (!id) {
+        // adding result to db
+        const res = await markentryService.createResult(resultData);
+        // clearing the form
+        console.log(res);
+        clearEventCredentials();
+        loaderToggler(false);
+      } else {
+        //update shedule
+        const updatedData = await markentryService.updateResult(resultData);
+        console.log(updatedData);
+        // clearing the form
+        clearEventCredentials();
+        loaderToggler(false);
+      }
     } catch (err) {
       setErrorMsg(err?.response?.data?.message);
       loaderToggler(false);
@@ -92,7 +112,7 @@ export default function AddMark() {
         loaderToggler(true);
         //get events
         const event = await eventService.getAllEvents();
-        setEvents(event.data);
+        setResults(event.data);
         loaderToggler(false);
       } catch (err) {
         console.error(err?.response?.data?.message);
@@ -100,6 +120,38 @@ export default function AddMark() {
       }
     };
     getAllEvents();
+
+    //get events by id
+    const getEventsById = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const event = await eventService.getEventsById(id);
+        setEventName(event);
+        console.log(event);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getEventsById();
+
+    //get result by id
+    const getResultById = async () => {
+      try {
+        loaderToggler(true);
+        //get result
+        const result = await markentryService.getResultById(id);
+         setState(result.data);
+        console.log(result);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getResultById();
 
     //get all participants
     const getAllParticipants = async () => {
@@ -140,8 +192,8 @@ export default function AddMark() {
                 value={eventName}
                 fullWidth
               >
-                {events &&
-                  events.map((menu) => (
+                {results &&
+                  results.map((menu) => (
                     <MenuItem value={menu.eventName}>{menu.eventName}</MenuItem>
                   ))}
               </TextField>

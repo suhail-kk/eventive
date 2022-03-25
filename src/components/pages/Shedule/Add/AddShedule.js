@@ -1,4 +1,4 @@
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 // material components
 import {
   Stack,
@@ -11,15 +11,16 @@ import {
   Tooltip,
   Autocomplete,
   MenuItem,
-  InputLabel
+  InputLabel,
 } from "@mui/material";
 
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
+import { useParams } from "react-router-dom";
 
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
-import eventService from "../../../../services/eventsService"
+import eventService from "../../../../services/eventsService";
 import DatePickerInput from "../../../utils/Inputs/DatePickerInput";
 import TimePickerInput from "../../../utils/Inputs/TimePickerInput";
 import sheduleService from "../../../../services/sheduleService";
@@ -27,8 +28,8 @@ import sheduleService from "../../../../services/sheduleService";
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
-
 export default function AddShedule() {
+  const { id } = useParams();
   const { loaderToggler } = useContext(loadingContext);
   const [eventName, setEventName] = useState();
   const [sheduleTime, setTime] = useState();
@@ -36,17 +37,27 @@ export default function AddShedule() {
   const [errorMsg, setErrorMsg] = useState("");
   const [sheduleDate, setDate] = useState();
   const [events, setEvents] = useState([]);
-  
-  const handlePlaceChange = (event) => setPlace(event.target.value);
-  const clearError = () => setErrorMsg("");
 
+  const clearError = () => setErrorMsg("");
+  const handlePlaceChange = (event) => setPlace(event.target.value);
   const handleEventChange = (event) => setEventName(event.target.value);
-  
+  const handleDateChange = (event) => setDate(event.target.value);
+  const handleTimeChange = (event) => setTime(event.target.value);
+
+  //setState function
+  function setState(data) {
+    setEventName(data.eventName);
+    setTime(data.sheduleTime);
+    setPlace(data.shedulePlace);
+    setDate(data.sheduleDate);
+  }
 
   // clearing the form
   const clearEventCredentials = () => {
-    setEventName("");
-    setPlace("");
+    setEventName();
+    setPlace();
+    setDate();
+    setTime();
   };
 
   const handleAddShedule = async () => {
@@ -61,26 +72,34 @@ export default function AddShedule() {
         isMarkEntered: false,
       };
       // adding shedule to db
-      const res = await sheduleService.createShedule(sheduleData);
-      // clearing the form
-      console.log(res)
-      clearEventCredentials();
-      loaderToggler(false);
+      if (!id) {
+        const res = await sheduleService.createShedule(sheduleData);
+        // clearing the form
+        console.log(res);
+        clearEventCredentials();
+        loaderToggler(false);
+      } else {
+        //update shedule
+        const updatedData = await sheduleService.updateShedule(sheduleData);
+        console.log(updatedData);
+        // clearing the form
+        clearEventCredentials();
+        loaderToggler(false);
+      }
     } catch (err) {
       setErrorMsg(err?.response?.data?.message);
       loaderToggler(false);
     }
   };
 
-
-
   useEffect(() => {
+    //get all events
     const getAllEvents = async () => {
       try {
         loaderToggler(true);
         //get events
         const event = await eventService.getAllEvents();
-        setEvents(event.data);  
+        setEvents(event.data);
         loaderToggler(false);
       } catch (err) {
         console.error(err?.response?.data?.message);
@@ -88,8 +107,23 @@ export default function AddShedule() {
       }
     };
     getAllEvents();
-  }, []);
 
+    //get shedule by id
+    const getSheduleById = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const shedule = await sheduleService.getSheduleById(id);
+        setState(shedule.data);
+        console.log(shedule.data);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getSheduleById();
+  }, []);
 
   return (
     <Page title="AddShedule">
@@ -107,37 +141,42 @@ export default function AddShedule() {
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
             <Grid item xs={6} sm={4} md={3}>
-        <TextField
-        select
-          label="Event Name"
-          onChange={handleEventChange}
-          value={eventName}
-          fullWidth
-        >
-          {
-            events && events.map((menu)=>(
-              <MenuItem value={menu.eventName}>{menu.eventName}</MenuItem>
-            ))
-          }         
-        </TextField>
+              <TextField
+                select
+                label="Event Name"
+                onChange={handleEventChange}
+                value={eventName}
+                fullWidth
+                name="eventName"
+              >
+                {events &&
+                  events.map((menu) => (
+                    <MenuItem value={menu.eventName}>{menu.eventName}</MenuItem>
+                  ))}
+              </TextField>
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
-              <DatePickerInput
-                label="Date"
-                views={["day", "month", "year"]}
-                format="DD-MM-YYYY"
-                date={sheduleDate}
+              <TextField
+                varient="contained"
                 name="date"
-                setDate={setDate}
-                showMonthYearPicker         
+                label="Date"
+                color="info"
+                fullWidth
+                value={sheduleDate}
+                onChange={handleDateChange}
+                error={errorMsg}
               />
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
-              <TimePickerInput
-                lable="TimePicker"
-                time={sheduleTime}
+              <TextField
+                varient="contained"
                 name="time"
-                setTime={setTime}
+                label="Time"
+                color="info"
+                fullWidth
+                value={sheduleTime}
+                onChange={handleTimeChange}
+                error={errorMsg}
               />
             </Grid>
             <Grid item xs={6} sm={4} md={3}>
@@ -166,7 +205,9 @@ export default function AddShedule() {
           >
             <Tooltip
               title={
-                !eventName || !sheduleTime || !shedulePlace || sheduleDate ? "fill the fields" : "sumbit fields"
+                !eventName || !sheduleTime || !shedulePlace || sheduleDate
+                  ? "fill the fields"
+                  : "sumbit fields"
               }
             >
               <span>
@@ -174,10 +215,12 @@ export default function AddShedule() {
                   variant="contained"
                   color="info"
                   onClick={handleAddShedule}
-                  disabled={!eventName || !sheduleDate || !sheduleTime || !shedulePlace}
+                  disabled={
+                    !eventName || !sheduleDate || !sheduleTime || !shedulePlace
+                  }
                   startIcon={<PublishIcon />}
                 >
-                  Add
+                  Submit
                 </Button>
               </span>
             </Tooltip>
