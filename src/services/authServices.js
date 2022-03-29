@@ -7,7 +7,7 @@ const loginUser = async (data) => {
 
 //registering a user
 const registerUser = async (data) => {
-  return BackendService.patch("/register", data);
+  return BackendService.post("/register", data);
 };
 
 // //forgot password

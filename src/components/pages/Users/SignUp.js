@@ -8,10 +8,16 @@ import {
   Link,
   Card,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink ,useNavigate} from "react-router-dom";
 import PasswordField from "./utils/PasswordField";
 import TextInput from "./utils/TextInput";
 import SubmitButton from "./utils/SubmitButton";
+import Page from "../../utils/Page";
+import Loader from "../../utils/Loader";
+
+//importing the user service
+import authService from "../../../services/authServices";
+
 
 const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 400,
@@ -23,13 +29,18 @@ const ContentStyle = styled("div")(({ theme }) => ({
   alignContent: "center",
 }));
 
-export default function Register() {
+export default function SignUp() {
   const [userName, setUserName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [passwordError, setPasswordError] = useState();
   const [confirmPasswordError, setConfirmPasswordError] = useState();
+  const [authErrors, setAuthErrors] = useState();
+  const navigate = useNavigate();
+
+  const clearError = () => setAuthErrors("");
+
 
   const validatePasswordLength = () => {
     //password validation for min length
@@ -51,12 +62,36 @@ export default function Register() {
     return false;
   };
 
-  const handleClick = () => {
+  const clearForm = () => {
+    setUserName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
+  const handleClick = async () => {
+    
     const passwordLengthError = validatePasswordLength();
     const passwordMatchError = validatePasswordMatch();
     if (passwordLengthError || passwordMatchError) return;
-    console.log(userName, email, password, confirmPassword);
+    try {
+      clearError();
+      navigate("/");
+      const registerCredentials = {
+        userName,
+        email,
+        password
+      };
+      console.log(registerCredentials)
+      // registering a user
+      await authService.registerUser(registerCredentials);
+      clearForm();
+     
+    } catch (err) {
+      setAuthErrors(err?.response?.data?.message);
+    }
   };
+;
 
   return (
       <ContentStyle>
@@ -72,24 +107,29 @@ export default function Register() {
               type="text"
               value={userName}
               setValue={setUserName}
+              authErrors={authErrors}
             />
             <TextInput
               label="Email"
               type="email"
               value={email}
               setValue={setEmail}
+              authErrors={authErrors}
             />
             <PasswordField
               label="Password"
               value={password}
               setValue={setPassword}
               errorMessage={passwordError}
+              authErrors={authErrors}
             />
             <PasswordField
               label="Confirm Password"
               value={confirmPassword}
               setValue={setConfirmPassword}
               errorMessage={confirmPasswordError}
+              authErrors={authErrors}
+              showError
             />
             <Stack
               direction="row"

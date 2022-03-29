@@ -80,7 +80,7 @@ function App() {
           </Route>
         </Route>
 
-        {/* user routes */}
+        {/* user routes
         <Route path="/user" element={<UserNavbar/>}>
           <Route path="forgot" element={<ForgotPassword />} />
           <Route path="recover" element={<RecoverPassword />} />
@@ -90,10 +90,28 @@ function App() {
           <Route path="landing" element={<UserHome />} />
           <Route path="result" element={<ResultList />} />
           <Route path="register" element={<UserRegister />} />
-        </Route>
+        </Route> */}
 
-        <Route path="/" element={<Login/>}/>
-        <Route path="/signup" element={<SignUp />} />
+        {/* <Route path="/" element={<Login/>}/>
+        <Route path="/signup" element={<SignUp />} /> */}
+
+<Route path="/user" element={< UserNavbar/>}>
+                <Route path="shedule" element={<UserShedule />} />
+                <Route path="assignevent" element={<AssignEventList />} />
+                <Route path="eventlist" element={<IndividualEventList />} />
+                <Route path="landing" element={<UserHome />} />
+                <Route path="result" element={<ResultList />} />
+                <Route path="register" element={<UserRegister />} />
+              </Route>
+<Route path="/" element={<Login />} />
+<Route path="signup" element={<SignUp />} />
+<Route path="forgot" element={<ForgotPassword />} />
+<Route path="recover/:token" element={<RecoverPassword />} />
+  
+  
+              {/* <Route path="*" element={<PageNotFound />} /> */}
+              {/* </Route> */}
+            
         {/* </DetailsProvider> */}
       </Routes>
       </LoadingProvider>
