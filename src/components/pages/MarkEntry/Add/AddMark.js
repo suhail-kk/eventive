@@ -93,7 +93,7 @@ export default function AddMark() {
         loaderToggler(false);
       } else {
         //update shedule
-        const updatedData = await markentryService.updateResult(resultData);
+        const updatedData = await markentryService.updateResult(id,resultData);
         console.log(updatedData);
         // clearing the form
         clearEventCredentials();
