@@ -1,4 +1,4 @@
-import { useState,createContext  } from "react";
+import { useState,useEffect  } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -19,7 +19,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
 
-export const DetailsContext = createContext();
 
 export default function AddDetails() {
   const [pgmname, setName] = useState();
@@ -33,7 +32,7 @@ export default function AddDetails() {
 
 
   const handlePgmnameChange = (pgmname) => setName(pgmname.target.value);
-  const handleDateChange = (place) => setDate(date.target.value);
+  const handleDateChange = (date) => setDate(date.target.value);
   const handlePlaceChange = (place) => setPlace(place.target.value);
   const handleInuagurationChange = (inuaguration) =>
     setInuaguration(inuaguration.target.value);
@@ -54,20 +53,63 @@ export default function AddDetails() {
     setDays("");
   };
 
+    //setState function
+    function setState() {
+      setName(localStorage.getItem('Name'));
+      setDate(localStorage.getItem('Date'));
+      setPlace(localStorage.getItem('Place'));
+      setInuaguration(localStorage.getItem('Inuagration'));
+      setGuest(localStorage.getItem('Guest'));
+      setTotalevent(localStorage.getItem('TotalEvents'));
+      setDays(localStorage.getItem('Days'));
+    }
+
+  const handleAddDetails = () => {
+    if(localStorage.getItem('Name')!=""){
+    try{
+    localStorage.setItem('Name', pgmname);
+    localStorage.setItem('Date', date);
+    localStorage.setItem('Place', place);
+    localStorage.setItem('Inuagration', inuaguration);
+    localStorage.setItem('Guest', guest);
+    localStorage.setItem('TotalEvents', totalevents);
+    localStorage.setItem('Days', days);
+    clearFormCredentials();
+    }catch(err){
+      console.log("Details Not Set")
+    }}
+    else{
+      try{
+        localStorage.clear();
+    localStorage.setItem('Name', pgmname);
+    localStorage.setItem('Date', date);
+    localStorage.setItem('Place', place);
+    localStorage.setItem('Inuagration', inuaguration);
+    localStorage.setItem('Guest', guest);
+    localStorage.setItem('TotalEvents', totalevents);
+    localStorage.setItem('Days', days);
+    clearFormCredentials();
+
+      }catch(err){
+        console.log("edit failed")
+      }
+    
+    }
+ };
+
+ useEffect(()=>{
+   const getDetails = () =>{
+    const items = { ...localStorage };
+     setState(items)
+   };
+   getDetails();
+ })
+
   return (
     <Page title="AddDetails">
       <Container>
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
-            <DetailsContext.Provider 
-              value={{pgmname:[pgmname,setName],
-              date:[date,setDate],
-              place:[place,setPlace],
-              inuaguration:[inuaguration,setInuaguration],
-              guest:[guest,setGuest],
-              totalevents:[totalevents,setTotalevent],
-              days:[days,setDays],
-            }}>
             <Grid item xs={6} sm={6} md={6}>
               <TextField
                 varient="contained"
@@ -152,7 +194,6 @@ export default function AddDetails() {
                 // error={errorMsg}
               />
             </Grid>
-            </DetailsContext.Provider>
          </Grid>
           <Stack
             direction="row"
@@ -176,8 +217,8 @@ export default function AddDetails() {
                 <Button
                   variant="contained"
                   color="info"
-                  // onClick={handleAddDetails}
-                  // disabled={!pgmname || !date || !place || !inuaguration || !guest || !days}
+                  onClick={handleAddDetails}
+                  disabled={!pgmname || !date || !place || !inuaguration || !guest || !days}
                   startIcon={<PublishIcon />}
                 >
                   Add

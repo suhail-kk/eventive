@@ -45,11 +45,12 @@ export default function ViewDetails() {
           <Typography variant="h4" gutterBottom>
             Details
           </Typography>
-          <Button
+            <Button
             variant="contained"
             component={RouterLink}
             to="/app/details/add"
             startIcon={<AddIcon />}
+            disabled={localStorage.getItem('Name')!=""}
           >
             Set Details
           </Button>
@@ -71,29 +72,31 @@ export default function ViewDetails() {
             container
             direction="row"
           >
+            <RouterLink to="../add">
             <EditIcon />
+            </RouterLink>
           </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Program Name" subHeading="kjw"/>
+            <Field heading="Program Name" subHeading={localStorage.getItem('Name')}/>
           </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Date" subHeading="kjw" />
+            <Field heading="Date" subHeading={localStorage.getItem('Date')} />
           </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Place" subHeading="kjw" />
+              <Field heading="Place" subHeading={localStorage.getItem('Place')} />
             </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Inuagration" subHeading="kjw" />
+              <Field heading="Inuagration" subHeading={localStorage.getItem('Inuagration')} />
             </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Guest" subHeading="kjw" />
+              <Field heading="Guest" subHeading={localStorage.getItem('Guest')} />
             </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Total Events" subHeading="kjw" />
+            <Field heading="Total Events" subHeading={localStorage.getItem('TotalEvents')} />
           </Grid>
        
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Number of Days" subHeading="kjw"/>
+            <Field heading="Number of Days" subHeading={localStorage.getItem('Days')}/>
           </Grid>
            
         </Grid>

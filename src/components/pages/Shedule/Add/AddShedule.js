@@ -37,12 +37,13 @@ export default function AddShedule() {
   const [errorMsg, setErrorMsg] = useState("");
   const [sheduleDate, setDate] = useState();
   const [events, setEvents] = useState([]);
-
+  const [menuItem,setMenuItem] =useState();
   const clearError = () => setErrorMsg("");
   const handlePlaceChange = (event) => setPlace(event.target.value);
   const handleEventChange = (event) => setEventName(event.target.value);
   const handleDateChange = (event) => setDate(event.target.value);
   const handleTimeChange = (event) => setTime(event.target.value);
+  // const handleMenuItemChange = (event) => setMenuItem(event.target.value);
 
   //setState function
   function setState(data) {
