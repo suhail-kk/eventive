@@ -2,12 +2,12 @@ import BackendService from "./BackendService";
 
 //loging a user
 const loginUser = async (data) => {
-  return BackendService.post("/login", data);
+  return BackendService.post("users/login", data);
 };
 
 //registering a user
 const registerUser = async (data) => {
-  return BackendService.post("/register", data);
+  return BackendService.post("users/register", data);
 };
 
 // //forgot password

@@ -76,17 +76,17 @@ export default function SignUp() {
     if (passwordLengthError || passwordMatchError) return;
     try {
       clearError();
-      navigate("/");
+      
       const registerCredentials = {
         userName,
         email,
         password
       };
-      console.log(registerCredentials)
+    
       // registering a user
       await authService.registerUser(registerCredentials);
       clearForm();
-     
+      navigate("/");
     } catch (err) {
       setAuthErrors(err?.response?.data?.message);
     }
@@ -103,7 +103,7 @@ export default function SignUp() {
           </Box>
           <Stack spacing={2}>
             <TextInput
-              label="User name"
+              label="User Name"
               type="text"
               value={userName}
               setValue={setUserName}

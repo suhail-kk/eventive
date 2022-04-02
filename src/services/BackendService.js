@@ -21,19 +21,28 @@ const post = async (path, data = {}, headers = {}, params = {}) => {
   //generating the request
   const response = await axios.post(url, data, _generateParams(headers, params));
 
-  return response;
+  return response.data;
 };
 
 //patch request
 const patch = async (path, data = {}, headers = {}, params = {}) => {
     //generating url
     const url = `${BACKEND_URL.BASE_URL}${path}`;
+
+    const response = await axios.patch(
+      url,
+      data,
+      _generateParams(headers, params)
+    );
+  
+    return response.data.data;
+  };
     
-    //generating the request
-    const response = await axios.patch(url, data, _generateParams(headers, params));
+//     //generating the request
+//     const response = await axios.patch(url, data, _generateParams(headers, params));
     
-    return response;
-}
+//     return response;
+// }
 
 //delete request
 const destroy = async (path, headers = {}, params = {}) => {

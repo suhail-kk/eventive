@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { styled } from "@mui/material/styles";
 import { Box, Container, Typography, Stack, Card, Link } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
@@ -7,7 +7,12 @@ import PasswordField from "./utils/PasswordField";
 import TextInput from "./utils/TextInput";
 import SubmitButton from "./utils/SubmitButton";
 import userServices from "../../../services/userService";
-// import LOCAL_KEYS from "../../../constants/LOCAL_KEY";
+import Loader from "../../utils/Loader"
+import { loadingContext } from "../../../context/loadingContext";
+ import LOCAL_KEYS from "../../../constants/LOCAL_KEY";
+
+//importing the user service
+import authService from "../../../services/authServices";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 400,
@@ -19,11 +24,39 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Login() {
+  const { loaderToggler } = useContext(loadingContext);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
+  const [authErrors, setAuthErrors] = useState();
 
-  const handleClick = () => navigate("/app/home");
+  const clearError = () => setAuthErrors("");
+
+  const redirectionHandler = (type) => {
+    if (type === "admin") return navigate("/app/home");
+    else {
+      return navigate("/app/participants");
+    }
+  }
+  const handleClick = async () => {
+    try {
+      clearError();
+      loaderToggler(true);
+      const loginCredentials = {
+        email,
+        password,
+      };
+      // logging in user
+      const response = await authService.loginUser(loginCredentials);
+      //storing token in localStorage
+      localStorage.setItem(LOCAL_KEYS.AUTH_TOKEN, response.data.token);
+      redirectionHandler(response.data.type);
+      loaderToggler(false);
+    } catch (err) {
+      setAuthErrors(err?.response?.data?.message);
+      loaderToggler(false);
+    }
+  }
 
   return (
     <Container>
@@ -79,4 +112,5 @@ export default function Login() {
       </ContentStyle>
     </Container>
   );
+
 }
