@@ -35,7 +35,7 @@ export default function Login() {
   const redirectionHandler = (type) => {
     if (type === "admin") return navigate("/app/home");
     else {
-      return navigate("/app/participants");
+      return navigate("/user/landing");
     }
   }
   const handleClick = async () => {
@@ -48,8 +48,9 @@ export default function Login() {
       };
       // logging in user
       const response = await authService.loginUser(loginCredentials);
+      console.log(response.data.userType);
       //storing token in localStorage
-      localStorage.setItem(LOCAL_KEYS.AUTH_TOKEN, response.data.token);
+      localStorage.setItem(LOCAL_KEYS.AUTH_TOKEN, response);
       redirectionHandler(response.data.type);
       loaderToggler(false);
     } catch (err) {

@@ -10,6 +10,8 @@ const registerUser = async (data) => {
   return BackendService.post("users/register", data);
 };
 
+
+
 // //forgot password
 // const forgotPassword = async (data) => {
 //   return BackendService.post("user/forgot", data);

@@ -14,15 +14,28 @@ const get = async (path, headers = {}, params = {}) => {
 };
 
 //post request
+// const post = async (path, data = {}, headers = {}, params = {}) => {
+  //generating url
+  // const url = `${BACKEND_URL.BASE_URL}${path}`;
+
+  //generating the request
+//   const response = await axios.post(url, data, _generateParams(headers, params));
+
+//   return response.data;
+// };
 const post = async (path, data = {}, headers = {}, params = {}) => {
   //generating url
   const url = `${BACKEND_URL.BASE_URL}${path}`;
 
   //generating the request
-  const response = await axios.post(url, data, _generateParams(headers, params));
+  const response = await axios.post(
+    url,
+    data,
+    _generateParams(headers, params)
+  );
+  return response.data; 
+}
 
-  return response.data;
-};
 
 //patch request
 const patch = async (path, data = {}, headers = {}, params = {}) => {

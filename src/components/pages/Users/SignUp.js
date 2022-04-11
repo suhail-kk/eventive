@@ -30,7 +30,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function SignUp() {
-  const [userName, setUserName] = useState();
+  const [username, setUserName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
@@ -78,7 +78,7 @@ export default function SignUp() {
       clearError();
       
       const registerCredentials = {
-        userName,
+        username,
         email,
         password
       };
@@ -105,7 +105,7 @@ export default function SignUp() {
             <TextInput
               label="User Name"
               type="text"
-              value={userName}
+              value={username}
               setValue={setUserName}
               authErrors={authErrors}
             />
@@ -144,7 +144,7 @@ export default function SignUp() {
             <SubmitButton
               name="Create an Account"
               disabled={
-                !userName || !email || !password || !confirmPassword
+                !username || !email || !password || !confirmPassword
                   ? true
                   : false
               }
