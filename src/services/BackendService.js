@@ -47,7 +47,7 @@ const patch = async (path, data = {}, headers = {}, params = {}) => {
       data,
       _generateParams(headers, params)
     );
-  
+  console.log(response)
     return response.data.data;
   };
     

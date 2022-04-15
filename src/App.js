@@ -106,7 +106,7 @@ function App() {
 <Route path="/" element={<Login />} />
 <Route path="signup" element={<SignUp />} />
 <Route path="forgot" element={<ForgotPassword />} />
-<Route path="recover/:token" element={<RecoverPassword />} />
+<Route path="recover/:userToken" element={<RecoverPassword />} />
   
   
               {/* <Route path="*" element={<PageNotFound />} /> */}

@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { styled } from "@mui/material/styles";
 import { Box, Container, Typography, Stack, Card } from "@mui/material";
 import TextInput from "./utils/TextInput";
 import SubmitButton from "./utils/SubmitButton";
+import { useNavigate } from "react-router-dom";
+import authService from "../../../services/authServices";
+import { loadingContext } from "../../../context/loadingContext";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 400,
@@ -14,10 +17,28 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function ForgotPassword() {
-  const [userName, setUserName] = useState();
-  const [email, setEmail] = useState();
+  const navigate = useNavigate();
 
-  const handleClick = () => console.log(userName, email);
+  const [username, setUserName] = useState();
+  const [email, setEmail] = useState();
+  const [authErrors, setAuthErrors] = useState();
+
+  const clearError = () => setAuthErrors("");
+  const handleClick = async () => {
+    try {
+      clearError();
+      const data = {
+        username,
+        email,
+      };
+      // logging in user
+      const response = await authService.forgotPassword(data);
+      navigate(`/recover/${response.data.userToken}`);
+    } catch (err) {
+      console.error(err.response);
+      setAuthErrors(err?.response?.data?.message);
+    }
+  };
 
   return (
       <ContentStyle>
@@ -31,7 +52,7 @@ export default function ForgotPassword() {
             <TextInput
               label="User name"
               type="text"
-              value={userName}
+              value={username}
               setValue={setUserName}
             />
             <TextInput
@@ -42,7 +63,7 @@ export default function ForgotPassword() {
             />
 
             <SubmitButton
-              disabled={!userName || !email ? true : false}
+              disabled={!username || !email ? true : false}
               name="Submit"
               onClick={handleClick}
             />

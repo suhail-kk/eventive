@@ -31,8 +31,13 @@ export default function Login() {
   const [authErrors, setAuthErrors] = useState();
 
   const clearError = () => setAuthErrors("");
+  // const clearForm = () => { 
+  //   setEmail("");
+  //   setPassword("");
+  //    };
 
   const redirectionHandler = (type) => {
+    
     if (type === "admin") return navigate("/app/home");
     else {
       return navigate("/user/landing");
@@ -48,9 +53,11 @@ export default function Login() {
       };
       // logging in user
       const response = await authService.loginUser(loginCredentials);
-      console.log(response.data.userType);
+      // clearForm();
+      
+
       //storing token in localStorage
-      localStorage.setItem(LOCAL_KEYS.AUTH_TOKEN, response);
+      localStorage.setItem(LOCAL_KEYS.AUTH_TOKEN, response.data.token);
       redirectionHandler(response.data.type);
       loaderToggler(false);
     } catch (err) {
@@ -90,7 +97,7 @@ export default function Login() {
               <Link
                 component={RouterLink}
                 variant="subtitle2"
-                to="/user/forgot"
+                to="/forgot"
               >
                 Forgot password
               </Link>

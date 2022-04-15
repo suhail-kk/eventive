@@ -12,19 +12,22 @@ const registerUser = async (data) => {
 
 
 
-// //forgot password
-// const forgotPassword = async (data) => {
-//   return BackendService.post("user/forgot", data);
-// };
+//forgot password
+const forgotPassword = async (data) => {
+  return BackendService.post("users/forgot", data);
+};
 
-// //reset password
-// const resetPassword = async (data, token) => {
-//   return BackendService.patch("user/reset", data, { token });
-// };
+//reset password
+const resetPassword = async (data, userToken) => {
+  console.log( { userToken })
+  return BackendService.patch("users/reset", data, { userToken });
+};
 
 const authService = {
   loginUser,
   registerUser,
+  forgotPassword,
+  resetPassword,
 };
 
 export default authService;
