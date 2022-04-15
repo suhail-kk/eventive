@@ -16,6 +16,8 @@ import { useState, useEffect,useContext } from "react";
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
+//loader
+import Loader from "../../../utils/Loader";
 
 // table header cell config
 const TABLE_HEAD = [
@@ -29,7 +31,6 @@ const TABLE_HEAD = [
   { id: "sheduleTime", label: "Time", alignRight: false, type: "text" },
   { id: "shedulePlace", label: "Place", alignRight: false, type: "text" },
   { id: "edit", label: "Edit", alignRight: false,type:"edit" },
-  { id: "delete", label: "Delete", alignRight: false,type:"delete" },
 ];
 
 export default function SheduleList() {
@@ -55,6 +56,7 @@ export default function SheduleList() {
   return (
     <Page title="SheduleList">
       <Container>
+        <Loader/>
         <Stack
           direction="row"
           alignevents="center"

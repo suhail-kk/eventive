@@ -7,6 +7,11 @@ import { Paper } from '@mui/material';
 //   custom component
 import Field from "../../../../utils/Student/View/Field";
 
+//context
+import { loadingContext } from "../../../../../context/loadingContext";
+
+//loader
+import Loader from "../../../../utils/Loader";
 
 // custom card
 const ProfileCard = styled(Card)(({ theme }) => ({
@@ -25,9 +30,8 @@ export default function AssignEventList() {
 
   return (
     <Page title="Assign Event">
-      {/* Father Details*/}
-
       <Container>
+        <Loader/>
         <Grid
           component={ProfileCard}
           sx={{ mt: 2 }}

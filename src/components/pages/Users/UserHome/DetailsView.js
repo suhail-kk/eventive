@@ -11,32 +11,35 @@ import Field from "../../../utils/Student/View/Field";
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
 
-//context provider
-// import {DetailsProvider} from "../../../../components/pages/SetDetails/Add/DetailsContext";
+//details services
+import detailsService from "../../../../services/detailsService";
 
   // custom card
 const ProfileCard = styled(Card)(({ theme }) => ({
   paddingRight: `${theme.spacing(4)} !important`,
   paddingBottom: `${theme.spacing(4)} !important`,
 }));
-   
-  const NUMBER = 1233;
-  const STRING = "Anything";
 
 export default function DetailsView() {
+  const [details,setDetails] = useState([]);
 
-  // const { pgmname,date,place,inuaguration,guest,totalevents,days } = useContext(DetailsProvider);
-  // const [name,setName] = pgmname;
-  // const [dateOfPgm,setDate] = date;
-  // const [placeOfPgm,setPlace] = place;
-  // const [guestOfPgm,setGuest] = guest;
-  // const [totaleventsOfPgm,setTotalevent] = totalevents;
-  // const [daysOfPgm,setDays] = days;
-  // const [inuagurationOfPgm,setInuaguration] = inuaguration;
+  useEffect(()=>{
+    const getDetails = async () => {
+      try {
+        const pgmDetails = await detailsService.getDetails();
+        setDetails(pgmDetails.data);
+      }catch(err){
+        console.error(err?.response?.data?.message);
+      }
+    };
+    getDetails();
+  },[details])
     
   return (
     <Page title="Details" >
     <Container>
+    {
+          details && details.map((data)=>(
       <Grid
         component={ProfileCard}
         sx={{ p: 2,width:500,height:500,m:0}}
@@ -59,27 +62,32 @@ export default function DetailsView() {
         </Typography>
         </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Program Name" subHeading="dewd"/>
+            <Field heading="Program Name" subHeading={data.pgmName}/>
           </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Date" subHeading="dewd" />
+            <Field heading="Date" subHeading={data.date}/>
           </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Place" subHeading="dewd" />
+              <Field heading="Place" subHeading={data.place}/>
             </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Inuagration" subHeading="dewd" />
+              <Field heading="Inuagration" subHeading={data.inuaguration}/>
             </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Guest" subHeading="dewd" />
+              <Field heading="Guest" subHeading={data.guest}/>
             </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Total Events" subHeading="dewd" />
+            <Field heading="Total Events" subHeading={data.totalEvent}/>
           </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Number of Days" subHeading="dewd" />
+            <Field heading="Number of Days" subHeading={data.noOfDays}/>
+          </Grid>
+          <Grid item sm={12} xs={12} md={4} lg={4}>
+          <Field heading="Registration Status" subHeadingBold={data.isRegistrationLock?"Closed":"Open"}/>
           </Grid>
       </Grid>
+       ))
+      }
     </Container>
   </Page>
   );

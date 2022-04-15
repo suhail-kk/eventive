@@ -12,6 +12,9 @@ import { useEffect, useState,useContext } from "react";
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
+//loader
+import Loader from "../../../utils/Loader";
+
 // table header cell config
 const TABLE_HEAD = [
   {
@@ -47,6 +50,7 @@ export default function ParticipantList() {
   return (
     <Page title="ParticipantsList">
       <Container>
+      <Loader />
         <Stack
           direction="row"
           alignItems="center"
