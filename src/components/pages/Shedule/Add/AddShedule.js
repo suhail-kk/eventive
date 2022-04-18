@@ -16,7 +16,9 @@ import {
 
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
-import { useParams } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+
+import { useParams,useNavigate } from "react-router-dom";
 
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
@@ -28,8 +30,12 @@ import sheduleService from "../../../../services/sheduleService";
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
+//loader
+import Loader from "../../../utils/Loader";
+
 export default function AddShedule() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { loaderToggler } = useContext(loadingContext);
   const [eventName, setEventName] = useState();
   const [sheduleTime, setTime] = useState();
@@ -38,6 +44,9 @@ export default function AddShedule() {
   const [sheduleDate, setDate] = useState();
   const [events, setEvents] = useState([]);
   const [menuItem,setMenuItem] =useState();
+  const [shedule,setShedule] = useState();
+
+
   const clearError = () => setErrorMsg("");
   const handlePlaceChange = (event) => setPlace(event.target.value);
   const handleEventChange = (event) => setEventName(event.target.value);
@@ -56,10 +65,44 @@ export default function AddShedule() {
   // clearing the form
   const clearEventCredentials = () => {
     setEventName();
-    setPlace();
-    setDate();
-    setTime();
+    setPlace("");
+    setDate("");
+    setTime("");
   };
+
+  useEffect(() => {
+    //get all events
+    const getAllEvents = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const event = await eventService.getAllEvents();
+        setEvents(event.data);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getAllEvents();
+
+    //get shedule by id
+    const getSheduleById = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const shedule = await sheduleService.getSheduleById(id);
+        setState(shedule.data);
+        setShedule(shedule.data)
+        console.log(shedule.data);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getSheduleById();
+  }, []);
 
   const handleAddShedule = async () => {
     try {
@@ -93,42 +136,26 @@ export default function AddShedule() {
     }
   };
 
-  useEffect(() => {
-    //get all events
-    const getAllEvents = async () => {
-      try {
-        loaderToggler(true);
-        //get events
-        const event = await eventService.getAllEvents();
-        setEvents(event.data);
-        loaderToggler(false);
-      } catch (err) {
-        console.error(err?.response?.data?.message);
-        loaderToggler(false);
-      }
-    };
-    getAllEvents();
+  const handleDeleteShedule = async (_id) => {
+    try{
+      loaderToggler(true);
+      const res = await sheduleService.deleteShedule(id,shedule);
+      console.log(res);
+      clearEventCredentials();
+      navigate("/app/shedule");
+      loaderToggler(false);
+    }catch(err){
+      console.error(err?.response?.data?.message);
+      loaderToggler(false);
+    }
+  }
 
-    //get shedule by id
-    const getSheduleById = async () => {
-      try {
-        loaderToggler(true);
-        //get events
-        const shedule = await sheduleService.getSheduleById(id);
-        setState(shedule.data);
-        console.log(shedule.data);
-        loaderToggler(false);
-      } catch (err) {
-        console.error(err?.response?.data?.message);
-        loaderToggler(false);
-      }
-    };
-    getSheduleById();
-  }, []);
+
 
   return (
     <Page title="AddShedule">
       <Container>
+        <Loader/>
         <Stack
           direction="row"
           alignItems="center"
@@ -212,6 +239,18 @@ export default function AddShedule() {
               }
             >
               <span>
+              {
+                  !id?null: <Button
+                  variant="contained"
+                  color="info"
+                  onClick={handleDeleteShedule}
+                  // disabled={ !eventName  || !gender}
+                  //   to="#"
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
+                }
                 <Button
                   variant="contained"
                   color="info"
@@ -219,6 +258,7 @@ export default function AddShedule() {
                   disabled={
                     !eventName || !sheduleDate || !sheduleTime || !shedulePlace
                   }
+                  sx={{m:1}}
                   startIcon={<PublishIcon />}
                 >
                   Submit

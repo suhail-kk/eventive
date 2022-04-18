@@ -1,7 +1,7 @@
 import { useState ,useContext} from "react";
 import { styled } from "@mui/material/styles";
-import { Box, Container, Typography, Stack, Link, Card } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Box, Container, Typography, Stack, TextField,MenuItem, Card } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 // import PasswordField from "./utils/PasswordField";
 import TextInput from "../utils/TextInput";
 import SubmitButton from "../utils/SubmitButton";
@@ -31,6 +31,7 @@ const Year = ["First", "Second","Third"];
 const Department = ["BSC","BA","BBA","BCOM","BVOC"]
 
 export default function UserRegister() {
+  const navigate = useNavigate();
   const { loaderToggler } = useContext(loadingContext);
   const [candidateName, setCandidateName] = useState();
   const [admnNumber, setAdmnNumber] = useState();
@@ -38,10 +39,20 @@ export default function UserRegister() {
   const [department, setDepartment] = useState();
   const [year, setYear] = useState();
 
+  const handleNameChange = (event) => setCandidateName(event.target.value);
+  const handleYearChange = (event) => setYear(event.target.value);
+  const handleDepartmentChange = (event) => setDepartment(event.target.value);
+  const handleGenderChange = (event) => setGender(event.target.value);
+  const handleAdmissionNumberChange = (event) => setAdmnNumber(event.target.value);
+
+
     // clearing the form
     const clearEventCredentials = () => {
       setCandidateName("");
       setAdmnNumber("");
+      setGender("");
+      setDepartment("");
+      setYear("");
     };
 
     const handleParticipantRegister = async () => {
@@ -56,9 +67,11 @@ export default function UserRegister() {
         };
         // adding result to db
         const res = await registrationService.createParticipants(participantData);
+        localStorage.setItem("candidateName",candidateName);
         // clearing the form
         console.log(res);
         clearEventCredentials();
+        navigate('/user/assignevent')
         loaderToggler(false);
       } catch (err) {
         // setErrorMsg(err?.response?.data?.message);
@@ -77,39 +90,64 @@ export default function UserRegister() {
             </Typography>
           </Box>
           <Stack spacing={1}>
-            <TextInput
-              label="Candidate name"
-              type="text"
-              value={candidateName}
-              setValue={setCandidateName}
-            />
-            <SelectInput
-              label="Year"
-              type="number"
-              menuItems={Year}
-              dropdownValue={year}
-              setDropdownValue={setYear}
-            />
-            <SelectInput
-              label="Department"
-              type="text"
-              menuItems={Department}
-              dropdownValue={department}
-              setDropdownValue={setDepartment}
-            />
-            <TextInput
-              label="Admission Number"
-              type="text"
-              value={admnNumber}
-              setValue={setAdmnNumber}
-            />
-            <SelectInput
-              label="Gender"
-              name="gender"
-              menuItems={Gender}
-              dropdownValue={gender}
-              setDropdownValue={setGender}
-            />      
+            <TextField
+                varient="contained"
+                name="candidateName"
+                label="Candidate Name"
+                color="info"
+                fullWidth
+                value={candidateName}
+                onChange={handleNameChange}
+              />
+              <TextField
+                select
+                label="Year"
+                onChange={handleYearChange}
+                value={year}
+                fullWidth
+                name="eventName"
+              >
+                {Year && 
+                  Year.map((year) => (
+                    <MenuItem value={year}>{year}</MenuItem>
+                  ))}
+              </TextField>
+              <TextField
+                select
+                label="Department"
+                onChange={handleDepartmentChange}
+                value={department}
+                fullWidth
+                name="department"
+              >
+                {Department && 
+                  Department.map((department) => (
+                    <MenuItem value={department}>{department}</MenuItem>
+                  ))}
+              </TextField>
+              <TextField
+                varient="contained"
+                name="date"
+                label="Admission Number"
+                color="info"
+                fullWidth
+                value={admnNumber}
+                onChange={handleAdmissionNumberChange}
+                // error={errorMsg}
+              />
+              <TextField
+                select
+                label="Gender"
+                onChange={handleGenderChange}
+                value={gender}
+                fullWidth
+                name="gender"
+              >
+                {Gender && 
+                  Gender.map((gender) => (
+                    <MenuItem value={gender}>{gender}</MenuItem>
+                  ))}
+              </TextField> 
             <SubmitButton
               name="Register"
               disabled={

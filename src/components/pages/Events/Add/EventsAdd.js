@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
@@ -24,7 +25,7 @@ import SelectInput from "../../../utils/Inputs/SelectInput"
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 import Loader from "../../../utils/Loader"
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 
 const Gender = ["Male", "Female"];
@@ -32,6 +33,7 @@ const Gender = ["Male", "Female"];
 
 export default function EventsAdd() {
   const {id}=useParams();
+  const navigate = useNavigate();
   const { loaderToggler } = useContext(loadingContext);
   const [eventName, setEventName] = useState();
   const [gender, setGender] = useState("Male");
@@ -51,6 +53,7 @@ export default function EventsAdd() {
         //get events
         const event = await eventsService.getEventsById(id);
         setState(event.data);  
+        setEvent(event.data)
         console.log(event.data);
         loaderToggler(false);
       } catch (err) {
@@ -67,7 +70,7 @@ export default function EventsAdd() {
  
   // clearing the form
   const clearEventCredentials = () => {
-    setEventName();
+    setEventName("");
     setGender();
   };
 
@@ -102,6 +105,21 @@ export default function EventsAdd() {
       loaderToggler(false);
     }
   };
+
+  const handleDeleteEvent = async (_id) => {
+    try{
+      loaderToggler(true);
+      const res = await eventsService.deleteEvent(id,event);
+      console.log(res);
+      clearEventCredentials();
+      navigate("/app/events");
+      loaderToggler(false);
+    }catch(err){
+      console.error(err?.response?.data?.message);
+      loaderToggler(false);
+    }
+  }
+
 
   return (
     <Page title="EventsAdd">
@@ -160,13 +178,22 @@ export default function EventsAdd() {
               }
             >
               <span>
+                {
+                  !id?null: <Button
+                  variant="contained"
+                  color="info"
+                  onClick={handleDeleteEvent}
+                  startIcon={<DeleteIcon />}
+                >
+                  Delete
+                </Button>
+                }
                 <Button
                   variant="contained"
                   color="info"
-                  //   component={RouterLink}
                   onClick={handleAddEvent}
+                  sx={{m:1}}
                   // disabled={ !eventName  || !gender}
-                  //   to="#"
                   startIcon={<PublishIcon />}
                 >
                   Submit

@@ -16,10 +16,6 @@ import {
   TablePagination,
 } from "@mui/material";
 
-//mui Icons
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-
 // props type library
 import PropTypes from "prop-types";
 
@@ -75,7 +71,7 @@ export default function   DataTable({  TABLE_DATA,TABLE_HEAD, SEARCH_ID }) {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -125,27 +121,14 @@ export default function   DataTable({  TABLE_DATA,TABLE_HEAD, SEARCH_ID }) {
       case "edit":
         return (
           <Stack
-            direction="row"
+            direction="coloumn"
             alignItems="center"
             sx={{ textDecoration: "none", color: "black" }}
             spacing={2}
-            //  component={Link}
-            // to={`../add/${TABLE_DATA._id}`}
           >
           <Link to={`../edit/${value._id}`}>
-            <EditIcon color="disabled" />
+            <Typography variant="subtitle" sx={{textDecoration:"none",style:"none"}}>Edit/Delete</Typography>
             </Link>
-          </Stack>
-        );
-      case "delete":
-        return (
-          <Stack
-            direction="row"
-            alignItems="center"
-            sx={{ textDecoration: "none", color: "black" }}
-            spacing={2}
-          >
-            <DeleteIcon color="disabled" />
           </Stack>
         );
       case "stack":
@@ -155,8 +138,6 @@ export default function   DataTable({  TABLE_DATA,TABLE_HEAD, SEARCH_ID }) {
             alignItems="center"
             sx={{ textDecoration: "none", color: "black" }}
             spacing={2}
-            // component={Link}
-            // to={`${col.baseUrl}/${value._id}`}
           >
             <Avatar alt={value[col.id]} src={"#"} />
             <Typography variant="subtitle2" noWrap>

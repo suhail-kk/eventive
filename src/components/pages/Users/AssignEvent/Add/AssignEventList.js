@@ -8,6 +8,7 @@ import {
   Stack,
 } from "@mui/material";
 import { useEffect, useState,useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import * as React from "react";
 import List from "@mui/material/List";
@@ -17,14 +18,20 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Checkbox from "@mui/material/Checkbox";
 import Avatar from "@mui/material/Avatar";
-import eventService from "../../../../../services/eventsService";
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
 //   custom component
 import Field from "../../../../utils/Student/View/Field";
 
+//importing details services
+import participantsDetailsServices from "../../../../../services/participantsDetailsServices";
+import eventService from "../../../../../services/eventsService";
+
 //context
 import { loadingContext } from "../../../../../context/loadingContext";
+
+//loader
+import Loader from "../../../../utils/Loader";
 
 // custom card
 const ProfileCard = styled(Card)(({ theme }) => ({
@@ -47,9 +54,12 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function AssignEventList() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { loaderToggler } = useContext(loadingContext);
-  const [checked, setChecked] = React.useState([]);
+  const [itemsList, setItemsList] = useState([]);
   const [events, setEvents] = useState();
+  // const candidateName = localStorage.getItem("candidateName");
 
   useEffect(() => {
     //get all events
@@ -70,8 +80,8 @@ export default function AssignEventList() {
   
 
   const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
+    const currentIndex = itemsList.indexOf(value);
+    const newChecked = [...itemsList];
 
     if (currentIndex === -1) {
       newChecked.push(value);
@@ -79,14 +89,50 @@ export default function AssignEventList() {
       newChecked.splice(currentIndex, 1);
     }
 
-    setChecked(newChecked);
+    setItemsList(newChecked);
   };
-  console.log(checked)
+  console.log(itemsList);
+
+    //clearing the form
+    const clearFormCredentials = () => {
+      setItemsList([])
+    };
+
+  const handleAddDetails = async () => {
+    try {
+      loaderToggler(true);
+      const detailsData = {
+        candidateName : localStorage.getItem("candidateName"),
+        [itemsList]:itemsList,
+      };
+      // adding events list to db
+      if (!id) {
+        const res = await participantsDetailsServices.createParticipantDetails(detailsData);
+        console.log(res);
+        // clearing the form
+        clearFormCredentials();
+        navigate("/user/landing");
+        loaderToggler(false);
+      } else {
+        //update event
+        const updatedData = await participantsDetailsServices.updateParticipantsDetails(id, detailsData);
+        console.log(updatedData);
+        // clearing the form
+        clearFormCredentials();
+        navigate("/user/landing");
+        loaderToggler(false);
+      }
+    } catch (err) {
+      console.error(err?.response?.data?.message);
+      loaderToggler(false);
+    }
+  };
 
   return (
     <RootStyle>
       <ContentStyle>
         <Container>
+          <Loader/>
           <Grid
             component={ProfileCard}
             sx={{ mt: 2, p: 2, mb: 2 }}
@@ -110,7 +156,7 @@ export default function AssignEventList() {
                         <Checkbox
                           edge="end"
                           onChange={handleToggle(value.eventName)}
-                          checked={checked.indexOf(value.eventName) !== -1}
+                          checked={itemsList.indexOf(value.eventName) !== -1}
                           inputProps={{ "aria-labelledby": labelId }}
                         />
                       }
@@ -135,6 +181,7 @@ export default function AssignEventList() {
                   variant="contained"
                   color="info"
                   startIcon={<PublishIcon />}
+                  onClick={handleAddDetails}
                 >
                   Submit
                 </Button>

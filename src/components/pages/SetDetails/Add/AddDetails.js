@@ -1,4 +1,4 @@
-import { useState,useEffect  } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -10,37 +10,78 @@ import {
   Card,
   TextField,
   Tooltip,
+  Checkbox,
 } from "@mui/material";
 
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
 
+//importing details services
+import detailsService from "../../../../services/detailsService";
+
+//context
+import { loadingContext } from "../../../../context/loadingContext";
+import Loader from "../../../utils/Loader";
+
+const label = { inputProps: { "aria-label": "Switch demo" } };
 
 export default function AddDetails() {
-  const [pgmname, setName] = useState();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { loaderToggler } = useContext(loadingContext);
+  const [pgmName, setName] = useState();
   const [date, setDate] = useState();
   const [place, setPlace] = useState();
   const [inuaguration, setInuaguration] = useState();
   const [guest, setGuest] = useState();
-  const [totalevents, setTotalevent] = useState();
-  const [days,setDays] = useState();
-    const navigate = useNavigate();
+  const [totalEvent, setTotalevent] = useState();
+  const [noOfDays, setDays] = useState();
+  const [isRegistrationLock, setLock] = useState(false);
 
-
-  const handlePgmnameChange = (pgmname) => setName(pgmname.target.value);
+  const handlePgmnameChange = (pgmName) => setName(pgmName.target.value);
   const handleDateChange = (date) => setDate(date.target.value);
   const handlePlaceChange = (place) => setPlace(place.target.value);
   const handleInuagurationChange = (inuaguration) =>
     setInuaguration(inuaguration.target.value);
   const handleGuestChange = (guest) => setGuest(guest.target.value);
-  const handleTotaleventChange = (totalevents) =>
-    setTotalevent(totalevents.target.value);
-  const handleDaysChange = (days) =>
-    setDays(days.target.value);
+  const handleTotaleventChange = (totalEvent) =>
+    setTotalevent(totalEvent.target.value);
+  const handleDaysChange = (noOfDays) => setDays(noOfDays.target.value);
+  const handleStatusChange = (isRegistrationLock) => {
+    setLock(isRegistrationLock.target.checked);
+  };
+  //setState function
+  function setState(data) {
+    setName(data.pgmName);
+    setDate(data.date);
+    setPlace(data.place);
+    setInuaguration(data.inuaguration);
+    setGuest(data.guest);
+    setTotalevent(data.totalEvent);
+    setDays(data.noOfDays);
+    setLock(data.isRegistrationLock);
+  }
+
+  useEffect(() => {
+    const getDetailsById = async () => {
+      try {
+        loaderToggler(true);
+        //get events
+        const details = await detailsService.getDetailsById(id);
+        setState(details.data);
+        console.log(details.data);
+        loaderToggler(false);
+      } catch (err) {
+        console.error(err?.response?.data?.message);
+        loaderToggler(false);
+      }
+    };
+    getDetailsById();
+  }, []);
 
   //clearing the form
   const clearFormCredentials = () => {
@@ -51,79 +92,65 @@ export default function AddDetails() {
     setGuest("");
     setTotalevent("");
     setDays("");
+    setLock(false);
   };
 
-    //setState function
-    function setState() {
-      setName(localStorage.getItem('Name'));
-      setDate(localStorage.getItem('Date'));
-      setPlace(localStorage.getItem('Place'));
-      setInuaguration(localStorage.getItem('Inuagration'));
-      setGuest(localStorage.getItem('Guest'));
-      setTotalevent(localStorage.getItem('TotalEvents'));
-      setDays(localStorage.getItem('Days'));
-    }
-
-  const handleAddDetails = () => {
-    if(localStorage.getItem('Name')!=""){
-    try{
-    localStorage.setItem('Name', pgmname);
-    localStorage.setItem('Date', date);
-    localStorage.setItem('Place', place);
-    localStorage.setItem('Inuagration', inuaguration);
-    localStorage.setItem('Guest', guest);
-    localStorage.setItem('TotalEvents', totalevents);
-    localStorage.setItem('Days', days);
-    clearFormCredentials();
-    }catch(err){
-      console.log("Details Not Set")
-    }}
-    else{
-      try{
-        localStorage.clear();
-    localStorage.setItem('Name', pgmname);
-    localStorage.setItem('Date', date);
-    localStorage.setItem('Place', place);
-    localStorage.setItem('Inuagration', inuaguration);
-    localStorage.setItem('Guest', guest);
-    localStorage.setItem('TotalEvents', totalevents);
-    localStorage.setItem('Days', days);
-    clearFormCredentials();
-
-      }catch(err){
-        console.log("edit failed")
+  const handleAddDetails = async () => {
+    try {
+      loaderToggler(true);
+      const detailsData = {
+        pgmName,
+        date,
+        place,
+        inuaguration,
+        guest,
+        totalEvent,
+        noOfDays,
+        isRegistrationLock,
+      };
+      // adding event to db
+      if (!id) {
+        const res = await detailsService.createDetails(detailsData);
+        console.log(res);
+        // clearing the form
+        clearFormCredentials();
+        navigate("../");
+        loaderToggler(false);
+      } else {
+        //update event
+        const updatedData = await detailsService.updateDetails(id, detailsData);
+        console.log(updatedData);
+        // clearing the form
+        clearFormCredentials();
+        navigate("../");
+        loaderToggler(false);
       }
-    
+    } catch (err) {
+      console.error(err?.response?.data?.message);
+      loaderToggler(false);
     }
- };
-
- useEffect(()=>{
-   const getDetails = () =>{
-    const items = { ...localStorage };
-     setState(items)
-   };
-   getDetails();
- })
+  };
 
   return (
     <Page title="AddDetails">
       <Container>
+        <Loader />
         <Card sx={{ padding: 3, marginBottom: 2 }}>
           <Grid container spacing={1} rowSpacing={1}>
             <Grid item xs={6} sm={6} md={6}>
               <TextField
                 varient="contained"
-                name="pgmname"
+                name="pgmName"
                 label="Program name"
                 color="info"
                 fullWidth
-                value={pgmname}
+                value={pgmName}
                 onChange={handlePgmnameChange}
                 // error={errorMsg}
               />
             </Grid>
             <Grid item xs={6} sm={6} md={6}>
-            <TextField
+              <TextField
                 varient="contained"
                 name="date"
                 label="Date"
@@ -173,11 +200,11 @@ export default function AddDetails() {
             <Grid item xs={6} sm={6} md={6}>
               <TextField
                 varient="contained"
-                name="totalevents"
+                name="totalEvent"
                 label="Total Events"
                 color="info"
                 fullWidth
-                value={totalevents}
+                value={totalEvent}
                 onChange={handleTotaleventChange}
                 // error={errorMsg}
               />
@@ -185,16 +212,29 @@ export default function AddDetails() {
             <Grid item xs={6} sm={6} md={6}>
               <TextField
                 varient="contained"
-                name="days"
+                name="noOfDays"
                 label="Number of Days"
                 color="info"
                 fullWidth
-                value={days}
+                value={noOfDays}
                 onChange={handleDaysChange}
                 // error={errorMsg}
               />
             </Grid>
-         </Grid>
+            <Grid
+              container
+              direction="row"
+              justifyContent="flex-start"
+              alignItems="center"
+            >
+              <Typography>Lock Registration</Typography>
+              <Checkbox
+                checked={isRegistrationLock}
+                onChange={handleStatusChange}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            </Grid>
+          </Grid>
           <Stack
             direction="row"
             alignItems="center"
@@ -203,12 +243,12 @@ export default function AddDetails() {
           >
             <Tooltip
               title={
-                !pgmname ||
+                !pgmName ||
                 !date ||
                 !place ||
                 !guest ||
                 !inuaguration ||
-                !totalevents
+                !totalEvent
                   ? "fill the fields"
                   : "sumbit fields"
               }
@@ -218,7 +258,7 @@ export default function AddDetails() {
                   variant="contained"
                   color="info"
                   onClick={handleAddDetails}
-                  disabled={!pgmname || !date || !place || !inuaguration || !guest || !days}
+                  // disabled={!pgmName || !date || !place || !inuaguration || !guest || !noOfDays}
                   startIcon={<PublishIcon />}
                 >
                   Add

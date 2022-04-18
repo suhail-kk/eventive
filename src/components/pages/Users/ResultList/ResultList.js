@@ -3,10 +3,17 @@ import { Typography, Grid, Card, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Page from "../../../utils/Page";
 import markentryService from "../../../../services/markentryService";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 
 //   custom component
 import Field from "../../../utils/Student/View/Field";
+
+//context
+import { loadingContext } from "../../../../context/loadingContext";
+
+//loader
+import Loader from "../../../utils/Loader";
+
 // custom card
 const ProfileCard = styled(Card)(({ theme }) => ({
   paddingRight: `${theme.spacing(4)} !important`,
@@ -28,16 +35,20 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function ResultList() {
   const [results, setResults] = useState([]);
+  const { loaderToggler } = useContext(loadingContext);
 
   useEffect(() => {
     //get all results
     const getAllResults = async () => {
       try {
+        loaderToggler(true);
         //get result
         const result = await markentryService.getAllResults();
         setResults(result.data);
+        loaderToggler(false);
       } catch (err) {
         console.error(err?.response?.data?.message);
+        loaderToggler(false);
       }
     };
     getAllResults();
@@ -47,6 +58,7 @@ export default function ResultList() {
   return (
     <RootStyle>
       <ContentStyle>
+        <Loader/>
         <Container>
           {results &&
             results.map((value) => {

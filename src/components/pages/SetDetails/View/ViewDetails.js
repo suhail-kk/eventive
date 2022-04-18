@@ -1,5 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 // material components
 import {
   Stack,
@@ -8,19 +8,29 @@ import {
   Typography,
   Grid,
   Card,
-  Switch,
+  Link
 } from "@mui/material";
 
 // material icons
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { styled } from "@mui/material/styles";
 
 // page wrapper for dynamic meta tags
 import Page from "../../../utils/Page";
 
+//details services
+import detailsService from "../../../../services/detailsService";
+
 //   custom component
 import Field from "../../../utils/Student/View/Field";
+
+//context
+import { loadingContext } from "../../../../context/loadingContext";
+
+//loader
+import Loader from "../../../utils/Loader";
 
 // custom card
 const ProfileCard = styled(Card)(({ theme }) => ({
@@ -28,14 +38,45 @@ const ProfileCard = styled(Card)(({ theme }) => ({
   paddingBottom: `${theme.spacing(4)} !important`,
 }));
 
-const label = { inputProps: { "aria-label": "Switch demo" } };
+
 
 export default function ViewDetails() {
+  const { loaderToggler } = useContext(loadingContext);
+  const [details,setDetails] = useState([]);
+  var first = details[0];
 
+  useEffect(()=>{
+    const getDetails = async () => {
+      try {
+        // loaderToggler(true);
+        const pgmDetails = await detailsService.getDetails();
+        setDetails(pgmDetails.data);
+        // loaderToggler(false);
+      }catch(err){
+        console.error(err?.response?.data?.message);
+        // loaderToggler(false);
+      }
+    };
+    getDetails();
+  },[details])
+
+  const handleDeleteDetails = (id) => {
+    try{
+      loaderToggler(true);
+      detailsService.deleteDetails(id,details);
+      loaderToggler(false);
+    }catch(err){
+      console.error(err?.response?.data?.message);
+      loaderToggler(false);
+    }
+  }
+
+ 
 
   return (
     <Page title="Details"> 
       <Container>
+        <Loader/>
         <Stack
           direction="row"
           alignItems="center"
@@ -50,12 +91,13 @@ export default function ViewDetails() {
             component={RouterLink}
             to="/app/details/add"
             startIcon={<AddIcon />}
-            disabled={localStorage.getItem('Name')!=""}
+            disabled={first!=null}
           >
             Set Details
           </Button>
         </Stack>
-        
+        {
+          details && details.map((data)=>(
         <Grid
           component={ProfileCard}
           sx={{ mt: 2, p: 2 }}
@@ -72,44 +114,45 @@ export default function ViewDetails() {
             container
             direction="row"
           >
-            <RouterLink to="../add">
-            <EditIcon />
-            </RouterLink>
+             <Button
+            component={RouterLink}
+            to={`/app/details/edit/${data._id}`}>
+              <EditIcon/>
+            </Button>
+            <Button onClick={() => handleDeleteDetails(data._id)}>
+            <DeleteIcon/>
+            </Button>
           </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Program Name" subHeading={localStorage.getItem('Name')}/>
+            <Field heading="Program Name" subHeading={data.pgmName}/>
           </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Date" subHeading={localStorage.getItem('Date')} />
+            <Field heading="Date" subHeading={data.date} />
           </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Place" subHeading={localStorage.getItem('Place')} />
+              <Field heading="Place" subHeading={data.place} />
             </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Inuagration" subHeading={localStorage.getItem('Inuagration')} />
+              <Field heading="Inuaguration" subHeading={data.inuaguration} />
             </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Guest" subHeading={localStorage.getItem('Guest')} />
+              <Field heading="Guest" subHeading={data.guest} />
             </Grid>
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Total Events" subHeading={localStorage.getItem('TotalEvents')} />
+            <Field heading="Total Events" subHeading={data.totalEvent} />
           </Grid>
-       
             <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Number of Days" subHeading={localStorage.getItem('Days')}/>
+            <Field heading="Number of Days" subHeading={data.noOfDays}/>
+          </Grid>
+          <Grid item sm={12} xs={12} md={4} lg={4}>
+            <Field heading="Registration Status" subHeading={data.isRegistrationLock?"Locked":"Not Locked"}/>
           </Grid>
            
         </Grid>
+        ))
+      }
       </Container>
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-      >
-        <Switch {...label} />
-        <Typography>Lock Registration</Typography>
-      </Grid>
+      
     </Page>
   );
 }

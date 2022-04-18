@@ -10,6 +10,9 @@ import Field from "../../../utils/Student/View/Field";
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
+//loader
+import Loader from "../../../utils/Loader";
+
 // custom card
 const ProfileCard = styled(Card)(({ theme }) => ({
   paddingRight: `${theme.spacing(4)} !important`,
@@ -56,6 +59,7 @@ export default function UserShedule() {
     <RootStyle>
       <ContentStyle>
         <Container>
+          <Loader/>
           {shedules &&
             shedules.map((value) => {
               return (

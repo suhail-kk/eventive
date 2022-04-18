@@ -13,6 +13,9 @@ import { useEffect, useState,useContext } from "react";
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
+//loader
+import Loader from "../../../utils/Loader";
+
 // table header cell config
 const TABLE_HEAD = [
   {
@@ -25,13 +28,13 @@ const TABLE_HEAD = [
   { id: "second", label: "Second", alignRight: false, type: "text" },
   { id: "third", label: "Third", alignRight: false, type: "text" },
   { id: "edit", label: "Edit", alignRight: false,type:"edit" },
-  { id: "delete", label: "Delete", alignRight: false,type:"delete" },
 ];
 
 
 export default function MarkView() {
   const { loaderToggler } = useContext(loadingContext);
   const [results, setResult] = useState([]);
+  
   useEffect(() => {
     const getAllResults = async () => {
       try {
@@ -50,6 +53,7 @@ export default function MarkView() {
   return (
     <Page title="Marks">
       <Container>
+      <Loader/>
         <Stack
           direction="row"
           alignItems="center"

@@ -23,7 +23,7 @@ import ResultList from "./components/pages/Users/ResultList/ResultList";
 import UserRegister from "./components/pages/Users/UserRegister/UserRegister";
 import AssignEventList from "./components/pages/Users/AssignEvent/Add/AssignEventList";
 import IndividualEventList from "./components/pages/Users/AssignEvent/View/IndividualEventList";
-import UserNavbar from "./components/pages/Users/utils/UserNavbar/UserNavbar";
+import UserNavbar from "./components/pages/Users/UserHome/UserNavbar";
 import RegistrationList from "./components/pages/RegistrationList/RegistrationList"
 
 //context provider

@@ -13,6 +13,9 @@ import eventService from "../../../../services/eventsService"
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
+//loader
+import Loader from "../../../utils/Loader";
+
 // table header cell config
 const TABLE_HEAD = [
   {
@@ -23,7 +26,6 @@ const TABLE_HEAD = [
   },
   { id: "gender", label: "Gender", alignRight: false, type: "text" },
   { id: "edit", label: "Edit", alignRight: false,type:"edit" },
-  { id: "delete", label: "Delete", alignRight: false,type:"delete" },
 ];
 
 
@@ -48,6 +50,7 @@ export default function EventsList() {
   console.log(events.data);
   return (
     <Page title="EventsList">
+      <Loader/>
       <Container>
         <Stack
           direction="row"
