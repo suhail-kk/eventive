@@ -58,7 +58,8 @@ export default function SignUp() {
         password,
       };
       // logging in user
-      await authService.resetPassword(data, userToken);
+       const res=await authService.resetPassword(data, userToken);
+       console.log(res);
       navigate("/");
     } catch (err) {
       console.error(err.response);

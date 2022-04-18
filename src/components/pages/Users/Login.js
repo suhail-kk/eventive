@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import PasswordField from "./utils/PasswordField";
 import TextInput from "./utils/TextInput";
 import SubmitButton from "./utils/SubmitButton";
-import userServices from "../../../services/userService";
 import Loader from "../../utils/Loader"
 import { loadingContext } from "../../../context/loadingContext";
  import LOCAL_KEYS from "../../../constants/LOCAL_KEY";
@@ -35,6 +34,7 @@ export default function Login() {
   //   setEmail("");
   //   setPassword("");
   //    };
+  //clearForm();
 
   const redirectionHandler = (type) => {
     
@@ -53,7 +53,7 @@ export default function Login() {
       };
       // logging in user
       const response = await authService.loginUser(loginCredentials);
-      // clearForm();
+       //clearForm();
       
 
       //storing token in localStorage
@@ -81,11 +81,14 @@ export default function Login() {
               type="email"
               value={email}
               setValue={setEmail}
+              authErrors={authErrors}
             />
             <PasswordField
               label="Password"
               value={password}
-              setValue={setPassword}
+                setValue={setPassword}
+              authErrors={authErrors}
+              showError
             />
 
             <Stack
