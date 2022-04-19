@@ -1,9 +1,9 @@
-class NotFound extends React.Component {
-    render() {
-        <>
-        <h2>Page Not Fount</h2>
-        </>
-      
-    }
-  }
-  
+import React from "react";
+
+export default function NotFound() {
+  return (
+    <div>
+      <h2>Page Not Found</h2>
+    </div>
+  );
+}

@@ -7,7 +7,7 @@ import {
   Container,
   Stack,
 } from "@mui/material";
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import * as React from "react";
@@ -59,7 +59,7 @@ export default function AssignEventList() {
   const { loaderToggler } = useContext(loadingContext);
   const [itemsList, setItemsList] = useState([]);
   const [events, setEvents] = useState();
-  // const candidateName = localStorage.getItem("candidateName");
+  const candidateName = localStorage.getItem("candidateName");
 
   useEffect(() => {
     //get all events
@@ -77,7 +77,6 @@ export default function AssignEventList() {
     };
     getAllEvents();
   }, []);
-  
 
   const handleToggle = (value) => () => {
     const currentIndex = itemsList.indexOf(value);
@@ -93,21 +92,23 @@ export default function AssignEventList() {
   };
   console.log(itemsList);
 
-    //clearing the form
-    const clearFormCredentials = () => {
-      setItemsList([])
-    };
+  //clearing the form
+  const clearFormCredentials = () => {
+    setItemsList([]);
+  };
 
   const handleAddDetails = async () => {
     try {
       loaderToggler(true);
       const detailsData = {
-        candidateName : localStorage.getItem("candidateName"),
-        [itemsList]:itemsList,
+        candidateName: candidateName,
+        itemsList: itemsList,
       };
       // adding events list to db
       if (!id) {
-        const res = await participantsDetailsServices.createParticipantDetails(detailsData);
+        const res = await participantsDetailsServices.createParticipantDetails(
+          detailsData
+        );
         console.log(res);
         // clearing the form
         clearFormCredentials();
@@ -115,7 +116,11 @@ export default function AssignEventList() {
         loaderToggler(false);
       } else {
         //update event
-        const updatedData = await participantsDetailsServices.updateParticipantsDetails(id, detailsData);
+        const updatedData =
+          await participantsDetailsServices.updateParticipantsDetails(
+            id,
+            detailsData
+          );
         console.log(updatedData);
         // clearing the form
         clearFormCredentials();
@@ -132,7 +137,7 @@ export default function AssignEventList() {
     <RootStyle>
       <ContentStyle>
         <Container>
-          <Loader/>
+          <Loader />
           <Grid
             component={ProfileCard}
             sx={{ mt: 2, p: 2, mb: 2 }}
@@ -142,10 +147,7 @@ export default function AssignEventList() {
             <Grid item sm={12} xs={12} md={12} lg={12}>
               <Typography variant="h5">Assign Event</Typography>
             </Grid>
-            <List
-              dense
-              sx={{ width: "100%", bgcolor: "background.paper" }}
-            >
+            <List dense sx={{ width: "100%", bgcolor: "background.paper" }}>
               {events &&
                 events.map((value) => {
                   const labelId = `checkbox-list-secondary-label-${value}`;

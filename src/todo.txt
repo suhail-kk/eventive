@@ -1,7 +1,6 @@
 ToDo List
 
 
-1) Login , Sign Up,Logout & Forgot Password
 2) Assign Events
 3) Dept Points Calcualtion and Sort by Desc
 5) Individual Result Page
@@ -18,3 +17,4 @@ Done
 9) EventsList  Delete
 10) Shedule  Delete
 11) MarkEntry  Delete
+1) Login , Sign Up,Logout & Forgot Password

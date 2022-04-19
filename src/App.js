@@ -25,7 +25,7 @@ import AssignEventList from "./components/pages/Users/AssignEvent/Add/AssignEven
 import IndividualEventList from "./components/pages/Users/AssignEvent/View/IndividualEventList";
 import UserNavbar from "./components/pages/Users/UserHome/UserNavbar";
 import RegistrationList from "./components/pages/RegistrationList/RegistrationList"
-
+import NotFound from "./components/utils/NotFound";
 //context provider
 import LoadingProvider from "./context/loadingContext";
 import Button from "./theme/overrides/Button";
@@ -82,8 +82,6 @@ function App() {
 
         {/* user routes */}
         <Route path="/user" element={<UserNavbar/>}>
-          <Route path="forgot" element={<ForgotPassword />} />
-          <Route path="recover" element={<RecoverPassword />} />
           <Route path="shedule" element={<UserShedule />} />
           <Route path="assignevent" element={<AssignEventList />} />
           <Route path="eventlist" element={<IndividualEventList />} />
@@ -94,7 +92,9 @@ function App() {
 
         <Route path="/" element={<Login/>}/>
         <Route path="/signup" element={<SignUp />} />
-        {/* </DetailsProvider> */}
+        <Route path="/forgot" element={<ForgotPassword />} />
+        <Route path="/recover/:userToken" element={<RecoverPassword />} />
+        <Route path="*" element={<NotFound />} /> 
       </Routes>
       </LoadingProvider>
     </ThemeConfig>

@@ -1,17 +1,15 @@
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
-import {
-  Box,
-  Container,
-  Typography,
-  Stack,
-  Link,
-  Card,
-} from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Box, Container, Typography, Stack, Link, Card } from "@mui/material";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import PasswordField from "./utils/PasswordField";
 import TextInput from "./utils/TextInput";
 import SubmitButton from "./utils/SubmitButton";
+import Page from "../../utils/Page";
+import Loader from "../../utils/Loader";
+
+//importing the user service
+import authService from "../../../services/authServices";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 400,
@@ -23,13 +21,18 @@ const ContentStyle = styled("div")(({ theme }) => ({
   alignContent: "center",
 }));
 
-export default function Register() {
-  const [userName, setUserName] = useState();
+export default function SignUp() {
+  const { id } = useParams();
+  const [username, setUserName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [passwordError, setPasswordError] = useState();
   const [confirmPasswordError, setConfirmPasswordError] = useState();
+  const [authErrors, setAuthErrors] = useState();
+  const navigate = useNavigate();
+
+  const clearError = () => setAuthErrors("");
 
   const validatePasswordLength = () => {
     //password validation for min length
@@ -44,74 +47,101 @@ export default function Register() {
   const validatePasswordMatch = () => {
     //checking passwords match
     if (password !== confirmPassword) {
-      setConfirmPasswordError("Passwords must be same.");
+      setConfirmPasswordError("Passwords and Confirm Password must be same.");
       return true;
     }
     setConfirmPasswordError("");
     return false;
   };
 
-  const handleClick = () => {
+  const clearForm = () => {
+    setUserName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
+  const handleClick = async () => {
     const passwordLengthError = validatePasswordLength();
     const passwordMatchError = validatePasswordMatch();
     if (passwordLengthError || passwordMatchError) return;
-    console.log(userName, email, password, confirmPassword);
-  };
+    try {
+      clearError();
 
+      const registerCredentials = {
+        username,
+        email,
+        password,
+      };
+
+      // registering a user
+      const res = await authService.registerUser(registerCredentials);
+      console.log(res);
+      clearForm();
+      navigate("/");
+    } catch (err) {
+      setAuthErrors(err?.response?.data?.message);
+    }
+  };
   return (
-      <ContentStyle>
-        <Card sx={{ p: 3 }}>
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="h3" gutterBottom textAlign="center">
-              Create an Account
-            </Typography>
-          </Box>
-          <Stack spacing={2}>
-            <TextInput
-              label="User name"
-              type="text"
-              value={userName}
-              setValue={setUserName}
-            />
-            <TextInput
-              label="Email"
-              type="email"
-              value={email}
-              setValue={setEmail}
-            />
-            <PasswordField
-              label="Password"
-              value={password}
-              setValue={setPassword}
-              errorMessage={passwordError}
-            />
-            <PasswordField
-              label="Confirm Password"
-              value={confirmPassword}
-              setValue={setConfirmPassword}
-              errorMessage={confirmPasswordError}
-            />
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="flex-start"
-              sx={{ my: 2 }}
-            >
-              <Link component={RouterLink} variant="subtitle2" to="/">
-                Already have an account? Login
-              </Link>
-            </Stack>
-            <SubmitButton
-              name="Create an Account"
-              disabled={
-                !userName || !email || !password || !confirmPassword
-                  ? true
-                  : false
-              }
-              onClick={handleClick}
-            />
+    <ContentStyle>
+      <Card sx={{ p: 3 }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h3" gutterBottom textAlign="center">
+            Create an Account
+          </Typography>
+        </Box>
+        <Stack spacing={2}>
+          <TextInput
+            label="User Name"
+            type="text"
+            value={username}
+            setValue={setUserName}
+            authErrors={authErrors}
+          />
+          <TextInput
+            label="Email"
+            type="email"
+            value={email}
+            setValue={setEmail}
+            authErrors={authErrors}
+          />
+          <PasswordField
+            label="Password"
+            value={password}
+            setValue={setPassword}
+            errorMessage={passwordError}
+            authErrors={authErrors}
+          />
+          <PasswordField
+            label="Confirm Password"
+            value={confirmPassword}
+            setValue={setConfirmPassword}
+            errorMessage={confirmPasswordError}
+            authErrors={authErrors}
+            showError
+          />
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="flex-start"
+            sx={{ my: 2 }}
+          >
+            <Link component={RouterLink} variant="subtitle2" to="/">
+              Already have an account? Login
+            </Link>
           </Stack>
-        </Card>
-      </ContentStyle>
+          <SubmitButton
+            name="Create an Account"
+            disabled={
+              !username || !email || !password || !confirmPassword
+                ? true
+                : false
+            }
+            onClick={handleClick}
+          />
+        </Stack>
+      </Card>
+    </ContentStyle>
   );
 }

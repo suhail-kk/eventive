@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Box, Container, Typography, Stack, Card } from "@mui/material";
 import PasswordField from "./utils/PasswordField";
 import SubmitButton from "./utils/SubmitButton";
+import authService from "../../../services/authServices";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 400,
@@ -14,12 +16,18 @@ const ContentStyle = styled("div")(({ theme }) => ({
   alignContent: "center",
 }));
 
+
+
 export default function SignUp() {
+
+  const navigate = useNavigate();
+  const { userToken } = useParams();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [passwordError, setPasswordError] = useState();
   const [confirmPasswordError, setConfirmPasswordError] = useState();
 
+  console.log(userToken)
   const validatePasswordLength = () => {
     //password validation for min length
     if (password.length < 5) {
@@ -40,12 +48,24 @@ export default function SignUp() {
     return false;
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     const passwordLengthError = validatePasswordLength();
     const passwordMatchError = validatePasswordMatch();
     if (passwordLengthError || passwordMatchError) return;
     console.log(password, confirmPassword);
+    try {
+      const data = {
+        password,
+      };
+      // logging in user
+      const res = await authService.resetPassword(data, userToken);
+      console.log(res);
+      navigate("/");
+    } catch (err) {
+      console.error(err.response);
+    }
   };
+  
 
   return (
     <Container>

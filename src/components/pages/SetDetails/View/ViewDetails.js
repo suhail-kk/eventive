@@ -1,5 +1,5 @@
-import { Link as RouterLink } from "react-router-dom";
-import { useState, useEffect,useContext } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
 // material components
 import {
   Stack,
@@ -8,13 +8,13 @@ import {
   Typography,
   Grid,
   Card,
-  Link
+  Link,
 } from "@mui/material";
 
 // material icons
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { styled } from "@mui/material/styles";
 
 // page wrapper for dynamic meta tags
@@ -38,45 +38,43 @@ const ProfileCard = styled(Card)(({ theme }) => ({
   paddingBottom: `${theme.spacing(4)} !important`,
 }));
 
-
-
 export default function ViewDetails() {
+  const navigate = useNavigate();
   const { loaderToggler } = useContext(loadingContext);
-  const [details,setDetails] = useState([]);
+  const [details, setDetails] = useState([]);
   var first = details[0];
 
-  useEffect(()=>{
+  useEffect(() => {
     const getDetails = async () => {
       try {
-        // loaderToggler(true);
+        loaderToggler(true);
         const pgmDetails = await detailsService.getDetails();
         setDetails(pgmDetails.data);
-        // loaderToggler(false);
-      }catch(err){
+        loaderToggler(false);
+      } catch (err) {
         console.error(err?.response?.data?.message);
-        // loaderToggler(false);
+        loaderToggler(false);
       }
     };
     getDetails();
-  },[details])
+  }, []);
 
   const handleDeleteDetails = (id) => {
-    try{
+    try {
       loaderToggler(true);
-      detailsService.deleteDetails(id,details);
+      detailsService.deleteDetails(id, details);
+      navigate("/app/details/add");
       loaderToggler(false);
-    }catch(err){
+    } catch (err) {
       console.error(err?.response?.data?.message);
       loaderToggler(false);
     }
-  }
-
- 
+  };
 
   return (
-    <Page title="Details"> 
+    <Page title="Details">
       <Container>
-        <Loader/>
+        <Loader />
         <Stack
           direction="row"
           alignItems="center"
@@ -86,73 +84,74 @@ export default function ViewDetails() {
           <Typography variant="h4" gutterBottom>
             Details
           </Typography>
-            <Button
+          <Button
             variant="contained"
             component={RouterLink}
             to="/app/details/add"
             startIcon={<AddIcon />}
-            disabled={first!=null}
+            disabled={first != null}
           >
             Set Details
           </Button>
         </Stack>
-        {
-          details && details.map((data)=>(
-        <Grid
-          component={ProfileCard}
-          sx={{ mt: 2, p: 2 }}
-          container
-          spacing={2}
-        >
-          <Grid
-            item
-            sm={12}
-            xs={12}
-            md={12}
-            lg={12}
-            justifyContent="flex-end"
-            container
-            direction="row"
-          >
-             <Button
-            component={RouterLink}
-            to={`/app/details/edit/${data._id}`}>
-              <EditIcon/>
-            </Button>
-            <Button onClick={() => handleDeleteDetails(data._id)}>
-            <DeleteIcon/>
-            </Button>
-          </Grid>
-            <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Program Name" subHeading={data.pgmName}/>
-          </Grid>
-            <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Date" subHeading={data.date} />
-          </Grid>
+        {details &&
+          details.map((data) => (
+            <Grid
+              component={ProfileCard}
+              sx={{ mt: 2, p: 2 }}
+              container
+              spacing={2}
+            >
+              <Grid
+                item
+                sm={12}
+                xs={12}
+                md={12}
+                lg={12}
+                justifyContent="flex-end"
+                container
+                direction="row"
+              >
+                <Button
+                  component={RouterLink}
+                  to={`/app/details/edit/${data._id}`}
+                >
+                  <EditIcon />
+                </Button>
+                <Button onClick={() => handleDeleteDetails(data._id)}>
+                  <DeleteIcon />
+                </Button>
+              </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Place" subHeading={data.place} />
-            </Grid>
+                <Field heading="Program Name" subHeading={data.pgmName} />
+              </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Inuaguration" subHeading={data.inuaguration} />
-            </Grid>
+                <Field heading="Date" subHeading={data.date} />
+              </Grid>
               <Grid item sm={12} xs={12} md={4} lg={4}>
-              <Field heading="Guest" subHeading={data.guest} />
+                <Field heading="Place" subHeading={data.place} />
+              </Grid>
+              <Grid item sm={12} xs={12} md={4} lg={4}>
+                <Field heading="Inuaguration" subHeading={data.inuaguration} />
+              </Grid>
+              <Grid item sm={12} xs={12} md={4} lg={4}>
+                <Field heading="Guest" subHeading={data.guest} />
+              </Grid>
+              <Grid item sm={12} xs={12} md={4} lg={4}>
+                <Field heading="Total Events" subHeading={data.totalEvent} />
+              </Grid>
+              <Grid item sm={12} xs={12} md={4} lg={4}>
+                <Field heading="Number of Days" subHeading={data.noOfDays} />
+              </Grid>
+              <Grid item sm={12} xs={12} md={4} lg={4}>
+                <Field
+                  heading="Registration Status"
+                  subHeading={data.isRegistrationLock ? "Locked" : "Not Locked"}
+                />
+              </Grid>
             </Grid>
-            <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Total Events" subHeading={data.totalEvent} />
-          </Grid>
-            <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Number of Days" subHeading={data.noOfDays}/>
-          </Grid>
-          <Grid item sm={12} xs={12} md={4} lg={4}>
-            <Field heading="Registration Status" subHeading={data.isRegistrationLock?"Locked":"Not Locked"}/>
-          </Grid>
-           
-        </Grid>
-        ))
-      }
+          ))}
       </Container>
-      
     </Page>
   );
 }
