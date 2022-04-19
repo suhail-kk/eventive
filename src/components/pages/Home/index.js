@@ -2,9 +2,8 @@ import Page from "../../utils/Page";
 import UsersCard from "./UsersCard";
 import { Container, Box, Typography, Grid } from "@mui/material";
 import UserTypeConfig from "./UserTypeConfig";
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
 import DptPointTable from "./DptPointTable";
-
 
 const Home = () => {
   return (
@@ -20,15 +19,13 @@ const Home = () => {
             </Grid>
           ))}
         </Grid>
-       
       </Container>
       <Grid mt={3}>
-      <Divider variant="inset" />
+        <Divider variant="inset" />
       </Grid>
       <Grid mt={2}>
-      <DptPointTable/>
+        <DptPointTable />
       </Grid>
-     
     </Page>
   );
 };

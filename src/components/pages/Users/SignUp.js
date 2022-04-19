@@ -76,9 +76,9 @@ export default function SignUp() {
 
       // registering a user
       const res = await authService.registerUser(registerCredentials);
+      navigate("/");
       console.log(res);
       clearForm();
-      navigate("/");
     } catch (err) {
       setAuthErrors(err?.response?.data?.message);
     }

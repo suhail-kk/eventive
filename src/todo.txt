@@ -1,6 +1,5 @@
 ToDo List
 
-
 2) Assign Events
 3) Dept Points Calcualtion and Sort by Desc
 5) Individual Result Page

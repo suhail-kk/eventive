@@ -1,5 +1,5 @@
 import Home from "./components/pages/Home";
-import { Routes, Route, Navigate} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "./components/utils/DashboardLayout";
 import ThemeConfig from "./theme";
 import GlobalStyles from "./theme/globalStyles";
@@ -24,7 +24,7 @@ import UserRegister from "./components/pages/Users/UserRegister/UserRegister";
 import AssignEventList from "./components/pages/Users/AssignEvent/Add/AssignEventList";
 import IndividualEventList from "./components/pages/Users/AssignEvent/View/IndividualEventList";
 import UserNavbar from "./components/pages/Users/UserHome/UserNavbar";
-import RegistrationList from "./components/pages/RegistrationList/RegistrationList"
+import RegistrationList from "./components/pages/RegistrationList/RegistrationList";
 import NotFound from "./components/utils/NotFound";
 //context provider
 import LoadingProvider from "./context/loadingContext";
@@ -36,66 +36,69 @@ function App() {
     <ThemeConfig>
       <GlobalStyles />
       <LoadingProvider>
-      <Routes>
-        {/* <DetailsProvider> */}
-        {/* Home routes (Dashboard) */}
-        <Route path="/app" element={<DashboardLayout />}>
-          <Route path="/app" element={<Navigate to="/app/home" />} />
-          <Route path="home" element={<Home />} />
+        <Routes>
+          {/* <DetailsProvider> */}
+          {/* Home routes (Dashboard) */}
+          <Route path="/app" element={<DashboardLayout />}>
+            <Route path="/app" element={<Navigate to="/app/home" />} />
+            <Route path="home" element={<Home />} />
 
-          <Route path="/app/department" element={<DepartmentPoints />} />
+            <Route path="/app/department" element={<DepartmentPoints />} />
 
-          {/*participants list */}
-          <Route path="/app/participants" element={<ParticipantList />} />
-          <Route path="/app/participantsdata" element={<RegistrationList />} />
+            {/*participants list */}
+            <Route path="/app/participants" element={<ParticipantList />} />
+            <Route
+              path="/app/participantsdata"
+              element={<RegistrationList />}
+            />
 
-          {/*shedule list */}
-          <Route path="shedule">
-            <Route path="/app/shedule" element={<SheduleList />} />
-            <Route path="add" element={<AddShedule />} />
-            <Route path="edit/:id" element={<AddShedule />} />
-            <Route />
+            {/*shedule list */}
+            <Route path="shedule">
+              <Route path="/app/shedule" element={<SheduleList />} />
+              <Route path="add" element={<AddShedule />} />
+              <Route path="edit/:id" element={<AddShedule />} />
+              <Route />
+            </Route>
+
+            {/*Set Details */}
+            <Route path="details">
+              <Route path="/app/details" element={<ViewDetails />} />
+              <Route path="add" element={<AddDetails />} />
+              <Route path="edit/:id" element={<AddDetails />} />
+            </Route>
+
+            {/*events list */}
+            <Route path="events">
+              <Route path="/app/events" element={<EventsList />} />
+              <Route path="add" element={<EventsAdd />} />
+              <Route path="edit/:id" element={<EventsAdd />} />
+
+              <Route />
+            </Route>
+
+            <Route path="markentry">
+              <Route path="/app/markentry" element={<MarkView />} />
+              <Route path="add" element={<AddMark />} />
+              <Route path="edit/:id" element={<AddMark />} />
+            </Route>
           </Route>
 
-          {/*Set Details */}
-          <Route path="details">
-            <Route path="/app/details" element={<ViewDetails />} />
-            <Route path="add" element={<AddDetails />} />
-            <Route path="edit/:id" element={<AddDetails />} />
+          {/* user routes */}
+          <Route path="/user" element={<UserNavbar />}>
+            <Route path="shedule" element={<UserShedule />} />
+            <Route path="assignevent" element={<AssignEventList />} />
+            <Route path="eventlist" element={<IndividualEventList />} />
+            <Route path="landing" element={<UserHome />} />
+            <Route path="result" element={<ResultList />} />
+            <Route path="register" element={<UserRegister />} />
           </Route>
 
-          {/*events list */}
-          <Route path="events">
-            <Route path="/app/events" element={<EventsList />} />
-            <Route path="add" element={<EventsAdd />} />
-            <Route path="edit/:id" element={<EventsAdd />} />
-
-            <Route />
-          </Route>
-
-          <Route path="markentry">
-            <Route path="/app/markentry" element={<MarkView />} />
-            <Route path="add" element={<AddMark />} />
-            <Route path="edit/:id" element={<AddMark />} />
-          </Route>
-        </Route>
-
-        {/* user routes */}
-        <Route path="/user" element={<UserNavbar/>}>
-          <Route path="shedule" element={<UserShedule />} />
-          <Route path="assignevent" element={<AssignEventList />} />
-          <Route path="eventlist" element={<IndividualEventList />} />
-          <Route path="landing" element={<UserHome />} />
-          <Route path="result" element={<ResultList />} />
-          <Route path="register" element={<UserRegister />} />
-        </Route>
-
-        <Route path="/" element={<Login/>}/>
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/forgot" element={<ForgotPassword />} />
-        <Route path="/recover/:userToken" element={<RecoverPassword />} />
-        <Route path="*" element={<NotFound />} /> 
-      </Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot" element={<ForgotPassword />} />
+          <Route path="/recover/:userToken" element={<RecoverPassword />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </LoadingProvider>
     </ThemeConfig>
   );

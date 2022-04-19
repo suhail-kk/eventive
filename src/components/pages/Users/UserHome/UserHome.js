@@ -4,7 +4,6 @@ import DeptPointList from "./DeptPointList";
 
 // material components
 import { Typography, Grid, Card } from "@mui/material";
-import DetailsView from "./DetailsView";
 import Field from "../../../utils/Student/View/Field";
 
 //details services
@@ -28,7 +27,7 @@ const RootStyle = styled("div")({
 
 export default function UserHome() {
   const [open, setOpen] = useState(true);
-  const [details, setDetails] = useState([]);
+  const [details, setDetails] = useState();
 
   useEffect(() => {
     const getDetails = async () => {
@@ -41,6 +40,7 @@ export default function UserHome() {
     };
     getDetails();
   }, []);
+
   return (
     <RootStyle>
       <Grid
@@ -52,9 +52,6 @@ export default function UserHome() {
         <Grid item sx={6} md={6} justifyContent="flex-end">
           <DeptPointList />
         </Grid>
-        {/* <Grid item sx={6} md={6} justifyContent="flex-end">
-          <DetailsView />
-        </Grid> */}
         {details &&
           details.map((data) => (
             <Grid
