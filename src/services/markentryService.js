@@ -5,6 +5,12 @@ const getAllResults = async () => {
   return BackendService.get(`results/`);
 };
 
+// get all results
+const getPoints = async () => {
+  return BackendService.get(`results/points`);
+};
+
+
 // get  result by id
 const getResultById = async (id) => {
   return BackendService.get(`results/${id}`);

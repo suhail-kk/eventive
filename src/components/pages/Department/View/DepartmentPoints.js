@@ -1,9 +1,7 @@
-import { Link as RouterLink } from "react-router-dom";
-import markentryService from "../../../../services/markentryService";
 import { useEffect, useState, useContext } from "react";
 
 // material components
-import { Stack, Button, Container, Typography, Grid } from "@mui/material";
+import { Stack, Container, Typography, Grid } from "@mui/material";
 import Page from "../../../utils/Page";
 import Dptcard from "../../../utils/Department/Dptcard";
 import DptTypeConfig from "../../../utils/Department/DptTypeConfig";
@@ -11,28 +9,24 @@ import DptTypeConfig from "../../../utils/Department/DptTypeConfig";
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
+//details service
+import markentryService from "../../../../services/markentryService";
+
 //loader
 import Loader from "../../../utils/Loader";
 
-let Department = {
-  BSC: 0,
-  BBA: 0,
-  BCOM: 0,
-  BVOC: 0,
-  BBA: 0,
-};
-
 export default function DepartmentPoints() {
   const { loaderToggler } = useContext(loadingContext);
-  const [results, setResult] = useState([]);
+  const [points,setPoints] = useState({});
+
 
   useEffect(() => {
     const getAllResults = async () => {
       try {
         loaderToggler(true);
         //get result
-        const result = await markentryService.getAllResults();
-        setResult(result.data);
+        const point = await markentryService.getPoints();
+        setPoints(point.data);
         loaderToggler(false);
       } catch (err) {
         console.error(err?.response?.data?.message);
@@ -42,6 +36,7 @@ export default function DepartmentPoints() {
     getAllResults();
   }, []);
 
+  console.log()
   return (
     <Page title="Departments">
       <Container>

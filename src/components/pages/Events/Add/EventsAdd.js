@@ -1,4 +1,6 @@
 import { useEffect, useState,useContext } from "react";
+import { useParams,useNavigate } from "react-router-dom";
+
 // material components
 import {
   Stack,
@@ -11,6 +13,8 @@ import {
   Tooltip,
   Autocomplete,
 } from "@mui/material";
+import SelectInput from "../../../utils/Inputs/SelectInput"
+
 // material icons
 import PublishIcon from "@mui/icons-material/Publish";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,12 +24,10 @@ import Page from "../../../utils/Page";
 
 //importing the event service
 import eventsService from "../../../../services/eventsService";
-import SelectInput from "../../../utils/Inputs/SelectInput"
 
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 import Loader from "../../../utils/Loader"
-import { useParams,useNavigate } from "react-router-dom";
 
 
 const Gender = ["Male", "Female"];
@@ -159,9 +161,9 @@ export default function EventsAdd() {
             />    
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
-              {/* <Typography variant="body1" gutterBottom color="error">
+              <Typography variant="body1" gutterBottom color="error">
                 {errorMsg}
-              </Typography> */}
+              </Typography>
             </Grid>
           </Grid>
           <Stack

@@ -48,6 +48,9 @@ export default function AddMark() {
   const [results, setResults] = useState([]);
   const [participants, setParticipants] = useState([]);
   const [result,setResult] = useState();
+  const [firstPoint,setFirstPoint] = useState()
+  const [secondPoint,setSecondPoint] = useState()
+  const [thirdPoint,setThirdPoint] = useState()
 
   //setState function
   function setState(data) {
@@ -58,6 +61,9 @@ export default function AddMark() {
     setFirstDept(data.firstDept);
     setSecondDept(data.secondDept);
     setThirdDept(data.thirdDept);
+    setFirstPoint(data.firstPoint);
+    setSecondPoint(data.secondPoint);
+    setThirdPoint(data.thirdPoint);
   }
 
   // clearing the form
@@ -69,6 +75,9 @@ export default function AddMark() {
     setFirstDept("");
     setSecondDept("");
     setThirdDept("");
+    setFirstPoint("");
+    setSecondPoint("");
+    setThirdPoint("");
   };
 
   const handleEventChange = (event) => setEventName(event.target.value);
@@ -78,6 +87,11 @@ export default function AddMark() {
   const handleFirstDeptChange = (event) => setFirstDept(event.target.value);
   const handleSecondDeptChange = (event) => setSecondDept(event.target.value);
   const handleThirdDeptChange = (event) => setThirdDept(event.target.value);
+  const handleFirstPointChange = (event) => setFirstPoint(event.target.value);
+  const handleSecondPointChange = (event) => setSecondPoint(event.target.value);
+  const handleThirdPointChange = (event) => setThirdPoint(event.target.value);
+
+  
   const clearError = () => setErrorMsg("");
 
   useEffect(() => {
@@ -157,6 +171,9 @@ export default function AddMark() {
         firstDept,
         secondDept,
         thirdDept,
+        firstPoint,
+        secondPoint,
+        thirdPoint
       };
       if (!id) {
         // adding result to db
@@ -318,6 +335,42 @@ export default function AddMark() {
                   <MenuItem value={dept}>{dept}</MenuItem>
                 ))}
               </TextField>
+            </Grid>
+            <Grid item xs={6} sm={4} md={4}>
+            <TextField
+                varient="contained"
+                name="firstPoint"
+                label="Point"
+                color="info"
+                fullWidth
+                value={firstPoint}
+                onChange={handleFirstPointChange}
+                error={errorMsg}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} md={4}>
+            <TextField
+                varient="contained"
+                name="secondPoint"
+                label="Point"
+                color="info"
+                fullWidth
+                value={secondPoint}
+                onChange={handleSecondPointChange}
+                error={errorMsg}
+              />
+            </Grid>
+            <Grid item xs={6} sm={4} md={4}>
+            <TextField
+                varient="contained"
+                name="thirdPoint"
+                label="Point"
+                color="info"
+                fullWidth
+                value={thirdPoint}
+                onChange={handleThirdPointChange}
+                error={errorMsg}
+              />
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
               <Typography variant="body1" gutterBottom color="error">
