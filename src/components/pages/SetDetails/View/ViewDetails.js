@@ -48,7 +48,8 @@ export default function ViewDetails() {
     const getDetails = async () => {
       try {
         loaderToggler(true);
-        const pgmDetails = await detailsService.getDetails();
+        const pgmDetails = await detailsService.gettDetails();
+        console.log(pgmDetails);
         setDetails(pgmDetails.data);
         loaderToggler(false);
       } catch (err) {

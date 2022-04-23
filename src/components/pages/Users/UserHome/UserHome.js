@@ -32,14 +32,14 @@ export default function UserHome() {
   useEffect(() => {
     const getDetails = async () => {
       try {
-        const pgmDetails = await detailsService.getDetails();
+        const pgmDetails = await detailsService.gettDetails();
         setDetails(pgmDetails.data);
       } catch (err) {
         console.error(err?.response?.data?.message);
       }
     };
-    getDetails();
-  }, []);
+   getDetails();
+  },[]);
 
   return (
     <RootStyle>

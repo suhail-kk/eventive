@@ -20,8 +20,9 @@ const post = async (path, data = {}, headers = {}, params = {}) => {
 
   //generating the request
   const response = await axios.post(url, data, _generateParams(headers, params));
-
+ 
   return response;
+  
 };
 
 //patch request

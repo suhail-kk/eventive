@@ -60,6 +60,7 @@ export default function AssignEventList() {
   const [itemsList, setItemsList] = useState([]);
   const [events, setEvents] = useState();
   const candidateName = localStorage.getItem("candidateName");
+ 
 
   useEffect(() => {
     //get all events
@@ -104,29 +105,55 @@ export default function AssignEventList() {
         candidateName: candidateName,
         itemsList: itemsList,
       };
+    //  const userone = localStorage.getItem('registeredUser')
+       console.log(detailsData);
+       const res = await participantsDetailsServices.createParticipantDetails(
+        detailsData
+      );
+      
+        console.log(res.data);
+        const id = res.data
+        console.log('hh');
+        // clearing the form
+        clearFormCredentials();
+        navigate("/user/landing");
+        loaderToggler(false);
+       if(id){
+
+    //get event by id
+   await participantsDetailsServices.getDetailsById(id)
+
+      navigate("/user/assignEvenyView")
+       }
+        // //update event
+        //  const updatedData =
+        //    await participantsDetailsServices.updateParticipantsDetails(id,
+        //          detailsData
+        //         )
+
       // adding events list to db
-      if (!id) {
-        const res = await participantsDetailsServices.createParticipantDetails(
-          detailsData
-        );
-        console.log(res);
-        // clearing the form
-        clearFormCredentials();
-        navigate("/user/landing");
-        loaderToggler(false);
-      } else {
-        //update event
-        const updatedData =
-          await participantsDetailsServices.updateParticipantsDetails(
-            id,
-            detailsData
-          );
-        console.log(updatedData);
-        // clearing the form
-        clearFormCredentials();
-        navigate("/user/landing");
-        loaderToggler(false);
-      }
+      // if (!id) {
+      //   const res = await participantsDetailsServices.createParticipantDetails(
+      //     detailsData
+      //   );
+      //   console.log(res);
+      //   // clearing the form
+      //   clearFormCredentials();
+      //   navigate("/user/landing");
+      //   loaderToggler(false);
+      // } else {
+      //   //update event
+      //   const updatedData =
+      //     await participantsDetailsServices.updateParticipantsDetails(
+      //       id,
+      //       detailsData
+      //     );
+      //   console.log(updatedData);
+      //   // clearing the form
+      //   clearFormCredentials();
+      //   navigate("/user/landing");
+      //   loaderToggler(false);
+      // }
     } catch (err) {
       console.error(err?.response?.data?.message);
       loaderToggler(false);

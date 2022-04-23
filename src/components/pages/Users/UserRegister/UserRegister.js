@@ -69,7 +69,10 @@ export default function UserRegister() {
         const res = await registrationService.createParticipants(participantData);
         localStorage.setItem("candidateName",candidateName);
         // clearing the form
-        console.log(res);
+         console.log(res.data._id);
+        localStorage.setItem("registeredUser",res.data._id)
+      // const iid= localStorage.getItem("registeredUser")
+      // console.log(iid);
         clearEventCredentials();
         navigate('/user/assignevent')
         loaderToggler(false);
