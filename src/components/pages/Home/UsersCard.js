@@ -1,13 +1,7 @@
-// import { Icon } from '@iconify/react';
-// import appleFilled from '@iconify/icons-ant-design/apple-filled';
 // material
 import { alpha, styled } from "@mui/material/styles";
 import { Card, Typography } from "@mui/material";
-// utils
-// import { fShortenNumber } from '../../../utils/formatNumber';
 
-
-const TOTAL = 1352831;
 
 export default function UsersCard({type}) {
   const {title,heading,Icon,colorType} = type;

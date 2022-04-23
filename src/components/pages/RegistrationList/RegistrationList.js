@@ -5,18 +5,18 @@ import {
   Container,
   Typography,
   Grid,
-  Autocomplete,
-  TextField,
-  MenuItem,
+ Card
 } from "@mui/material";
 
 // page wrapper for dynamic meta tags
 import Page from "../../utils/Page";
-import DataTable from "../../utils/DataTable";
-import SelectInput from "../../utils/Inputs/SelectInput";
-import registrationService from "../../../services/registrationService";
-import eventService from "../../../services/eventsService";
+import participantsDetailsServices from "../../../services/participantsDetailsServices";
 import { useEffect, useState,useContext } from "react";
+
+//   custom component
+import Field from "../../utils/Student/View/Field";
+
+import { styled } from "@mui/material/styles";
 
 //context
 import { loadingContext } from "../../../context/loadingContext";
@@ -24,58 +24,34 @@ import { loadingContext } from "../../../context/loadingContext";
 //loader
 import Loader from "../../utils/Loader";
 
-// table header cell config
-const TABLE_HEAD = [
-  {
-    id: "candidateName",
-    label: "Participant Name",
-    alignRight: false,
-    type: "stack",
-  },
-  { id: "department", label: "Department", alignRight: false, type: "text" },
-  { id: "year", label: "Year", alignRight: false, type: "text" },
-];
+// custom card
+const ProfileCard = styled(Card)(({ theme }) => ({
+  paddingRight: `${theme.spacing(4)} !important`,
+  paddingBottom: `${theme.spacing(4)} !important`,
+}));
 
 
 export default function RegistrationList() {
   const { loaderToggler } = useContext(loadingContext);
   const [eventName, setEventName] = useState();
-  const [participants, setParticipants] = useState([]);
-  const [events, setEvents] = useState([]);
-
-  const handleEventChange = (event) => setEventName(event.target.value);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    const getAllParticipants = async () => {
+    const getItemsList = async () => {
       try {
         loaderToggler(true);
-        //get partcipants
-        const participant = await registrationService.getAllParticipants();
-        setParticipants(participant);
+        //get partcipants deails with items list
+        const list = await participantsDetailsServices.getAllParticipantDetails();
+        setData(list.data);
         loaderToggler(false);
       } catch (err) {
         console.error(err?.response?.data?.message);
         loaderToggler(false);
       }
     };
-    getAllParticipants();
-
-    //get all events
-    const getAllEvents = async () => {
-      try {
-        loaderToggler(true);
-        //get events
-        const event = await eventService.getAllEvents();
-        setEvents(event.data);
-        loaderToggler(false);
-      } catch (err) {
-        console.error(err?.response?.data?.message);
-        loaderToggler(false);
-      }
-    };
-    getAllEvents();
+    getItemsList();
   }, []);
-  console.log(participants.data);
+  console.log(data);
 
   return (
     <Page title="Participants Data">
@@ -92,27 +68,30 @@ export default function RegistrationList() {
               <Typography variant="h4" gutterBottom>
             Participants Data
           </Typography></Grid>
-          <Grid item xs={6} sm={6} md={6}>
-          <TextField
-                select
-                label="Event Name"
-                onChange={handleEventChange}
-                value={eventName}
-                fullWidth
-              >
-                {events &&
-                  events.map((menu) => (
-                    <MenuItem value={menu.eventName}>{menu.eventName}</MenuItem>
-                  ))}
-              </TextField>
-          </Grid>
-          </Grid>
-          
-          
+          {
+            data && data.map((list) => (
+              <Grid
+              component={ProfileCard}
+              sx={{ mt: 2, p: 2 }}
+              container
+              spacing={2}
+            >
+              <Grid item sm={12} xs={12} md={12} lg={12}>
+                <Field heading="Candidate Name and Items" subHeading={list.candidateName} />
+              </Grid>
+              {list.itemsList && list.itemsList.map((item) => (
+                   <Grid container spacing={2} >
+                   <Grid item xs={6} md={8} sx={{p:1,mt:3}}>
+                     <Typography>{item}</Typography>
+                     </Grid>
+                   </Grid>
+              ))}
+             
+            </Grid>
+            ))
+          }
+            </Grid>     
         </Stack>
-        {participants.data && (
-          <DataTable TABLE_DATA={participants.data} TABLE_HEAD={TABLE_HEAD} />
-        )}
       </Container>
     </Page>
   );

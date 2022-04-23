@@ -1,19 +1,27 @@
 import { useEffect, useState, useContext } from "react";
 
 // material components
-import { Stack, Container, Typography, Grid } from "@mui/material";
+import { Stack, Container, Typography, Grid,Card } from "@mui/material";
 import Page from "../../../utils/Page";
-import Dptcard from "../../../utils/Department/Dptcard";
-import DptTypeConfig from "../../../utils/Department/DptTypeConfig";
 
 //context
 import { loadingContext } from "../../../../context/loadingContext";
 
 //details service
-import markentryService from "../../../../services/markentryService";
+import departmentPointsServices from "../../../../services/departmentPointsServices";
+
+import { styled } from "@mui/material/styles";
 
 //loader
 import Loader from "../../../utils/Loader";
+
+// custom card
+const ProfileCard = styled(Card)(({ theme }) => ({
+  paddingRight: `${theme.spacing(4)} !important`,
+  paddingBottom: `${theme.spacing(4)} !important`,
+}));
+
+
 
 export default function DepartmentPoints() {
   const { loaderToggler } = useContext(loadingContext);
@@ -21,22 +29,26 @@ export default function DepartmentPoints() {
 
 
   useEffect(() => {
-    const getAllResults = async () => {
+    const getDepartmentPoints = async () => {
       try {
         loaderToggler(true);
-        //get result
-        const point = await markentryService.getPoints();
-        setPoints(point.data);
+        //get points
+        const point = await departmentPointsServices.getPoints();
+        setPoints(point.data.Department);
         loaderToggler(false);
       } catch (err) {
         console.error(err?.response?.data?.message);
         loaderToggler(false);
       }
     };
-    getAllResults();
+    getDepartmentPoints();
   }, []);
+  console.log(points);
 
-  console.log()
+
+
+
+
   return (
     <Page title="Departments">
       <Container>
@@ -51,13 +63,30 @@ export default function DepartmentPoints() {
             Departments
           </Typography>
         </Stack>
-        <Grid container spacing={3} rowSpacing={1} direction="row">
-          {DptTypeConfig.map((type) => (
-            <Grid item xs={12} sm={6} md={3}>
-              <Dptcard data={DptTypeConfig} type={type} />
+        
+        <Grid
+              component={ProfileCard}
+              sx={{ mt: 2, p: 2 }}
+              container
+                direction="row"
+              spacing={2}
+            >
+              {Object.keys(points).map((keyName, i) => (
+                  <Grid container spacing={2}>
+                <Grid item xs={6} md={8} sx={{p:1,mt:3}}>
+                  <Typography variant="h5" sx={{textStyle: 'bold'}} key={i}>
+                      {keyName}
+                  </Typography>
+                </Grid>
+                <Grid item xs={6} md={4} sx={{p:1,mt:3}}>
+                  <Typography variant="h5" sx={{textStyle: 'bold'}}>
+                    {points[keyName]}
+                  </Typography>
+                  </Grid>
+                  </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+                
       </Container>
     </Page>
   );
