@@ -1,7 +1,7 @@
 import BackendService from "./BackendService";
 
 // get all users
-const getDetails = async () => {
+const gettDetails = async () => {
   return BackendService.get(`details/`);
 };
 
@@ -29,7 +29,7 @@ const deleteDetails = async (id,data) => {
 
 //exporting the details service
 const detailsService = {
-    getDetails,
+    gettDetails,
     getDetailsById,
     createDetails,
     updateDetails,

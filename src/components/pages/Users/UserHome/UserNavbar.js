@@ -21,7 +21,7 @@ export default function UserNavbar() {
   useEffect(()=>{
     const getDetails = async () => {
       try {
-        const pgmDetails = await detailsService.getDetails();
+        const pgmDetails = await detailsService.gettDetails();
         setDetails(pgmDetails.data);
         setFirst(pgmDetails.data[0])
       }catch(err){
@@ -29,7 +29,7 @@ export default function UserNavbar() {
       }
     };
     getDetails();
-  },[details]);
+  },[]);
 
 
   return (

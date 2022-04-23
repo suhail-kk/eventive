@@ -22,12 +22,12 @@ export default function SignUp() {
 
   const navigate = useNavigate();
   const { userToken } = useParams();
+ 
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [passwordError, setPasswordError] = useState();
   const [confirmPasswordError, setConfirmPasswordError] = useState();
 
-  console.log(userToken)
   const validatePasswordLength = () => {
     //password validation for min length
     if (password.length < 5) {
@@ -57,9 +57,11 @@ export default function SignUp() {
       const data = {
         password,
       };
+      console.log(data);
+      console.log(userToken);
       // logging in user
-      const res = await authService.resetPassword(data, userToken);
-      console.log(res);
+       const res=await authService.resetPassword(data, userToken);
+       console.log(res);
       navigate("/");
     } catch (err) {
       console.error(err.response);

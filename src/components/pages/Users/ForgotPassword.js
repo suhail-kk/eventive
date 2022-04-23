@@ -1,4 +1,4 @@
-import { useState,useContext } from "react";
+import { useState, useContext } from "react";
 import { styled } from "@mui/material/styles";
 import { Box, Container, Typography, Stack, Card } from "@mui/material";
 import TextInput from "./utils/TextInput";
@@ -33,7 +33,7 @@ export default function ForgotPassword() {
       };
       // logging in user
       const response = await authService.forgotPassword(data);
-      console.log(response);
+      console.log(response.data.data);
       navigate(`/recover/${response.data.data.userToken}`);
     } catch (err) {
       console.error(err.response);
@@ -42,34 +42,34 @@ export default function ForgotPassword() {
   };
 
   return (
-      <ContentStyle>
-        <Card sx={{ p: 5 }}>
-          <Box sx={{ mb: 3 }}>
-            <Typography textAlign="center" variant="h3" gutterBottom>
-              Forgot Password
-            </Typography>
-          </Box>
-          <Stack spacing={2}>
-            <TextInput
-              label="User name"
-              type="text"
-              value={username}
-              setValue={setUserName}
-            />
-            <TextInput
-              label="Email"
-              type="email"
-              value={email}
-              setValue={setEmail}
-            />
+    <ContentStyle>
+      <Card sx={{ p: 5 }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography textAlign="center" variant="h3" gutterBottom>
+            Forgot Password
+          </Typography>
+        </Box>
+        <Stack spacing={2}>
+          <TextInput
+            label="User name"
+            type="text"
+            value={username}
+            setValue={setUserName}
+          />
+          <TextInput
+            label="Email"
+            type="email"
+            value={email}
+            setValue={setEmail}
+          />
 
-            <SubmitButton
-              disabled={!username || !email ? true : false}
-              name="Submit"
-              onClick={handleClick}
-            />
-          </Stack>
-        </Card>
-      </ContentStyle>
+          <SubmitButton
+            disabled={!username || !email ? true : false}
+            name="Submit"
+            onClick={handleClick}
+          />
+        </Stack>
+      </Card>
+    </ContentStyle>
   );
 }
